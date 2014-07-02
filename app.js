@@ -26,7 +26,7 @@
             fetchedUsers
                 .done(_.bind(function(data) {
                     this.users = data;
-                    this.drawTemplate();
+                    //switch to template here
                 }, this))
                 .fail(_.bind(function() {
                     services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
@@ -34,21 +34,6 @@
 
         },
 
-        drawTemplate: function() {
-            var userlist = _.chain(this.users)
-                .map(function(user) {
-                    return {
-                        id: user.id,
-                        name: user.name,
-                        role: user.role,
-                        tags: user.tags
-                    }
-                })
-                .value();
-            this.switchTo('main', {
-                userlist: userlist
-            });
-        },
         _paginate: function(a) {
             var results = [];
             var initialRequest = this.ajax(a.request, a.page);

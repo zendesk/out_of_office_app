@@ -1,8 +1,0 @@
-<div id='maintemplate'>
-<label for='agentlist'>Agent List:</label>
-<select id='agentlist'>
-{{#userlist}}
-<option value="{{id}}">{{name}}</option>
-{{/userlist}}
-</select>
-</div>
