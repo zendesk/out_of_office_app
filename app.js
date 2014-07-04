@@ -4,7 +4,8 @@
         users: [],
 
         events: {
-            'app.activated': 'init'
+            'app.activated': 'init',
+            'click .status-toggle':'changeAgentStatus'
         },
 
         requests: {
@@ -26,12 +27,32 @@
             fetchedUsers
                 .done(_.bind(function(data) {
                     this.users = data;
-                    //switch to template here
+                    this.renderAdmin();
                 }, this))
                 .fail(_.bind(function() {
                     services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
                 }, this));
 
+        },
+
+        renderAdmin: function() {
+          var userdata = this.users;
+          //below method pre-sorts in/out agents. Not sure if we want to do it this way. Will stash if I can't decide for a bit.
+          this.switchTo('main', {userlist: this.users});
+        },
+
+        changeAgentStatus: function(e) {
+          e.preventDefault;
+          var user_id = e.target.value;
+          var userdata = _.find(this.users, function(user){
+            return user.id == user_id;
+          });
+          console.log(userdata);
+          this.$('.agent-status').modal({ //	Fires a modal to display the string that will be redacted and how many times it appears on the ticket.
+              backdrop: true,
+              keyboard: false,
+              name: this.$('span.users-name').text(userdata.name)
+          });
         },
 
         _paginate: function(a) {

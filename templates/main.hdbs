@@ -1,0 +1,41 @@
+<div id='maintemplate'>
+<h3 class='title'>Agent List</h3>
+<ul>
+<table>
+    <tr>
+      <th>Agent Name</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+{{#userlist}}
+<tr id='{{id}}'>
+  <td><a href='#/users/{{id}}'>{{name}}</a></th>
+  <td>{{email}}</th>
+  {{#if user_fields.agent_ooo}}
+  <td class='red'>Away</th>
+  {{else}}
+  <td class='green'>Available</th>
+  {{/if}}
+  <td><button class='btn status-toggle' value='{{id}}'>Away/Back</button></th>
+</tr>
+{{/userlist}}
+</table>
+</ul>
+</div>
+
+ <!--Modal for confirming change of status -->
+  <div class="modal hide fade agent-status" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 class="my_modal_label">Please Confirm Agent Status</h3>
+    </div>
+    <div class="modal-body">
+      <p>This action will reassign <span class='users-name'></span>'s open tickets and change their status to away. Please confirm.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      <button class="btn btn-primary confirm-status-change" aria-hidden="true">Yes, Mark this agent as away</button>
+    </div>
+  </div>
+  <!--END status confirmation modal -->
