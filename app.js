@@ -5,14 +5,36 @@
 
         events: {
             'app.activated': 'init',
-            'click .status-toggle':'changeAgentStatus'
+            'click .status-toggle':'confirmAgentStatus',
+            'click .confirm-agent-away': 'putAgentAway',
+            'click .confirm-agent-available': 'putAgentBack'
         },
 
         requests: {
             getAgentList: function(page) {
-                return {
-                    url: helpers.fmt('/api/v2/users.json?role[]=agent&role[]=admin&page=%@', page)
-                };
+              return {
+                url: helpers.fmt('/api/v2/users.json?role[]=agent&role[]=admin&page=%@', page)
+              };
+            },
+
+            addAgentTag: function(user_id) {
+              return {
+                url: helpers.fmt('/api/v2/users/%@.json', user_id),
+                dataType: 'JSON',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": true } } })
+              };
+            },
+
+            removeAgentTag: function(user_id) {
+              return {
+                url: helpers.fmt('/api/v2/users/%@.json', user_id),
+                dataType: 'JSON',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": false } } })
+              };
             }
         },
 
@@ -41,18 +63,59 @@
           this.switchTo('main', {userlist: this.users});
         },
 
-        changeAgentStatus: function(e) {
+        confirmAgentStatus: function(e) {
           e.preventDefault;
-          var user_id = e.target.value;
+          var user_id = e.currentTarget.value;
           var userdata = _.find(this.users, function(user){
             return user.id == user_id;
           });
-          console.log(userdata);
-          this.$('.agent-status').modal({ //	Fires a modal to display the string that will be redacted and how many times it appears on the ticket.
-              backdrop: true,
-              keyboard: false,
-              name: this.$('span.users-name').text(userdata.name)
-          });
+          var agent_away = userdata.user_fields.agent_ooo;
+          if (agent_away == false) {
+            this.$('.agent-to-away').modal({
+                backdrop: true,
+                keyboard: false,
+                name: this.$('span.users-name').text(userdata.name),
+                user_id: this.$('button.confirm-agent-away').attr('value', user_id)
+            });
+          } else if (agent_away == true) {
+            this.$('.agent-to-available').modal({
+                backdrop: true,
+                keyboard: false,
+                name: this.$('span.users-name').text(userdata.name),
+                user_id: this.$('button.confirm-agent-available').attr('value', user_id)
+            });
+          }
+
+        },
+
+        putAgentAway: function(e) {    //sorry guys, I don't know if I can do better than this callback hell. There really is no remedy for it.
+          e.preventDefault;
+          var user_id = e.currentTarget.value;
+          var user_row = this.$('tr#' + user_id + ' td.green');
+          this.ajax('addAgentTag', user_id)
+            .done(_.bind(function(){
+              user_row.attr('class','red').text("Away");
+              this.$('.agent-to-away').modal('hide');
+              this.notifySuccess();
+            }, this))
+            .fail(_.bind(function(){
+              this.notifyFail();
+            }, this));
+        },
+
+        putAgentBack: function(e) {
+          e.preventDefault;
+          var user_id = e.currentTarget.value;
+          var user_row = this.$('tr#' + user_id + ' td.red');
+          this.ajax('removeAgentTag', user_id)
+            .done(_.bind(function(){
+              user_row.attr('class','green').text("Available");
+              this.$('.agent-to-available').modal('hide');
+              this.notifySuccess();
+            }, this))
+            .fail(_.bind(function(){
+              this.notifyFail();
+            }, this));
         },
 
         _paginate: function(a) {
@@ -85,6 +148,14 @@
                 });
             });
             return allPages;
+        },
+
+        notifySuccess: function() { //	Cannot refresh ticket data from app, user must refresh page.
+          services.notify('Your updates were successful. A refresh may be required to see these changes in Zendesk.');
+        },
+
+        notifyFail: function() { //	Whoops?
+          services.notify('There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.', 'error');
         }
     };
 
