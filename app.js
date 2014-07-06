@@ -7,7 +7,13 @@
             'app.activated': 'init',
             'click .status-toggle':'confirmAgentStatus',
             'click .confirm-agent-away': 'putAgentAway',
-            'click .confirm-agent-available': 'putAgentBack'
+            'click .confirm-agent-available': 'putAgentBack',
+            'ticket.save': function(){// currently...this just returns true... mainly here for reminder.
+              var userdata = this.users;
+              var assignee = this.ticket().assignee().user().id();
+              //filter...returning true now so app doesn't confuse. Still need to write this.
+              return true;
+            }
         },
 
         requests: {
@@ -23,7 +29,7 @@
                 dataType: 'JSON',
                 type: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": true } } })
+                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": true } } })  //although this is adding an agent tag. I still haven't decided if we should create a checkbox or ask the installer to enter a user_field key for checkbox/tag. This is much more efficient than just tagging the user as it allows toggling the value without reading tags, concatonating new tags, then passing that back via api. 
               };
             },
 
@@ -49,7 +55,23 @@
             fetchedUsers
                 .done(_.bind(function(data) {
                     this.users = data;
-                    this.renderAdmin();
+                    var current_loc = this.currentLocation();
+                    /*different locations render different templates and have different functionality.
+                    -Admin location is basically almost done (as far as base functionality). Still need, filter/search/sort through users.
+                    -ticket_sidebar and new_ticket_sidebar will be simple no_template apps that fire a modal if necessary
+                    -user_sidebar should be fairly simple
+                    -we may have to add location conditionals to certain functions, we shall see.
+                    */
+                    if (current_loc == 'nav_bar') {
+                      this.renderAdmin();
+                    }
+                    else if (current_loc == 'ticket_sidebar' || 'new_ticket_sidebar') {
+                      // this.tbd();
+                    }
+                    else if (current_loc == 'user_sidebar') {
+                      // this.tbd();
+                    }
+
                 }, this))
                 .fail(_.bind(function() {
                     services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
@@ -58,12 +80,11 @@
         },
 
         renderAdmin: function() {
-          var userdata = this.users;
-          //below method pre-sorts in/out agents. Not sure if we want to do it this way. Will stash if I can't decide for a bit.
+          //this is only for admin interface.
           this.switchTo('main', {userlist: this.users});
         },
 
-        confirmAgentStatus: function(e) {
+        confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
           e.preventDefault;
           var user_id = e.currentTarget.value;
           var userdata = _.find(this.users, function(user){
@@ -88,7 +109,7 @@
 
         },
 
-        putAgentAway: function(e) {    //sorry guys, I don't know if I can do better than this callback hell. There really is no remedy for it.
+        putAgentAway: function(e) {    //sorry guys, I don't know if I can do better than this callback hell. Can't think of another way to do this and stay within the framework.
           e.preventDefault;
           var user_id = e.currentTarget.value;
           var user_row = this.$('tr#' + user_id + ' td.green');
@@ -103,7 +124,7 @@
             }, this));
         },
 
-        putAgentBack: function(e) {
+        putAgentBack: function(e) {    //Same as above comment. This does what it says, verifies the changes, then makes active changes to the current menu.
           e.preventDefault;
           var user_id = e.currentTarget.value;
           var user_row = this.$('tr#' + user_id + ' td.red');
@@ -118,7 +139,7 @@
             }, this));
         },
 
-        _paginate: function(a) {
+        _paginate: function(a) {    //this just paginates our list of users...utility function.
             var results = [];
             var initialRequest = this.ajax(a.request, a.page);
             // create and return a promise chain of requests to subsequent pages
