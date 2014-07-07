@@ -3,43 +3,7 @@
   return {
     users: [],
 
-    events: {
-      'app.activated': 'init',
-      'click .status-toggle':'confirmAgentStatus',
-      'click .confirm-agent-away': 'putAgentAway',
-      'click .confirm-agent-available': 'putAgentBack',
-      'ticket.save': function(){// currently...this just returns true... mainly here for reminder.
-        var assignee_id = this.ticket().assignee().user().id();
-        var assignee_intersect = _.chain(this.users)
-        .filter(function(user){
-          return user.tags.indexOf('agent_ooo') > -1;
-        })
-        .filter(function(user){
-          return (user.id === assignee_id);
-        })
-        .value();
-        console.log(assignee_intersect);
-        if(assignee_intersect.length === 0){
-          return true;
-        }
-        else {
-          this.notifyInvalid();
-          return false;
-        }
-      },
-
-      'keyup #filter_search': function(e){
-        var entry = e.currentTarget.value;
-        if(entry.length){
-          this.renderAdmin(entry);
-        }
-        else {
-          this.renderAdmin();
-        }
-      }
-
-    },
-
+    
     requests: {
       getAgentList: function(page) {
         return {
@@ -68,23 +32,71 @@
       }
     },
 
-    init: function() {
-      this.users = [];
-      var fetchedUsers = this._paginate({
-        request: 'getAgentList',
-        entity: 'users',
-        page: 1
-      });
+    events: {
+      'app.activated': 'init',
+      'click .status-toggle':'confirmAgentStatus',
+      'click .confirm-agent-away': 'putAgentAway',
+      'click .confirm-agent-available': 'putAgentBack',
+      'ticket.save': 'saveTicket',
+      'keyup #filter_search': 'filterView'
+    },
 
-      fetchedUsers
-      .done(_.bind(function(data) {
-        this.users = data;
-        this.renderAdmin();
-      }, this))
+
+    filterView: function(e){
+        var entry = e.currentTarget.value;
+        if(entry.length){
+          this.renderAdmin(entry);
+        }
+        else {
+          this.renderAdmin();
+        }
+    }
+
+    saveTicket: function() {// currently...this just returns true... mainly here for reminder.
+        var assignee_id = this.ticket().assignee().user().id();
+        var assignee_intersect = _.chain(this.users)
+        .filter(function(user){
+          return user.tags.indexOf('agent_ooo') > -1;
+        })
+        .filter(function(user){
+          return (user.id === assignee_id);
+        })
+        .value();
+        console.log(assignee_intersect);
+        if(assignee_intersect.length === 0){
+          return true;
+        }
+      else {
+          this.notifyInvalid();
+          return false;
+      }
+    }
+
+    getUsers: function() {
+    return this.promise(function(done, fail) {
+        this.users = [];
+        var fetchedUsers = this._paginate({
+          request: 'getAgentList',
+          entity: 'users',
+          page: 1
+        });
+        fetchedUsers
+        .done(_.bind(function(data) {
+          this.users = data;
+          this.renderAdmin();
+        }, this))
       .fail(_.bind(function() {
         services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
-      }, this));
+        }, this));
+    });
 
+
+    init: function() {
+        
+      getUsers().done(
+        renderAdmin();
+      )
+      
     },
 
     renderAdmin: function(filter) {
@@ -195,11 +207,11 @@
     return allPages;
   },
 
-  notifySuccess: function() { //	Cannot refresh ticket data from app, user must refresh page.
+  notifySuccess: function() { //  Cannot refresh ticket data from app, user must refresh page.
     services.notify('Your updates were successful. A refresh may be required to see these changes in Zendesk.');
   },
 
-  notifyFail: function() { //	Whoops?
+  notifyFail: function() { // Whoops?
     services.notify('There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.', 'error');
   },
 
