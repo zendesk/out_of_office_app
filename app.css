@@ -15,7 +15,7 @@ tr:nth-child(2n+2) {
   background-color: #eee;
 }
 
-tr:first-child {
+thead tr {
   background-color: #aaa;
   color: #000;
   font-size: 140%;
@@ -44,4 +44,15 @@ th, td {
   margin-bottom: 25px;
   margin: 25px 0px 25px 0px;
   text-align: center;
+}
+
+#maintemplate label {
+  margin-left: 18%;
+  font-size: 150%;
+  vertical-align: baseline;
+}
+
+#filter_search {
+  margin-left: 25%;
+  margin-top: -45px;
 }

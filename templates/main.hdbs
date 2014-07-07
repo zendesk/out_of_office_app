@@ -1,27 +1,32 @@
 <div id='maintemplate'>
 <h3 class='title'>Agent List</h3>
-<ul>
-<table>
+<label for="filter_search">Filter: </label>
+<input type="text" id="filter_search" />
+<table id="agent_list">
+  <thead>
     <tr>
       <th>Agent Name</th>
       <th>Email</th>
       <th>Status</th>
       <th>Action</th>
     </tr>
+  </thead>
+  <tbody>
 {{#userlist}}
 <tr id='{{id}}'>
-  <td><a href='#/users/{{id}}'>{{name}}</a></th>
-  <td>{{email}}</th>
+  <td><a href='#/users/{{id}}'>{{name}}</a></td>
+  <td>{{email}}</td>
   {{#if user_fields.agent_ooo}}
-  <td class='red'>Away</th>
+  <td class='red'>Away</td>
   {{else}}
-  <td class='green'>Available</th>
+  <td class='green'>Available</td>
   {{/if}}
-  <td><button class='btn status-toggle' value='{{id}}'>Away/Back</button></th>
+  <td><button class='btn status-toggle' value='{{id}}'>Away/Back</button></td>
+  <input type="hidden" value="{{name}},{{email}}" class="filter_field" />
 </tr>
 {{/userlist}}
+</tbody>
 </table>
-</ul>
 </div>
 
  <!--Modal for confirming change of status -->
