@@ -9,20 +9,34 @@
       'click .confirm-agent-away': 'putAgentAway',
       'click .confirm-agent-available': 'putAgentBack',
       'ticket.save': function(){// currently...this just returns true... mainly here for reminder.
-        var userdata = this.users;
-        var assignee = this.ticket().assignee().user().id();
-        //filter...returning true now so app doesn't confuse. Still need to write this.
-        return true;
+        var assignee_id = this.ticket().assignee().user().id();
+        var assignee_intersect = _.chain(this.users)
+        .filter(function(user){
+          return user.tags.indexOf('agent_ooo') > -1;
+        })
+        .filter(function(user){
+          return (user.id === assignee_id);
+        })
+        .value();
+        console.log(assignee_intersect);
+        if(assignee_intersect.length === 0){
+          return true;
+        }
+        else {
+          this.notifyInvalid();
+          return false;
+        }
       },
+
       'keyup #filter_search': function(e){
         var entry = e.currentTarget.value;
         if(entry.length){
           this.renderAdmin(entry);
         }
-      else {
-        this.renderAdmin();
+        else {
+          this.renderAdmin();
+        }
       }
-    }
 
     },
 
@@ -203,6 +217,10 @@
 
   notifyFail: function() { //	Whoops?
     services.notify('There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.', 'error');
+  },
+
+  notifyInvalid: function() {
+    services.notify('This agent is currently out of the office. Please assign to another agent', 'error');
   }
 };
 
