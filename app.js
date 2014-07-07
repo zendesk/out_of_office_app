@@ -79,23 +79,7 @@
       fetchedUsers
       .done(_.bind(function(data) {
         this.users = data;
-        var current_loc = this.currentLocation();
-        /*different locations render different templates and have different functionality.
-        -Admin location is basically almost done (as far as base functionality). Still need, filter/search/sort through users.
-        -ticket_sidebar and new_ticket_sidebar will be simple no_template apps that fire a modal if necessary
-        -user_sidebar should be fairly simple
-        -we may have to add location conditionals to certain functions, we shall see.
-        */
-        if (current_loc == 'nav_bar') {
-          this.renderAdmin();
-        }
-        else if (current_loc == 'ticket_sidebar' || 'new_ticket_sidebar') {
-          // this.tbd();
-        }
-        else if (current_loc == 'user_sidebar') {
-          // this.tbd();
-        }
-
+        this.renderAdmin();
       }, this))
       .fail(_.bind(function() {
         services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
