@@ -29,7 +29,7 @@
                 dataType: 'JSON',
                 type: 'PUT',
                 contentType: 'application/json',
-                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": true } } })  //although this is adding an agent tag. I still haven't decided if we should create a checkbox or ask the installer to enter a user_field key for checkbox/tag. This is much more efficient than just tagging the user as it allows toggling the value without reading tags, concatonating new tags, then passing that back via api. 
+                data: JSON.stringify({"user": {"user_fields": {"agent_ooo": true } } })  //although this is adding an agent tag. I still haven't decided if we should create a checkbox or ask the installer to enter a user_field key for checkbox/tag. This is much more efficient than just tagging the user as it allows toggling the value without reading tags, concatonating new tags, then passing that back via api.
               };
             },
 
@@ -118,6 +118,7 @@
               user_row.attr('class','red').text("Away");
               this.$('.agent-to-away').modal('hide');
               this.notifySuccess();
+              this.init();//needed to for a second click on same name to work...doh.
             }, this))
             .fail(_.bind(function(){
               this.notifyFail();
@@ -133,6 +134,7 @@
               user_row.attr('class','green').text("Available");
               this.$('.agent-to-available').modal('hide');
               this.notifySuccess();
+              this.init();
             }, this))
             .fail(_.bind(function(){
               this.notifyFail();
