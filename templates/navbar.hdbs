@@ -1,0 +1,4 @@
+//displays full agent list with current availability
+//ADMINS: can view, can toggle status of all agents
+//AGENTS: can view, toggle status of themselves only
+//block each handler to list agents with current status, add appropriate toggle button 

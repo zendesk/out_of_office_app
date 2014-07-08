@@ -1,3 +1,5 @@
+//Meta-template, contains modal which will be filled conditionally
+
 <header>
   <span class="logo"/>
   <h3>{{setting "name"}}</h3>

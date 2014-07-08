@@ -1,13 +1,34 @@
 {
-  "name": "ooo_app",
+  "name": "Out of Office App",
   "author": {
-    "name": "Daniel Pawluk",
-    "email": "dpawluk@zendesk.com",
-    "url": "http://support.zendocs.info"
+    "name": "Zendesk Support Engineering",
+    "email": "support@zendesk.com",
+    "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
   "private": true,
-  "location": ["nav_bar","ticket_sidebar", "new_ticket_sidebar", "user_sidebar"],
-  "version": "1.0",
-  "frameworkVersion": "1.0"
+  "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
+  "noTemplate": ["ticket_sidebar", "new_ticket_sidebar"],
+  "version": "0.1",
+  "frameworkVersion": "1.0",
+  "parameters": [
+  {
+    "name": "agentTag",
+    "type": "text",
+    "required": true,
+    "default": "agentoof"
+  },
+
+  {
+    "name": "checkboxID",
+    "type": "integer",
+    "hidden": true
+  },
+
+  {
+    "name": "triggerID",
+    "type": "integer",
+    "hidden": true
+  }
+  ]
 }

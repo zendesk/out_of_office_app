@@ -1,0 +1,4 @@
+//displays current user's availability status
+//ADMINS: can view, can toggle status of all agents
+//AGENTS: can view, toggle status of themselves only
+//display availability button group, with current status as selected and disabled button
