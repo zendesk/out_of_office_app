@@ -29,6 +29,32 @@
           contentType: 'application/json',
           data: JSON.stringify({"user": {"user_fields": {"agent_ooo": false } } })
         };
+      },
+
+      getUserFields: function() {
+        return {
+          url: '/api/v2/user_fields.json'
+        };
+      },
+
+      createUserField: function() {
+        return {
+          url: '/api/v2/user_fields.json',
+          dataType: 'JSON',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+              "user_field": {
+                  "active": true,
+                  "description": "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
+                  "key": "agent_ooo",
+                  "position": 0,
+                  "title": "Agent Out?",
+                  "type": "checkbox",
+                  "tag": "agent_ooo"
+              }
+          })
+        };
       }
     },
 
@@ -38,7 +64,8 @@
       'click .confirm-agent-away': 'putAgentAway',
       'click .confirm-agent-available': 'putAgentBack',
       'ticket.save': 'saveTicket',
-      'keyup #filter_search': 'filterView'
+      'getUserFields.fail': 'notifyFail',
+      'keyup #filter_search': 'filterView',
     },
 
 
@@ -50,7 +77,40 @@
         else {
           this.renderAdmin();
         }
-    }
+    },
+
+    installApp: function() {
+      this.ajax('createUserField')
+      .done(_.bind(function(data) {
+        services.notify('Successfully added required user fields.');
+      }, this))
+      .fail(_.bind(function() {
+        this.notifyFail();
+      }, this));
+    },
+
+    checkInstalled: function() {
+      return this.promise(
+      function(done, fail) {
+        this.ajax('getUserFields').done(
+        function(data) {
+
+          var filtered_fields = _.chain(data.user_fields).filter(
+          function(field) {
+            return (field.key == 'agent_ooo' && field.active == true && field.type == 'checkbox' && field.tag == 'agent_ooo');
+          }).value();
+
+          if (!filtered_fields.length) {
+            services.notify("Required user fields not present", 'error');
+            this.installApp();
+            fail();
+          }
+          else {
+            done();
+          }
+        })
+      })
+    },
 
     saveTicket: function() {// currently...this just returns true... mainly here for reminder.
         var assignee_id = this.ticket().assignee().user().id();
@@ -70,33 +130,40 @@
           this.notifyInvalid();
           return false;
       }
-    }
+    },
 
     getUsers: function() {
-    return this.promise(function(done, fail) {
+    return this.promise(
+      function(done, fail) {
+        
         this.users = [];
+        
         var fetchedUsers = this._paginate({
           request: 'getAgentList',
           entity: 'users',
           page: 1
         });
+        
         fetchedUsers
-        .done(_.bind(function(data) {
-          this.users = data;
-          this.renderAdmin();
-        }, this))
-      .fail(_.bind(function() {
-        services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
+        .done(_.bind(
+          function(data) {
+            this.users = data;
+            done();
+          }, this))
+        .fail(_.bind(function() {
+          services.notify("Something went wrong and we couldn't reach the REST API to retrieve all user data", 'error');
         }, this));
-    });
+      }
+    )},
 
 
     init: function() {
-        
-      getUsers().done(
-        renderAdmin();
-      )
-      
+      console.log('init');
+      this.checkInstalled();
+      this.getUsers().done(_.bind(function(data) {
+        this.renderAdmin();
+        console.log('done');
+      }, this))      
     },
 
     renderAdmin: function(filter) {
