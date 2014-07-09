@@ -17,7 +17,7 @@
       'click .modalCancel': 'onModalCancel',
       'click .set-status': 'toggleStatus',
       'click .status-toggle': 'confirmAgentStatus',
-      'keyup #filter': 'filterAgents',
+      'keyup #filter_search': 'filterAgents',
       'ticket.save': 'warnOnSave',
 
     },
@@ -84,34 +84,18 @@
 
     init: function() {
       //ready variables and switch to user template
-      console.log('init');
       this.checkInstalled();
       this.renderUser();
     },
 
     renderNavBar: function(filter) {
       //Fetch all agents then render the navbar template
-      this.switchTo('loading');
-      //if (filter) {
-      //var users = _.filter(users, function(user) {
-      //return (user.name.indexOf(filter) > -1 || user.email.indexOf(
-      //filter) > -1);
-      //});
-      //var table_filtered = this.renderTemplate('filter', {
-      //userlist: users
-      //});
-      //this.$('#agent_list').replaceWith(table_filtered);
-      //} else {
-      //this is only for admin interface.
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
           userlist: this.users
         });
+        this.$('#filter_search').focus();
       }, this))
-      //if (this.$('#filter_search')) {
-      //this.$('#filter_search').focus();
-      //}
-      //}
     },
 
     fetchAllUsers: function() {
@@ -267,10 +251,21 @@
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
-        this.renderNavBar(entry);
+        this.renderFilter(entry);
       } else {
         this.renderNavBar();
       }
+    },
+
+    renderFilter: function(filter) {
+      var users = _.filter(this.users, function(user) {
+      return (user.name.indexOf(filter) > -1 || user.email.indexOf(
+      filter) > -1);
+      });
+      var table_filtered = this.renderTemplate('filter', {
+      userlist: users
+      });
+      this.$('#agent_list').replaceWith(table_filtered);
     },
 
     installApp: function() {
