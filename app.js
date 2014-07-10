@@ -68,6 +68,7 @@
           })
         };
       },
+
       getUserFields: function() {
         return {
           url: '/api/v2/user_fields.json'
@@ -94,6 +95,43 @@
               "title": "Agent Out?",
               "type": "checkbox",
               "tag": "agent_ooo"
+            }
+          })
+        };
+      },
+
+      createTrigger: function() {
+        return {
+          url: '/api/v2/triggers.json',
+          dataType: 'JSON',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            "trigger": {
+              "title": "out-of-office app trigger",
+              "active": true,
+              "position": 0,
+              "conditions": {
+                "all": [
+                  {
+                      "field": "current_tags",
+                      "operator": "includes",
+                      "value": "agent_ooo" //we can grab this from settings maybe, if necessary...
+                  },
+                  {
+                      "field": "status",
+                      "operator": "value_previous",
+                      "value": "pending"
+                  }
+                  ],
+                "any": []
+              },
+              "actions": [
+                {
+                  "field": "assignee_id",
+                  "value": ""
+                }
+              ]
             }
           })
         };
@@ -185,36 +223,7 @@
       }
     },
 
-    /*
-    //TODO: Is this correct?   * currently...this just returns true... mainly here for reminder.
-    *
-    * 
-    */
-    saveTicket: function() { // 
-      var assignee_id = this.ticket().assignee().user().id();
-      var assignee_intersect = _.chain(this.users)
-        .filter(function(user) {
-          return user.tags.indexOf('agent_ooo') > -1;
-        })
-        .filter(function(user) {
-          return (user.id === assignee_id);
-        })
-        .value();
-      console.log(assignee_intersect);
-      if (assignee_intersect.length === 0) {
-        return true;
-      } else {
-        this.notifyInvalid();
-        return false;
-      }
-    },
-
-    /*
-    * this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
-    *
-    *
-    */
-    confirmAgentStatus: function(e) {
+    confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
       e.preventDefault();
       var user_id = e.currentTarget.value;
       this.ajax('getSingleAgent', user_id)
@@ -254,7 +263,9 @@
           agent_id),
         cancel: this.$('.btn-cancel').html(messageCancel)
       });
-
+      if (messageCancel === null) {
+        this.$('.btn-cancel').hide();
+      }
     },
 
     /*
@@ -265,7 +276,9 @@
     onModalAccept: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
-      this.toggleStatus(user_id);
+      if (user_id != '') {
+        this.toggleStatus(user_id);
+      }
       this.$('.mymodal').modal('hide');
     },
 
@@ -355,6 +368,15 @@
         .fail(_.bind(function() {
           this.notifyFail();
         }, this));
+      this.ajax('createTrigger')
+        .done(_.bind(function(data) {
+          services.notify('Successfully added required trigger.');
+          //var trigger_id = data.trigger.id;
+          // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+        }, this))
+        .fail(_.bind(function() {
+          this.notifyFail();
+        }, this));
     },
 
     /*
@@ -374,7 +396,7 @@
                     field.type == 'checkbox' && field.tag == 'agent_ooo');
                 }).value();
 
-              if (!filtered_fields.length) {
+              if (!filtered_fields.length) {  //currently only tests for user field. Will need to test for trigger and create the resource that doesn't currently exist.
                 services.notify("Required user fields not present", 'error');
                 this.installApp();
                 fail();
@@ -391,6 +413,28 @@
     *
     */
     warnOnSave: function() {
+      //if agent is set to away and submits a ticket update, warn them to set their status to available
+      return this.promise(function(done, fail) {
+        var ticket = this.ticket();
+        var assignee = ticket.assignee().user();
+        this.ajax('getSingleAgent', assignee.id()).then(
+          function(data) {
+            console.log(data.user.user_fields.agent_ooo);
+            if (data.user.user_fields.agent_ooo) {
+              this.popModal("Assignee is Away",
+                "<p>The assignee you have selected: " + data.user.name +
+                "is currently marked as away and cannot have tickets assigned to them.",
+                "Cancel", null, null);
+              fail();
+            } else {
+              done();
+            }
+          }, function() {
+            console.log('request failed but ticket.save shall pass');
+            done();
+          }
+        );
+      });
     },
 
     /*
