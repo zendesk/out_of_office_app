@@ -24,23 +24,36 @@
 
     requests: {
 
-      // Requests
+      /*
+      *
+      *
+      *
+      */
       'getAllAgents': function(page) {
-        //fetches all agent user objects
         return {
           url: helpers.fmt(
             '/api/v2/users.json?role[]=agent&role[]=admin&page=%@', page)
         };
       },
+
+      /*
+      *
+      *
+      *
+      */
       'getSingleAgent': function(user_id) {
-        //fetches single user object
         return {
           url: helpers.fmt('/api/v2/users/%@.json', user_id)
         };
       },
 
+
+      /*
+      *
+      *
+      *
+      */
       'setAgentStatus': function(user_id, away_status) {
-        //sets agent checkbox status, away_status is true for away, false for available
         return {
           url: helpers.fmt('/api/v2/users/%@.json', user_id),
           dataType: 'JSON',
@@ -61,6 +74,11 @@
         };
       },
 
+      /*
+      *
+      *
+      *
+      */
       createUserField: function() {
         return {
           url: '/api/v2/user_fields.json',
@@ -82,14 +100,22 @@
       }
     },
 
+    /*
+    * ready variables and switch to user template
+    *
+    *
+    */
     init: function() {
-      //ready variables and switch to user template
       this.checkInstalled();
       this.renderUser();
     },
 
+    /*
+    * Fetch all agents then render the navbar template
+    *
+    *
+    */
     renderNavBar: function(filter) {
-      //Fetch all agents then render the navbar template
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
           userlist: this.users
@@ -98,6 +124,11 @@
       }, this))
     },
 
+    /*
+    *
+    *
+    *
+    */
     fetchAllUsers: function() {
 
       return this.promise(
@@ -105,11 +136,7 @@
 
           this.users = [];
 
-          var fetchedUsers = this._paginate({
-            request: 'getAllAgents',
-            entity: 'users',
-            page: 1
-          });
+          var fetchedUsers = this._paginate('getAllAgents', 'users', 1);
 
           fetchedUsers
             .done(_.bind(
@@ -127,8 +154,12 @@
 
     },
 
+    /*
+    * Fetch current user (if they exist) then switch to the user template
+    *
+    *
+    */
     renderUser: function() {
-      //Fetch current user (if they exist) then switch to the user template
       this.switchTo('loading');
       if (this.currentLocation() == 'user_sidebar') {
         var role = this.user().role();
@@ -154,7 +185,12 @@
       }
     },
 
-    saveTicket: function() { // currently...this just returns true... mainly here for reminder.
+    /*
+    //TODO: Is this correct?   * currently...this just returns true... mainly here for reminder.
+    *
+    * 
+    */
+    saveTicket: function() { // 
       var assignee_id = this.ticket().assignee().user().id();
       var assignee_intersect = _.chain(this.users)
         .filter(function(user) {
@@ -173,7 +209,12 @@
       }
     },
 
-    confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
+    /*
+    * this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
+    *
+    *
+    */
+    confirmAgentStatus: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
       this.ajax('getSingleAgent', user_id)
@@ -196,9 +237,14 @@
 
     },
 
+    /*
+    * generates the confirmation modal conditionally, accepting message content (can include input controls as well as the confirmation and cancel button labels (cancel is optional)
+    *
+    *
+    */
     popModal: function(messageHeader, messageContent, messageConfirm,
       messageCancel, agent_id) {
-      //generates the confirmation modal conditionally, accepting message content (can include input controls as well as the confirmation and cancel button labels (cancel is optional)
+      //
       this.$('.mymodal').modal({
         backdrop: true,
         keyboard: false,
@@ -211,20 +257,33 @@
 
     },
 
+    /*
+    * change agent status
+    *
+    *
+    */
     onModalAccept: function(e) {
-      //change agent status
       e.preventDefault();
       var user_id = e.currentTarget.value;
       this.toggleStatus(user_id);
       this.$('.mymodal').modal('hide');
     },
 
+    /*
+    * abort changes and reset
+    *
+    */
     onModalCancel: function(e) {
-      //abort changes and reset
     },
 
+    /*
+    * conditionally change agent status to whatever it isn't set to currently
+    * 
+    * paramaters: user_id of agent to be set
+    * return: true if set to away, false if set to available
+    */
     toggleStatus: function(user_id) {
-      //conditionally change agent status to whatever it isn't set to currently, return true if set to away, false if set to available
+      //
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
@@ -239,6 +298,11 @@
         });
     },
 
+    /*
+    *
+    *
+    *
+    */
     refreshLocation: function() {
       console.log(this.currentLocation());
       if (this.currentLocation() == 'nav_bar') {
@@ -248,6 +312,11 @@
       }
     },
 
+    /*
+    *
+    *
+    *
+    */
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
@@ -257,6 +326,11 @@
       }
     },
 
+    /*
+    *
+    *
+    *
+    */
     renderFilter: function(filter) {
       var users = _.filter(this.users, function(user) {
       return (user.name.indexOf(filter) > -1 || user.email.indexOf(
@@ -268,6 +342,11 @@
       this.$('#agent_list').replaceWith(table_filtered);
     },
 
+    /*
+    *
+    *
+    *
+    */
     installApp: function() {
       this.ajax('createUserField')
         .done(_.bind(function(data) {
@@ -278,6 +357,11 @@
         }, this));
     },
 
+    /*
+    *
+    *
+    *
+    */
     checkInstalled: function() {
       return this.promise(
         function(done, fail) {
@@ -301,14 +385,23 @@
         })
     },
 
+    /*
+    * if agent is set to away and submits a ticket update, warn them to set their status to available
+    *
+    *
+    */
     warnOnSave: function() {
-      //if agent is set to away and submits a ticket update, warn them to set their status to available
     },
 
-    _paginate: function(a) { //this just paginates our list of users...utility function.
+    /*
+    * this just paginates our list of users...utility function.
+    *
+    * paramaters: a
+    * return: a promise chain of requests to subsequent pages
+    */
+   _paginate: function(request, entity, page) { //
       var results = [];
       var initialRequest = this.ajax(a.request, a.page);
-      // create and return a promise chain of requests to subsequent pages
       var allPages = initialRequest.then(function(data) {
         results.push(data[a.entity]);
         var nextPages = [];
@@ -337,18 +430,33 @@
       return allPages;
     },
 
-    notifySuccess: function() { //  Cannot refresh ticket data from app, user must refresh page.
+    /*
+    * inform user that they must refresh the page
+    *
+    *
+    */
+    notifySuccess: function() { 
       services.notify(
         'Your updates were successful. A refresh may be required to see these changes in Zendesk.'
       );
     },
 
-    notifyFail: function() { // Whoops?
+    /*
+    * generic failure notification
+    *
+    *
+    */
+    notifyFail: function() {
       services.notify(
         'There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.',
         'error');
     },
 
+    /*
+    * Invalid assignment message 
+    * 
+    *
+    */
     notifyInvalid: function() {
       services.notify(
         'This agent is currently out of the office. Please assign to another agent',
