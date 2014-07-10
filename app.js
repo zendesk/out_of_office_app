@@ -151,7 +151,7 @@
     /*
     * Fetch all agents then render the navbar template
     *
-    *
+    * 
     */
     renderNavBar: function(filter) {
       this.fetchAllUsers().done(_.bind(function(data) {
@@ -163,8 +163,9 @@
     },
 
     /*
+    * calls a request that gets all agents in a paginated list
     *
-    *
+    * returns: a promise that handles the API call
     *
     */
     fetchAllUsers: function() {
@@ -223,7 +224,13 @@
       }
     },
 
-    confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
+    /* 
+    * checks current status, prepares modal for changing to opposite.
+    *
+    * parameters: the click event of the status toggle
+    *
+    */
+    confirmAgentStatus: function(e) { 
       e.preventDefault();
       var user_id = e.currentTarget.value;
       this.ajax('getSingleAgent', user_id)
@@ -247,8 +254,12 @@
     },
 
     /*
-    * generates the confirmation modal conditionally, accepting message content (can include input controls as well as the confirmation and cancel button labels (cancel is optional)
-    *
+    * generates the confirmation modal
+    * 
+    * parameters: the header of the modal
+    * the content of the modal 
+    * the text for the label of the confirm button
+    * optional text to replace the label of the cancel button
     *
     */
     popModal: function(messageHeader, messageContent, messageConfirm,
@@ -269,8 +280,9 @@
     },
 
     /*
-    * change agent status
+    * changes the agent status on an accepted modal
     *
+    * parameters: the click event for the modal accept button
     *
     */
     onModalAccept: function(e) {
@@ -285,6 +297,8 @@
     /*
     * abort changes and reset
     *
+    * parameters: the click event for the modal cancel button
+    * 
     */
     onModalCancel: function(e) {
     },
@@ -312,8 +326,8 @@
     },
 
     /*
-    *
-    *
+    * selects which location to rended based on app context
+    * then calls the render for either the navbar or user sidebar UI
     *
     */
     refreshLocation: function() {
@@ -326,9 +340,12 @@
     },
 
     /*
+    * checks if a filter has been entered 
+    * calls the render method 
+    * TODO: merge with renderFilter and/or refactor to better split functionality
     *
-    *
-    *
+    * parameters: the keyup function object
+    * 
     */
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
@@ -340,8 +357,10 @@
     },
 
     /*
-    *
-    *
+    * filters the user list by name or email
+    * then updates the view with the new list
+    * 
+    * parameters: the string that is filtered for
     *
     */
     renderFilter: function(filter) {
@@ -356,9 +375,9 @@
     },
 
     /*
-    *
-    *
-    *
+    * calls the createUserField request to generate the needed user fields
+    * TODO: create trigger as well
+    * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
     */
     installApp: function() {
       this.ajax('createUserField')
@@ -380,8 +399,8 @@
     },
 
     /*
-    *
-    *
+    * check to see if the app has the required agent fields
+    * TODO: check for trigger as well
     *
     */
     checkInstalled: function() {
@@ -410,10 +429,10 @@
     /*
     * if agent is set to away and submits a ticket update, warn them to set their status to available
     *
-    *
+    * return: a promise that checks if the assignee is out of office, and prevents saving with a modal 
+    * 
     */
     warnOnSave: function() {
-      //if agent is set to away and submits a ticket update, warn them to set their status to available
       return this.promise(function(done, fail) {
         var ticket = this.ticket();
         var assignee = ticket.assignee().user();
@@ -440,7 +459,7 @@
     /*
     * this just paginates our list of users...utility function.
     *
-    * paramaters: a
+    * parameters: the ajax request to make, the entity to get the data for, and the page to load
     * return: a promise chain of requests to subsequent pages
     */
    _paginate: function(request, entity, page) { //
