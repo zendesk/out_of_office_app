@@ -80,6 +80,43 @@
             }
           })
         };
+      },
+
+      createTrigger: function() {
+        return {
+          url: '/api/v2/triggers.json',
+          dataType: 'JSON',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            "trigger": {
+              "title": "out-of-office app trigger",
+              "active": true,
+              "position": 0,
+              "conditions": {
+                "all": [
+                  {
+                      "field": "current_tags",
+                      "operator": "includes",
+                      "value": "agent_ooo" //we can grab this from settings maybe, if necessary...
+                  },
+                  {
+                      "field": "status",
+                      "operator": "value_previous",
+                      "value": "pending"
+                  }
+                  ],
+                "any": []
+              },
+              "actions": [
+                {
+                  "field": "assignee_id",
+                  "value": ""
+                }
+              ]
+            }
+          })
+        };
       }
     },
 
@@ -262,6 +299,15 @@
         .fail(_.bind(function() {
           this.notifyFail();
         }, this));
+      this.ajax('createTrigger')
+        .done(_.bind(function(data) {
+          services.notify('Successfully added required trigger.');
+          //var trigger_id = data.trigger.id;
+          // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+        }, this))
+        .fail(_.bind(function() {
+          this.notifyFail();
+        }, this));
     },
 
     checkInstalled: function() {
@@ -276,7 +322,7 @@
                     field.type == 'checkbox' && field.tag == 'agent_ooo');
                 }).value();
 
-              if (!filtered_fields.length) {
+              if (!filtered_fields.length) {  //currently only tests for user field. Will need to test for trigger and create the resource that doesn't currently exist.
                 services.notify("Required user fields not present", 'error');
                 this.installApp();
                 fail();
