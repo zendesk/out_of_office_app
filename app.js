@@ -171,25 +171,6 @@
       }
     },
 
-    saveTicket: function() { // currently...this just returns true... mainly here for reminder.
-      var assignee_id = this.ticket().assignee().user().id();
-      var assignee_intersect = _.chain(this.users)
-        .filter(function(user) {
-          return user.tags.indexOf('agent_ooo') > -1;
-        })
-        .filter(function(user) {
-          return (user.id === assignee_id);
-        })
-        .value();
-      console.log(assignee_intersect);
-      if (assignee_intersect.length === 0) {
-        return true;
-      } else {
-        this.notifyInvalid();
-        return false;
-      }
-    },
-
     confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
       e.preventDefault();
       var user_id = e.currentTarget.value;
