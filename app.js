@@ -55,6 +55,7 @@
           })
         };
       },
+
       getUserFields: function() {
         return {
           url: '/api/v2/user_fields.json'
@@ -154,25 +155,6 @@
       }
     },
 
-    saveTicket: function() { // currently...this just returns true... mainly here for reminder.
-      var assignee_id = this.ticket().assignee().user().id();
-      var assignee_intersect = _.chain(this.users)
-        .filter(function(user) {
-          return user.tags.indexOf('agent_ooo') > -1;
-        })
-        .filter(function(user) {
-          return (user.id === assignee_id);
-        })
-        .value();
-      console.log(assignee_intersect);
-      if (assignee_intersect.length === 0) {
-        return true;
-      } else {
-        this.notifyInvalid();
-        return false;
-      }
-    },
-
     confirmAgentStatus: function(e) { //this is the first point of action in the toggle on/off for admin interface. Checks current status, prepares modal for changing to opposite.
       e.preventDefault();
       var user_id = e.currentTarget.value;
@@ -208,14 +190,18 @@
           agent_id),
         cancel: this.$('.btn-cancel').html(messageCancel)
       });
-
+      if (messageCancel === null) {
+        this.$('.btn-cancel').hide();
+      }
     },
 
     onModalAccept: function(e) {
       //change agent status
       e.preventDefault();
       var user_id = e.currentTarget.value;
-      this.toggleStatus(user_id);
+      if (user_id != '') {
+        this.toggleStatus(user_id);
+      }
       this.$('.mymodal').modal('hide');
     },
 
@@ -303,6 +289,27 @@
 
     warnOnSave: function() {
       //if agent is set to away and submits a ticket update, warn them to set their status to available
+      return this.promise(function(done, fail) {
+        var ticket = this.ticket();
+        var assignee = ticket.assignee().user();
+        this.ajax('getSingleAgent', assignee.id()).then(
+          function(data) {
+            console.log(data.user.user_fields.agent_ooo);
+            if (data.user.user_fields.agent_ooo) {
+              this.popModal("Assignee is Away",
+                "<p>The assignee you have selected: " + data.user.name +
+                "is currently marked as away and cannot have tickets assigned to them.",
+                "Cancel", null, null);
+              fail();
+            } else {
+              done();
+            }
+          }, function() {
+            console.log('request failed but ticket.save shall pass');
+            done();
+          }
+        );
+      });
     },
 
     _paginate: function(a) { //this just paginates our list of users...utility function.
