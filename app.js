@@ -177,7 +177,7 @@
     *
     * 
     */
-    renderNavBar: function(filter) {
+    renderNavBar: function() {
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
           userlist: this.users
