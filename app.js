@@ -25,9 +25,11 @@
     requests: {
 
       /*
+      * Gets a list of agents
       *
-      *
-      *
+      * parameters: the page number to load for the list of agents 
+      * returns: a manifest object with a URL paramater for use by this.ajax
+      * 
       */
       'getAllAgents': function(page) {
         return {
@@ -37,8 +39,10 @@
       },
 
       /*
+      * Gets the user data for a single agent
       *
-      *
+      * parameters: the agent's user ID 
+      * returns: a manifest object with a URL paramater for use by this.ajax
       *
       */
       'getSingleAgent': function(user_id) {
@@ -49,8 +53,11 @@
 
 
       /*
+      * Sets the agent's away status
       *
-      *
+      * parameters: the agent's user ID, the status to set
+      * returns: a manifest object with a URL paramater and data for use by this.ajax
+      * in a PUT request
       *
       */
       'setAgentStatus': function(user_id, away_status) {
@@ -69,6 +76,12 @@
         };
       },
 
+      /*
+      * Gets a list of user fields
+      *
+      * returns: a manifest object with a URL paramater for use by this.ajax
+      *
+      */
       getUserFields: function() {
         return {
           url: '/api/v2/user_fields.json'
@@ -76,8 +89,11 @@
       },
 
       /*
+      * Creates the needed custom user field
       *
-      *
+      * 
+      * returns: a manifest object with a URL paramater and data for use by this.ajax
+      * in a PUT request to create a checkbox that applies the tag agent_ooo
       *
       */
       createUserField: function() {
@@ -100,6 +116,14 @@
         };
       },
 
+      /*
+      * Creates the needed trigger
+      *
+      * 
+      * returns: a manifest object with a URL paramater and data for use by this.ajax
+      * in a PUT request to create a trigger to update peding tickets with the agent_ooo tag
+      *
+      */
       createTrigger: function() {
         return {
           url: '/api/v2/triggers.json',
@@ -139,7 +163,7 @@
     },
 
     /*
-    * ready variables and switch to user template
+    * Ready variables and switch to user template
     *
     *
     */
@@ -225,7 +249,7 @@
     },
 
     /* 
-    * checks current status, prepares modal for changing to opposite.
+    * Checks current status, prepares modal for changing to opposite.
     *
     * parameters: the click event of the status toggle
     *
@@ -254,7 +278,7 @@
     },
 
     /*
-    * generates the confirmation modal
+    * Generates the confirmation modal
     * 
     * parameters: the header of the modal
     * the content of the modal 
@@ -280,7 +304,7 @@
     },
 
     /*
-    * changes the agent status on an accepted modal
+    * Changes the agent status on an accepted modal
     *
     * parameters: the click event for the modal accept button
     *
@@ -295,7 +319,7 @@
     },
 
     /*
-    * abort changes and reset
+    * Abort changes and reset
     *
     * parameters: the click event for the modal cancel button
     * 
@@ -304,7 +328,7 @@
     },
 
     /*
-    * conditionally change agent status to whatever it isn't set to currently
+    * Conditionally change agent status to whatever it isn't set to currently
     * 
     * paramaters: user_id of agent to be set
     * return: true if set to away, false if set to available
@@ -326,7 +350,7 @@
     },
 
     /*
-    * selects which location to rended based on app context
+    * Selects which location to rended based on app context
     * then calls the render for either the navbar or user sidebar UI
     *
     */
@@ -340,7 +364,7 @@
     },
 
     /*
-    * checks if a filter has been entered 
+    * Checks if a filter has been entered 
     * calls the render method 
     * TODO: merge with renderFilter and/or refactor to better split functionality
     *
@@ -357,7 +381,7 @@
     },
 
     /*
-    * filters the user list by name or email
+    * Filters the user list by name or email
     * then updates the view with the new list
     * 
     * parameters: the string that is filtered for
@@ -375,7 +399,7 @@
     },
 
     /*
-    * calls the createUserField request to generate the needed user fields
+    * Calls the createUserField request to generate the needed user fields
     * TODO: create trigger as well
     * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
     */
@@ -399,7 +423,7 @@
     },
 
     /*
-    * check to see if the app has the required agent fields
+    * Check to see if the app has the required agent fields
     * TODO: check for trigger as well
     *
     */
@@ -427,7 +451,7 @@
     },
 
     /*
-    * if agent is set to away and submits a ticket update, warn them to set their status to available
+    * If agent is set to away and submits a ticket update, warn them to set their status to available
     *
     * return: a promise that checks if the assignee is out of office, and prevents saving with a modal 
     * 
