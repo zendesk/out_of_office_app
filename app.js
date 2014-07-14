@@ -230,12 +230,10 @@
       this.switchTo('loading');
       if (this.currentLocation() == 'user_sidebar') {
         var role = this.user().role();
-        console.log(this.user().role());
         if (role == 'admin' || role == 'agent') {
           this.ajax('getSingleAgent', this.user().id())
             .done(function(data) {
               var currentUser = data.user;
-              console.log(currentUser);
               this.switchTo('user', {
                 user: currentUser
               }); //side effect
@@ -265,7 +263,6 @@
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
-          console.log(user.user_fields.agent_ooo);
           var agent_away = user.user_fields.agent_ooo;
           if (agent_away === false) {
             this.popModal("Please Confirm Status Change",
@@ -367,7 +364,6 @@
     *
     */
     refreshLocation: function() {
-      console.log(this.currentLocation());
       if (this.currentLocation() == 'nav_bar') {
         this.renderNavBar(); //side effect
       } else if (this.currentLocation() == 'user_sidebar') {
@@ -482,7 +478,6 @@
         var assignee = ticket.assignee().user();
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
-            console.log(data.user.user_fields.agent_ooo);
             if (data.user.user_fields.agent_ooo) {
               this.popModal("Assignee is Away",
                 "<p>The assignee you have selected: " + data.user.name +
