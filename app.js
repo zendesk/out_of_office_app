@@ -165,7 +165,8 @@
     /*
     * Ready variables and switch to user template
     *
-    *
+    * Side Effects: will install the app if the required fields are not detected,
+    * will render the user sidebar app
     */
     init: function() {
       this.checkInstalled();
@@ -175,14 +176,15 @@
     /*
     * Fetch all agents then render the navbar template
     *
-    * 
+    * Side Effects: switches to the navbar template, focuses the search box 
+    *
     */
     renderNavBar: function() {
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
           userlist: this.users
-        });
-        this.$('#filter_search').focus();
+        }); //side effect
+        this.$('#filter_search').focus(); //side effect
       }, this))
     },
 
@@ -190,6 +192,7 @@
     * calls a request that gets all agents in a paginated list
     *
     * returns: a promise that handles the API call
+    * Side Effects: a notification on failure
     *
     */
     fetchAllUsers: function() {
@@ -210,7 +213,7 @@
             .fail(_.bind(function() {
               services.notify(
                 "Something went wrong and we couldn't reach the REST API to retrieve all user data",
-                'error');
+                'error'); //side effect
             }, this));
         }
       )
@@ -220,6 +223,7 @@
     /*
     * Fetch current user (if they exist) then switch to the user template
     *
+    * Side Effects: Switches to the user template, setting the user variable if the user is an admin
     *
     */
     renderUser: function() {
@@ -234,17 +238,17 @@
               console.log(currentUser);
               this.switchTo('user', {
                 user: currentUser
-              });
+              }); //side effect
             });
         } else {
           this.switchTo('user', {
             user: null
-          });
+          }); //side effect
         }
       } else {
         this.switchTo('user', {
           user: null
-        });
+        }); //side effect
       }
     },
 
@@ -252,6 +256,7 @@
     * Checks current status, prepares modal for changing to opposite.
     *
     * parameters: the click event of the status toggle
+    * Side Effects: creates modal to confirm changes in agent status
     *
     */
     confirmAgentStatus: function(e) { 
@@ -266,12 +271,12 @@
             this.popModal("Please Confirm Status Change",
               "<p>This action will reassign " + user.name +
               "'s open tickets and change their status to away. Please confirm.</p>",
-              "Mark as Away", "Cancel", user_id)
+              "Mark as Away", "Cancel", user_id) //side effect
           } else if (agent_away === true) {
             this.popModal("Please Confirm Status Change",
               "<p>This action will mark " + user.name +
               "as available and allow assignment. Please confirm.</p>",
-              "Mark as Available", "Cancel", user_id)
+              "Mark as Available", "Cancel", user_id) //side effect
           };
         });
 
@@ -284,11 +289,12 @@
     * the content of the modal 
     * the text for the label of the confirm button
     * optional text to replace the label of the cancel button
+    * Side Effects: creates a modal popup with the specified data,
+    * hides that modal's cancel button if none is speficied 
     *
     */
     popModal: function(messageHeader, messageContent, messageConfirm,
       messageCancel, agent_id) {
-      //
       this.$('.mymodal').modal({
         backdrop: true,
         keyboard: false,
@@ -297,9 +303,9 @@
         confirm: this.$('.btn-confirm').html(messageConfirm).attr('value',
           agent_id),
         cancel: this.$('.btn-cancel').html(messageCancel)
-      });
+      }); //side effect
       if (messageCancel === null) {
-        this.$('.btn-cancel').hide();
+        this.$('.btn-cancel').hide(); //side effect
       }
     },
 
@@ -307,15 +313,16 @@
     * Changes the agent status on an accepted modal
     *
     * parameters: the click event for the modal accept button
+    * Side Effects: hides the modal popup, triggers an agent status update
     *
     */
     onModalAccept: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
       if (user_id != '') {
-        this.toggleStatus(user_id);
+        this.toggleStatus(user_id); //side effect
       }
-      this.$('.mymodal').modal('hide');
+      this.$('.mymodal').modal('hide'); //side effect
     },
 
     /*
@@ -332,19 +339,22 @@
     * 
     * paramaters: user_id of agent to be set
     * return: true if set to away, false if set to available
+    * Side Effects: Notifications, re-renders the UI, updates the agent specified
+    * to invert their current OOO status
+    *
     */
     toggleStatus: function(user_id) {
       //
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
-          this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo)
+          this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo) //side effect
             .done(_.bind(function() {
-              this.notifySuccess();
-              this.refreshLocation();
+              this.notifySuccess(); //side effect
+              this.refreshLocation(); //side effect
             }, this))
             .fail(_.bind(function() {
-              this.notifyFail();
+              this.notifyFail(); //side effect
             }, this));
         });
     },
@@ -353,13 +363,15 @@
     * Selects which location to rended based on app context
     * then calls the render for either the navbar or user sidebar UI
     *
+    * Side Effects: either renders the navbar or renders the user sidebar app UI
+    *
     */
     refreshLocation: function() {
       console.log(this.currentLocation());
       if (this.currentLocation() == 'nav_bar') {
-        this.renderNavBar();
+        this.renderNavBar(); //side effect
       } else if (this.currentLocation() == 'user_sidebar') {
-        this.renderUser();
+        this.renderUser(); //side effect
       }
     },
 
@@ -369,14 +381,15 @@
     * TODO: merge with renderFilter and/or refactor to better split functionality
     *
     * parameters: the keyup function object
+    * Side Effects: either renders an unfiltered nav bar app UI or updates the UI with a filter
     * 
     */
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
-        this.renderFilter(entry);
+        this.renderFilter(entry); //side effect
       } else {
-        this.renderNavBar();
+        this.renderNavBar(); //side effect
       }
     },
 
@@ -385,6 +398,7 @@
     * then updates the view with the new list
     * 
     * parameters: the string that is filtered for
+    * Side Effects: replaces the #agent_list section with the filtered user list
     *
     */
     renderFilter: function(filter) {
@@ -395,36 +409,41 @@
       var table_filtered = this.renderTemplate('filter', {
       userlist: users
       });
-      this.$('#agent_list').replaceWith(table_filtered);
+      this.$('#agent_list').replaceWith(table_filtered); //side effect
     },
 
     /*
     * Calls the createUserField request to generate the needed user fields
     * TODO: create trigger as well
     * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+    *
+    * Side Effects: many notifications, create trigger, create user field 
+    *
     */
     installApp: function() {
-      this.ajax('createUserField')
+      this.ajax('createUserField') //side effect
         .done(_.bind(function(data) {
-          services.notify('Successfully added required user fields.');
+          services.notify('Successfully added required user fields.'); //side effect
         }, this))
         .fail(_.bind(function() {
-          this.notifyFail();
+          this.notifyFail(); //side effect
         }, this));
-      this.ajax('createTrigger')
+      this.ajax('createTrigger') //side effet
         .done(_.bind(function(data) {
-          services.notify('Successfully added required trigger.');
+          services.notify('Successfully added required trigger.'); //side effect
           //var trigger_id = data.trigger.id;
           // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
         }, this))
         .fail(_.bind(function() {
-          this.notifyFail();
+          this.notifyFail(); //side effect
         }, this));
     },
 
     /*
     * Check to see if the app has the required agent fields
     * TODO: check for trigger as well
+    *
+    * Side Effects: Notification, will install the app if the check fails
     *
     */
     checkInstalled: function() {
@@ -440,8 +459,8 @@
                 }).value();
 
               if (!filtered_fields.length) {  //currently only tests for user field. Will need to test for trigger and create the resource that doesn't currently exist.
-                services.notify("Required user fields not present", 'error');
-                this.installApp();
+                services.notify("Required user fields not present", 'error');  //side effect
+                this.installApp();  //side effect
                 fail();
               } else {
                 done();
@@ -454,6 +473,7 @@
     * If agent is set to away and submits a ticket update, warn them to set their status to available
     *
     * return: a promise that checks if the assignee is out of office, and prevents saving with a modal 
+    * Side Effects: Creates a modal popup if the agent has a ticket assigned to them while away
     * 
     */
     warnOnSave: function() {
@@ -467,7 +487,7 @@
               this.popModal("Assignee is Away",
                 "<p>The assignee you have selected: " + data.user.name +
                 "is currently marked as away and cannot have tickets assigned to them.",
-                "Cancel", null, null);
+                "Cancel", null, null);  //side effect
               fail();
             } else {
               done();
@@ -485,8 +505,9 @@
     *
     * parameters: the ajax request to make, the entity to get the data for, and the page to load
     * return: a promise chain of requests to subsequent pages
+    *
     */
-   _paginate: function(request, entity, page) { //
+   _paginate: function(request, entity, page) {
       var results = [];
       var initialRequest = this.ajax(a.request, a.page);
       var allPages = initialRequest.then(function(data) {
@@ -520,34 +541,37 @@
     /*
     * inform user that they must refresh the page
     *
+    * Side Effects: Notification
     *
     */
     notifySuccess: function() { 
       services.notify(
         'Your updates were successful. A refresh may be required to see these changes in Zendesk.'
-      );
+      ); //side effect
     },
 
     /*
     * generic failure notification
     *
+    * Side Effects: Notification
     *
     */
     notifyFail: function() {
       services.notify(
         'There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.',
-        'error');
+        'error');  //side effect
     },
 
     /*
     * Invalid assignment message 
     * 
+    * Side Effects: Notification
     *
     */
     notifyInvalid: function() {
       services.notify(
         'This agent is currently out of the office. Please assign to another agent',
-        'error');
+        'error');  //side effect
     }
 
   };
