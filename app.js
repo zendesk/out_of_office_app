@@ -159,8 +159,24 @@
             }
           })
         };
-      }
-    },
+      },
+
+      modifyTrigger: function(tid, data) {
+        return {
+          url: helpers.fmt('/api/v2/triggers/%@.json', tid),
+          dataType: 'JSON',
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(data)
+        };
+      },
+
+    getTriggerData: function(tid) {
+      return {
+          url: helpers.fmt('/api/v2/triggers/%@.json', tid)
+      };
+    }
+  },
 
     /*
     * Ready variables and switch to user template
@@ -202,7 +218,11 @@
 
           this.users = [];
 
-          var fetchedUsers = this._paginate('getAllAgents', 'users', 1);
+          var fetchedUsers = this._paginate({
+            request: 'getAllAgents',
+            entity: 'users',
+            page: 1
+          });
 
           fetchedUsers
             .done(_.bind(
@@ -341,19 +361,51 @@
     *
     */
     toggleStatus: function(user_id) {
-      //
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
           this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo) //side effect
             .done(_.bind(function() {
-              this.notifySuccess(); //side effect
-              this.refreshLocation(); //side effect
+              this.notifySuccess();
+              this.refreshLocation();
+              this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
             }, this))
             .fail(_.bind(function() {
               this.notifyFail(); //side effect
             }, this));
         });
+    },
+
+    toggleTrigger: function(user_id, away_status) {
+      console.log(away_status);
+      this.ajax('getTriggerData', 46928886)
+        .done(_.bind(function(triggerdata) {
+          var conditions = triggerdata.trigger.conditions;
+          var any = conditions.any;
+          if(away_status === true) {
+            var new_any = {
+              "field":"assignee_id",
+              "operator":"is",
+              "value": user_id
+            };
+            var addTrigger = triggerdata;
+            addTrigger.trigger.conditions.any.push(new_any);
+            console.log(addTrigger);
+            this.ajax('modifyTrigger', 46928886, addTrigger);
+          }
+          else {
+            var newdata = _.filter(any,function(object){
+              return object.value !== user_id;
+            });
+            var removeTrigger = triggerdata;
+            removeTrigger.trigger.conditions.any = newdata;
+            console.log(removeTrigger);
+            this.ajax('modifyTrigger', 46928886, removeTrigger);
+          }
+        }, this))
+        .fail(_.bind(function() {
+          this.notifyFail();
+        }, this));
     },
 
     /*
@@ -495,14 +547,7 @@
       });
     },
 
-    /*
-    * this just paginates our list of users...utility function.
-    *
-    * parameters: the ajax request to make, the entity to get the data for, and the page to load
-    * return: a promise chain of requests to subsequent pages
-    *
-    */
-   _paginate: function(request, entity, page) {
+    _paginate: function(a) { //this just paginates our list of users...utility function.
       var results = [];
       var initialRequest = this.ajax(a.request, a.page);
       var allPages = initialRequest.then(function(data) {
