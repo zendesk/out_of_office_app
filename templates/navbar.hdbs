@@ -21,9 +21,9 @@ block each handler to list agents with current status, add appropriate toggle bu
   <td><a href='#/users/{{id}}'>{{name}}</a></td>
   <td>{{email}}</td>
   {{#if user_fields.agent_ooo}}
-  <td class='red'>Away</td>
+  <td class='away'>Away</td>
   {{else}}
-  <td class='green'>Available</td>
+  <td class='available'>Available</td>
   {{/if}}
   <td><button class='btn status-toggle' value='{{id}}'>
   {{#if user_fields.agent_ooo}}
