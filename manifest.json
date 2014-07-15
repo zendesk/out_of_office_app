@@ -13,22 +13,15 @@
   "frameworkVersion": "1.0",
   "parameters": [
   {
-    "name": "agentTag",
-    "type": "text",
-    "required": true,
-    "default": "agentoof"
-  },
-
-  {
     "name": "checkboxID",
-    "type": "integer",
-    "hidden": true
+    "type": "hidden",
+    "value":""
   },
 
   {
     "name": "triggerID",
-    "type": "integer",
-    "hidden": true
+    "type": "hidden",
+    "value":""
   }
   ]
 }

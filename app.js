@@ -175,6 +175,15 @@
       return {
           url: helpers.fmt('/api/v2/triggers/%@.json', tid)
       };
+    },
+
+    modifySettings: function(data) {
+      return {
+        type: 'PUT',
+        url: "/api/v2/apps/installations/%@.json".fmt(this.installationId()),
+        dataType: 'JSON',
+        data: JSON.stringify(data)
+      };
     }
   },
 
@@ -236,7 +245,7 @@
                 'error'); //side effect
             }, this));
         }
-      )
+      );
 
     },
 
@@ -378,7 +387,8 @@
 
     toggleTrigger: function(user_id, away_status) {
       console.log(away_status);
-      this.ajax('getTriggerData', 46928886)
+      var trigger_id = this.setting('triggerID');
+      this.ajax('getTriggerData', trigger_id)
         .done(_.bind(function(triggerdata) {
           var conditions = triggerdata.trigger.conditions;
           var any = conditions.any;
@@ -391,7 +401,7 @@
             var addTrigger = triggerdata;
             addTrigger.trigger.conditions.any.push(new_any);
             console.log(addTrigger);
-            this.ajax('modifyTrigger', 46928886, addTrigger);
+            this.ajax('modifyTrigger', trigger_id, addTrigger);
           }
           else {
             var newdata = _.filter(any,function(object){
@@ -478,13 +488,24 @@
         }, this));
       this.ajax('createTrigger') //side effet
         .done(_.bind(function(data) {
-          services.notify('Successfully added required trigger.'); //side effect
-          //var trigger_id = data.trigger.id;
-          // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+          services.notify('Successfully added required trigger.');
+          var trigger_id = data.trigger.id;
+          this.addSetting('triggerID', trigger_id);// Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
         }, this))
         .fail(_.bind(function() {
           this.notifyFail(); //side effect
         }, this));
+    },
+
+    addSetting: function(setting_name, setting_value) {
+      if(setting_name == 'triggerID') {
+        var data = {
+          "settings": {
+            "triggerID":setting_value
+          }
+        };
+        this.ajax('modifySettings', data);
+      }
     },
 
     /*
@@ -513,8 +534,8 @@
               } else {
                 done();
               }
-            })
-        })
+            });
+        });
     },
 
     /*
