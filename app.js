@@ -117,8 +117,24 @@
             }
           })
         };
-      }
-    },
+      },
+
+      modifyTrigger: function(tid, data) {
+        return {
+          url: helpers.fmt('/api/v2/triggers/%@.json', tid),
+          dataType: 'JSON',
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(data)
+        };
+      },
+
+    getTriggerData: function(tid) {
+      return {
+          url: helpers.fmt('/api/v2/triggers/%@.json', tid)
+      };
+    }
+  },
 
     init: function() {
       //ready variables and switch to user template
@@ -170,12 +186,11 @@
       this.switchTo('loading');
       if (this.currentLocation() == 'user_sidebar') {
         var role = this.user().role();
-        console.log(this.user().role());
         if (role == 'admin' || role == 'agent') {
           this.ajax('getSingleAgent', this.user().id())
             .done(function(data) {
               var currentUser = data.user;
-              console.log(currentUser);
+
               this.switchTo('user', {
                 user: currentUser
               });
@@ -198,7 +213,7 @@
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
-          console.log(user.user_fields.agent_ooo);
+
           var agent_away = user.user_fields.agent_ooo;
           if (agent_away === false) {
             this.popModal("Please Confirm Status Change",
@@ -255,11 +270,44 @@
             .done(_.bind(function() {
               this.notifySuccess();
               this.refreshLocation();
+              this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
             }, this))
             .fail(_.bind(function() {
               this.notifyFail();
             }, this));
         });
+    },
+
+    toggleTrigger: function(user_id, away_status) {
+      console.log(away_status);
+      this.ajax('getTriggerData', 46928886)
+        .done(_.bind(function(triggerdata) {
+          var conditions = triggerdata.trigger.conditions;
+          var any = conditions.any;
+          if(away_status === true) {
+            var new_any = {
+              "field":"assignee_id",
+              "operator":"is",
+              "value": user_id
+            };
+            var addTrigger = triggerdata;
+            addTrigger.trigger.conditions.any.push(new_any);
+            console.log(addTrigger);
+            this.ajax('modifyTrigger', 46928886, addTrigger);
+          }
+          else {
+            var newdata = _.filter(any,function(object){
+              return object.value !== user_id;
+            });
+            var removeTrigger = triggerdata;
+            removeTrigger.trigger.conditions.any = newdata;
+            console.log(removeTrigger);
+            this.ajax('modifyTrigger', 46928886, removeTrigger);
+          }
+        }, this))
+        .fail(_.bind(function() {
+          this.notifyFail();
+        }, this));
     },
 
     refreshLocation: function() {
@@ -302,7 +350,7 @@
       this.ajax('createTrigger')
         .done(_.bind(function(data) {
           services.notify('Successfully added required trigger.');
-          //var trigger_id = data.trigger.id;
+          // var trigger_id = data.trigger.id;
           // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
         }, this))
         .fail(_.bind(function() {
