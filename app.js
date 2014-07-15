@@ -133,6 +133,15 @@
       return {
           url: helpers.fmt('/api/v2/triggers/%@.json', tid)
       };
+    },
+
+    modifySettings: function(data) {
+      return {
+        type: 'PUT',
+        url: "/api/v2/apps/installations/%@.json".fmt(this.installationId()),
+        dataType: 'JSON',
+        data: JSON.stringify(data)
+      };
     }
   },
 
@@ -149,7 +158,7 @@
           userlist: this.users
         });
         this.$('#filter_search').focus();
-      }, this))
+      }, this));
     },
 
     fetchAllUsers: function() {
@@ -177,7 +186,7 @@
                 'error');
             }, this));
         }
-      )
+      );
 
     },
 
@@ -219,13 +228,13 @@
             this.popModal("Please Confirm Status Change",
               "<p>This action will reassign " + user.name +
               "'s open tickets and change their status to away. Please confirm.</p>",
-              "Mark as Away", "Cancel", user_id)
+              "Mark as Away", "Cancel", user_id);
           } else if (agent_away === true) {
             this.popModal("Please Confirm Status Change",
               "<p>This action will mark " + user.name +
               "as available and allow assignment. Please confirm.</p>",
-              "Mark as Available", "Cancel", user_id)
-          };
+              "Mark as Available", "Cancel", user_id);
+          }
         });
 
     },
@@ -251,7 +260,7 @@
       //change agent status
       e.preventDefault();
       var user_id = e.currentTarget.value;
-      if (user_id != '') {
+      if (user_id !== '') {
         this.toggleStatus(user_id);
       }
       this.$('.mymodal').modal('hide');
@@ -280,7 +289,8 @@
 
     toggleTrigger: function(user_id, away_status) {
       console.log(away_status);
-      this.ajax('getTriggerData', 46928886)
+      var trigger_id = this.setting('triggerID');
+      this.ajax('getTriggerData', trigger_id)
         .done(_.bind(function(triggerdata) {
           var conditions = triggerdata.trigger.conditions;
           var any = conditions.any;
@@ -293,7 +303,7 @@
             var addTrigger = triggerdata;
             addTrigger.trigger.conditions.any.push(new_any);
             console.log(addTrigger);
-            this.ajax('modifyTrigger', 46928886, addTrigger);
+            this.ajax('modifyTrigger', trigger_id, addTrigger);
           }
           else {
             var newdata = _.filter(any,function(object){
@@ -302,7 +312,7 @@
             var removeTrigger = triggerdata;
             removeTrigger.trigger.conditions.any = newdata;
             console.log(removeTrigger);
-            this.ajax('modifyTrigger', 46928886, removeTrigger);
+            this.ajax('modifyTrigger', trigger_id, removeTrigger);
           }
         }, this))
         .fail(_.bind(function() {
@@ -350,12 +360,23 @@
       this.ajax('createTrigger')
         .done(_.bind(function(data) {
           services.notify('Successfully added required trigger.');
-          // var trigger_id = data.trigger.id;
-          // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+          var trigger_id = data.trigger.id;
+          this.addSetting('triggerID', trigger_id);// Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
         }, this))
         .fail(_.bind(function() {
           this.notifyFail();
         }, this));
+    },
+
+    addSetting: function(setting_name, setting_value) {
+      if(setting_name == 'triggerID') {
+        var data = {
+          "settings": {
+            "triggerID":setting_value
+          }
+        };
+        this.ajax('modifySettings', data);
+      }
     },
 
     checkInstalled: function() {
@@ -366,7 +387,7 @@
 
               var filtered_fields = _.chain(data.user_fields).filter(
                 function(field) {
-                  return (field.key == 'agent_ooo' && field.active == true &&
+                  return (field.key == 'agent_ooo' && field.active === true &&
                     field.type == 'checkbox' && field.tag == 'agent_ooo');
                 }).value();
 
@@ -377,8 +398,8 @@
               } else {
                 done();
               }
-            })
-        })
+            });
+        });
     },
 
     warnOnSave: function() {
