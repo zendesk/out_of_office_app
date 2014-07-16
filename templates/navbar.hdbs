@@ -1,41 +1,44 @@
-{{! displays full agent list with current availability
-ADMINS: can view, can toggle status of all agents
-AGENTS: can view, toggle status of themselves only
-block each handler to list agents with current status, add appropriate toggle button }}<div id='maintemplate'>
-<h3 class='title'>Agent List</h3>
-<label for="filter_search">Filter: </label>
-<input type="text" id="filter_search" />
-<table id="agent_list">
-  <thead>
-    <tr>
-      <th>Agent Name</th>
-      <th>Email</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-{{#userlist}}
-{{#unless restricted_agent}}
-<tr id='{{id}}'>
-  <td><a href='#/users/{{id}}'>{{name}}</a></td>
-  <td>{{email}}</td>
-  {{#if user_fields.agent_ooo}}
-  <td class='away'>Away</td>
-  {{else}}
-  <td class='available'>Available</td>
-  {{/if}}
-  <td><button class='btn status-toggle' value='{{id}}'>
-  {{#if user_fields.agent_ooo}}
-  Set Back
-  {{else}}
-  Set Away
-  {{/if}}
-  </button></td>
-  <input type="hidden" value="{{name}},{{email}}" class="filter_field" />
-</tr>
-{{/unless}}
-{{/userlist}}
-</tbody>
-</table>
+{{! 
+  displays full agent list with current availability
+  ADMINS: can view, can toggle status of all agents
+  AGENTS: can view, toggle status of themselves only
+  block each handler to list agents with current status, add appropriate toggle button 
+}}
+
+<input class="search" type="text" id="filter_search" placeholder="Filter by name or email">
+
+<div id="maintemplate" class="well well-small">
+  <table id="agent_list" class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#userlist}}
+        {{#unless restricted_agent}}
+          <tr id="{{id}}">
+            <td><a href="#/users/{{id}}">{{name}}</a></td>
+            <td>{{email}}</td>
+            {{#if user_fields.agent_ooo}}
+            <td class="away"><span class="label label-important">Unavailable</span></td>
+            {{else}}
+            <td class="available"><span class="label label-success">Available</span></td>
+            {{/if}}
+            <td><button class="btn status-toggle navbar" value="{{id}}">
+            {{#if user_fields.agent_ooo}}
+            Set Unavailable
+            {{else}}
+            Set Available
+            {{/if}}
+            </button></td>
+            <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
+          </tr>
+        {{/unless}}
+      {{/userlist}}
+    </tbody>
+  </table>
 </div>

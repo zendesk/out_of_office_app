@@ -205,12 +205,13 @@
     *
     */
     renderNavBar: function() {
+      this.switchTo('loading'); // Without this line layout.hdbs would appear briefly before rendering the nav bar
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
           userlist: this.users
         }); //side effect
         this.$('#filter_search').focus(); //side effect
-      }, this))
+      }, this));
     },
 
     /*
@@ -294,16 +295,16 @@
           var user = data.user;
           var agent_away = user.user_fields.agent_ooo;
           if (agent_away === false) {
-            this.popModal("Please Confirm Status Change",
-              "<p>This action will reassign " + user.name +
-              "'s open tickets and change their status to away. Please confirm.</p>",
-              "Mark as Away", "Cancel", user_id) //side effect
+            this.popModal("Please Confirm Status Change", 
+              "<p>This action will reassign " + user.name + 
+              "'s open tickets and change their status to away. Please confirm.</p>", 
+              "Mark as Unavailable", "Cancel", user_id); //side effect
           } else if (agent_away === true) {
-            this.popModal("Please Confirm Status Change",
-              "<p>This action will mark " + user.name +
-              "as available and allow assignment. Please confirm.</p>",
-              "Mark as Available", "Cancel", user_id) //side effect
-          };
+            this.popModal("Please Confirm Status Change", 
+              "<p>This action will mark " + user.name + 
+              " as available and allow tickets to be assigned. Please confirm.</p>", 
+              "Mark as Available", "Cancel", user_id); //side effect
+          }
         });
 
     },
@@ -345,7 +346,7 @@
     onModalAccept: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
-      if (user_id != '') {
+      if (user_id !== '') {
         this.toggleStatus(user_id); //side effect
       }
       this.$('.mymodal').modal('hide'); //side effect
@@ -523,7 +524,7 @@
 
               var filtered_fields = _.chain(data.user_fields).filter(
                 function(field) {
-                  return (field.key == 'agent_ooo' && field.active == true &&
+                  return (field.key == 'agent_ooo' && field.active === true &&
                     field.type == 'checkbox' && field.tag == 'agent_ooo');
                 }).value();
 
@@ -552,11 +553,11 @@
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
             if (data.user.user_fields.agent_ooo) {
-              this.popModal("Assignee is Away",
+              this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
-                "is currently marked as away and cannot have tickets assigned to them.",
+                " is currently marked as unavailable and cannot have tickets assigned to them.",
                 "Cancel", null, null);  //side effect
-              fail();
+              fail(); // This should be an option to cancel AND a second option to immediately make the agent available
             } else {
               done();
             }

@@ -4,15 +4,11 @@
     "description": {
       "value": "Play the famous zen tunes in your help desk.",
       "title": "app description"
-    },
-    "name": {
-      "value": "Buddha Machine",
-      "title": "app name"
     }
   },
 
   "loading": {
-    "value": "Welcome to this Sample App",
+    "value": "Loading",
     "title": "loading placeholder"
   },
 

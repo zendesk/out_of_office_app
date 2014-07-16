@@ -1,20 +1,17 @@
 {{! Meta-template, contains modal which will be filled conditionally }}
 
-<header>
+<header class="borderStyle">
   <span class="logo"/>
   <h3>{{setting "name"}}</h3>
 </header>
 <section data-main/>
-<footer>
-  <a href="mailto:{{author.email}}">
-    {{author.name}}
-  </a>
-</footer>
+
 
 <!--Modal for confirming change of status -->
  <div class="modal hide fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-header">
      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+     <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
      <h3 class="modal-header">Header Text</h3>
    </div>
    <div class="modal-body">
@@ -26,3 +23,4 @@
    </div>
  </div>
  <!--END status confirmation modal -->
+ <!-- PROBLEM - - - modalaccept has only one option instead of one for when the agent is confirming they are unavailable - (dark color) - but also, unfortunately (dark color) instead of (green) when they are confirming they are actually available -->

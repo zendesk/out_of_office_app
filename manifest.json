@@ -2,13 +2,13 @@
 {
   "name": "Out of Office App",
   "author": {
-    "name": "Zendesk Support Engineering",
+    "name": "Zendesk Support Engineers",
     "email": "support@zendesk.com",
     "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
   "private": true,
-  "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
+  "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"], // I presume the ticket locations are just to test the save hook with ZAT?
   "version": "0.1",
   "frameworkVersion": "1.0",
   "parameters": [
