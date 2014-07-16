@@ -1,42 +1,147 @@
-#maintemplate {
-}
-table {
-  width: 70%;
-  margin: 0 auto;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-tr {
-  border: 1px solid black;
-}
-
-tr:nth-child(2n+2) {
-  background-color: #eee;
+table#agent_list.table {
+  margin-bottom: -10px;
 }
 
 thead tr {
-  background-color: #aaa;
-  color: #000;
-  font-size: 140%;
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
 }
 
 th, td {
-  vertical-align: baseline;
-  padding: 2px;
+  vertical-align: center;
+  text-align: center;
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
+  padding: 16px 8px 8px 8px;
+}
+
+.available {
+  color: green;
 }
 
 .away {
   color: red;
 }
 
-.available {
-  color:green;
+.borderStyle {
+  border-style: dashed;
+}
+
+.btn {
+  padding: 20px 0px;
+  font-family: proxima-nova, sans-serif;
+  font-weight: 450;
+  font-size: 16px;
+}
+
+.btn-available {
+  width: 160px;
+  border-radius: 3px;
+}
+
+.button.btn-available.status-toggle {
+  background-color: #ddd;
+}
+
+.btn.btn-busy.btn-primary.red {
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
+  width: 160px;
+  float: right;
+  
+}
+
+.btn.btn-busy.status-toggle {
+  background-color: #ddd;
+}
+
+.btn.btn-cancel.modalCancel {
+  color: dark;
+  float: left;
+  width: 242px;
+  margin-left: 10px;
+}
+
+.btn.btn-primary.btn-confirm.modalAccept {
+  bg-color: #ddd;
+  border-color: #ddd;
+  font-color: #fff;
+  float: right;
+  width: 242px;
+}
+
+.button.btn.status-toggle {
+  vertical-align: center;
+  text-align: left;
+  padding: 4px 8px;
+}
+
+.btn-busy {
+  width: 160px;
+  border-radius: 3px;
+}
+
+.btn.date {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  width: 150px;
+  font-family: proxima-nova, sans-serif;
+  font-weight: 100;
+  font-size: 14px;
+}
+
+.btn.date.dateEnd {
+  float: right;
+  margin-right: 1px;
+  margin-left: 2px;
+}
+
+.btn.date.dateStart {
+  float: left;
+  margin-right: 2px;
+  margin-left: 1px;
+}
+
+.btn.status-toggle.navbar {
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+}
+
+.button.btn.status-toggle.navbar {
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
+}
+
+.creators {
+  text-align: center;
+  font-size: 85%;
+  margin-top: 6px;
+}
+
+.label {
+  margin-top: 30px;
+}
+
+.label.label-success {
+  padding-left: 18px;
+  padding-right: 18px;
 }
 
 .users-name {
   font-weight: 900;
   text-decoration: underline;
+}
+
+.search {
+  margin-bottom: 12px;
 }
 
 .title {
@@ -46,13 +151,10 @@ th, td {
   text-align: center;
 }
 
-#maintemplate label {
-  margin-left: 18%;
-  font-size: 150%;
-  vertical-align: baseline;
+#filter_search {
+  font-family: proxima-nova, sans-serif;
 }
 
-#filter_search {
-  margin-left: 25%;
-  margin-top: -45px;
+#maintemplate label {
+  font-family: proxima-nova, sans-serif;
 }
