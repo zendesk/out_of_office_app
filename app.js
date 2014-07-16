@@ -27,9 +27,9 @@
       /*
       * Gets a list of agents
       *
-      * parameters: the page number to load for the list of agents 
+      * parameters: the page number to load for the list of agents
       * returns: a manifest object with a URL paramater for use by this.ajax
-      * 
+      *
       */
       'getAllAgents': function(page) {
         return {
@@ -41,7 +41,7 @@
       /*
       * Gets the user data for a single agent
       *
-      * parameters: the agent's user ID 
+      * parameters: the agent's user ID
       * returns: a manifest object with a URL paramater for use by this.ajax
       *
       */
@@ -91,7 +91,7 @@
       /*
       * Creates the needed custom user field
       *
-      * 
+      *
       * returns: a manifest object with a URL paramater and data for use by this.ajax
       * in a PUT request to create a checkbox that applies the tag agent_ooo
       *
@@ -119,7 +119,7 @@
       /*
       * Creates the needed trigger
       *
-      * 
+      *
       * returns: a manifest object with a URL paramater and data for use by this.ajax
       * in a PUT request to create a trigger to update peding tickets with the agent_ooo tag
       *
@@ -146,6 +146,10 @@
                       "field": "status",
                       "operator": "value_previous",
                       "value": "pending"
+                  },
+                  {   "field":"status",
+                      "operator":"not_value",
+                      "value":"solved"
                   }
                   ],
                 "any": []
@@ -201,7 +205,7 @@
     /*
     * Fetch all agents then render the navbar template
     *
-    * Side Effects: switches to the navbar template, focuses the search box 
+    * Side Effects: switches to the navbar template, focuses the search box
     *
     */
     renderNavBar: function() {
@@ -279,14 +283,14 @@
       }
     },
 
-    /* 
+    /*
     * Checks current status, prepares modal for changing to opposite.
     *
     * parameters: the click event of the status toggle
     * Side Effects: creates modal to confirm changes in agent status
     *
     */
-    confirmAgentStatus: function(e) { 
+    confirmAgentStatus: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
       this.ajax('getSingleAgent', user_id)
@@ -310,13 +314,13 @@
 
     /*
     * Generates the confirmation modal
-    * 
+    *
     * parameters: the header of the modal
-    * the content of the modal 
+    * the content of the modal
     * the text for the label of the confirm button
     * optional text to replace the label of the cancel button
     * Side Effects: creates a modal popup with the specified data,
-    * hides that modal's cancel button if none is speficied 
+    * hides that modal's cancel button if none is speficied
     *
     */
     popModal: function(messageHeader, messageContent, messageConfirm,
@@ -355,14 +359,14 @@
     * Abort changes and reset
     *
     * parameters: the click event for the modal cancel button
-    * 
+    *
     */
     onModalCancel: function(e) {
     },
 
     /*
     * Conditionally change agent status to whatever it isn't set to currently
-    * 
+    *
     * paramaters: user_id of agent to be set
     * return: true if set to away, false if set to available
     * Side Effects: Notifications, re-renders the UI, updates the agent specified
@@ -434,13 +438,13 @@
     },
 
     /*
-    * Checks if a filter has been entered 
-    * calls the render method 
+    * Checks if a filter has been entered
+    * calls the render method
     * TODO: merge with renderFilter and/or refactor to better split functionality
     *
     * parameters: the keyup function object
     * Side Effects: either renders an unfiltered nav bar app UI or updates the UI with a filter
-    * 
+    *
     */
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
@@ -454,7 +458,7 @@
     /*
     * Filters the user list by name or email
     * then updates the view with the new list
-    * 
+    *
     * parameters: the string that is filtered for
     * Side Effects: replaces the #agent_list section with the filtered user list
     *
@@ -475,7 +479,7 @@
     * TODO: create trigger as well
     * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
     *
-    * Side Effects: many notifications, create trigger, create user field 
+    * Side Effects: many notifications, create trigger, create user field
     *
     */
     installApp: function() {
@@ -541,9 +545,9 @@
     /*
     * If agent is set to away and submits a ticket update, warn them to set their status to available
     *
-    * return: a promise that checks if the assignee is out of office, and prevents saving with a modal 
+    * return: a promise that checks if the assignee is out of office, and prevents saving with a modal
     * Side Effects: Creates a modal popup if the agent has a ticket assigned to them while away
-    * 
+    *
     */
     warnOnSave: function() {
       return this.promise(function(done, fail) {
@@ -605,7 +609,7 @@
     * Side Effects: Notification
     *
     */
-    notifySuccess: function() { 
+    notifySuccess: function() {
       services.notify(
         'Your updates were successful. A refresh may be required to see these changes in Zendesk.'
       ); //side effect
@@ -624,8 +628,8 @@
     },
 
     /*
-    * Invalid assignment message 
-    * 
+    * Invalid assignment message
+    *
     * Side Effects: Notification
     *
     */
