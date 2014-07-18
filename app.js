@@ -557,11 +557,26 @@
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
             if (data.user.user_fields.agent_ooo) {
+
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
-                "Cancel", null, null);  //side effect
-              fail(); // This should be an option to cancel AND a second option to immediately make the agent available
+                "Cancel", "Switch agent status", null);  //side effect
+              
+              this.$('.modalAccept').on('click', _.bind(function() {
+                console.log('accept');
+                this.$('.mymodal').modal('hide');
+                this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
+                fail();
+              }, this));
+              this.$('.modalCancel').on('click', _.bind(function() {
+                console.log('modalCancel');
+                this.toggleStatus(data.user.id);
+                this.$('.mymodal').modal('hide');
+                this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
+                done();
+              }, this));
+
             } else {
               done();
             }
