@@ -304,12 +304,12 @@
           if (agent_away === false) {
             this.popModal("Please Confirm Status Change", 
               "<p>This action will reassign " + user.name + 
-              "'s open tickets and change their status to away. Please confirm.</p>", 
+              "'s open tickets and change their status to away.</p>", 
               "Mark as Unavailable", "Cancel", user_id); //side effect
           } else if (agent_away === true) {
             this.popModal("Please Confirm Status Change", 
               "<p>This action will mark " + user.name + 
-              " as available and allow tickets to be assigned. Please confirm.</p>", 
+              " as available and allow tickets to be assigned.</p>", 
               "Mark as Available", "Cancel", user_id); //side effect
           }
         });
