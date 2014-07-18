@@ -1,11 +1,9 @@
-table#agent_list.table {
-  margin-bottom: -10px;
+* {
+  font-family: proxima-nova, sans-serif;
 }
 
-thead tr {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
+table#agent_list.table {
+  margin-bottom: -10px;
 }
 
 th, td {
@@ -14,15 +12,8 @@ th, td {
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
-  padding: 16px 8px 8px 8px;
-}
-
-.available {
-  color: green;
-}
-
-.away {
-  color: red;
+  padding: 15px 8px 8px 8px;
+  width: 20%;
 }
 
 .borderStyle {
@@ -31,7 +22,6 @@ th, td {
 
 .btn {
   padding: 20px 0px;
-  font-family: proxima-nova, sans-serif;
   font-weight: 450;
   font-size: 16px;
 }
@@ -89,7 +79,6 @@ th, td {
   padding: 10px;
   border-radius: 8px;
   width: 150px;
-  font-family: proxima-nova, sans-serif;
   font-weight: 100;
   font-size: 14px;
 }
@@ -128,9 +117,6 @@ th, td {
 
 .label {
   margin-top: 30px;
-}
-
-.label.label-success {
   padding-left: 18px;
   padding-right: 18px;
 }
@@ -149,12 +135,4 @@ th, td {
   margin-bottom: 25px;
   margin: 25px 0px 25px 0px;
   text-align: center;
-}
-
-#filter_search {
-  font-family: proxima-nova, sans-serif;
-}
-
-#maintemplate label {
-  font-family: proxima-nova, sans-serif;
 }
