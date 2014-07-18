@@ -165,6 +165,7 @@
         };
       },
 
+      //TODO: docs
       modifyTrigger: function(tid, data) {
         return {
           url: helpers.fmt('/api/v2/triggers/%@.json', tid),
@@ -175,21 +176,23 @@
         };
       },
 
-    getTriggerData: function(tid) {
-      return {
-          url: helpers.fmt('/api/v2/triggers/%@.json', tid)
-      };
-    },
+      //TODO: docs
+      getTriggerData: function(tid) {
+        return {
+            url: helpers.fmt('/api/v2/triggers/%@.json', tid)
+        };
+      },
 
-    modifySettings: function(data) {
-      return {
-        type: 'PUT',
-        url: "/api/v2/apps/installations/%@.json".fmt(this.installationId()),
-        dataType: 'JSON',
-        data: JSON.stringify(data)
-      };
-    }
-  },
+      //TODO: docs
+      modifySettings: function(data) {
+        return {
+          type: 'PUT',
+          url: "/api/v2/apps/installations/%@.json".fmt(this.installationId()),
+          dataType: 'JSON',
+          data: JSON.stringify(data)
+        };
+      }
+    },
 
     /*
     * Ready variables and switch to user template
@@ -390,6 +393,7 @@
         });
     },
 
+    //TODO: docs
     toggleTrigger: function(user_id, away_status) {
       console.log(away_status);
       var trigger_id = this.setting('triggerID');
@@ -502,6 +506,7 @@
         }, this));
     },
 
+    //TODO: docs
     addSetting: function(setting_name, setting_value) {
       if(setting_name == 'triggerID') {
         var data = {
@@ -573,6 +578,8 @@
       });
     },
 
+    //TODO: docs
+    //TODO: refactor params
     _paginate: function(a) { //this just paginates our list of users...utility function.
       var results = [];
       var initialRequest = this.ajax(a.request, a.page);
