@@ -1,10 +1,3 @@
-{{! 
-  displays full agent list with current availability
-  ADMINS: can view, can toggle status of all agents
-  AGENTS: can view, toggle status of themselves only
-  block each handler to list agents with current status, add appropriate toggle button 
-}}
-
 <input class="search" type="text" id="filter_search" placeholder="Filter by name or email">
 
 <div id="maintemplate" class="well well-small">
@@ -24,15 +17,15 @@
             <td><a href="#/users/{{id}}">{{name}}</a></td>
             <td>{{email}}</td>
             {{#if user_fields.agent_ooo}}
-            <td class="away"><span class="label label-important">Unavailable</span></td>
+            <td class="unavailable"><span class="label label-important">Away</span></td>
             {{else}}
-            <td class="available"><span class="label label-success">Available</span></td>
+            <td class="available"><span class="label label-success">Here</span></td>
             {{/if}}
             <td><button class="btn status-toggle navbar" value="{{id}}">
             {{#if user_fields.agent_ooo}}
-            Set Unavailable
+            Edit
             {{else}}
-            Set Available
+            Edit
             {{/if}}
             </button></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
