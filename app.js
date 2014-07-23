@@ -320,6 +320,13 @@
               " as available and allow tickets to be assigned.</p>",
               "Mark as Available", "Cancel", user_id); //side effect
           }
+          this.$('.modalAccept').on('click', _.bind(function() {
+            console.log('accept');
+            this.toggleStatus(user.id);
+            this.$('.mymodal').modal('hide');
+            this.$('.modalAccept').off('click'); 
+            this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
+          }, this));
         });
 
     },
@@ -359,21 +366,18 @@
      *
      */
     onModalAccept: function(e) {
-      e.preventDefault();
-      var user_id = e.currentTarget.value;
-      if (user_id !== '') {
-        this.toggleStatus(user_id); //side effect
-      }
       this.$('.mymodal').modal('hide'); //side effect
     },
 
     /*
-     * Abort changes and reset
-     *
-     * parameters: the click event for the modal cancel button
-     *
-     */
-    onModalCancel: function(e) {},
+    * Abort changes and reset
+    *
+    * parameters: the click event for the modal cancel button
+    *
+    */
+    onModalCancel: function(e) {
+      this.$('.mymodal').modal('hide'); //side effect
+    },
 
     /*
      * Conditionally change agent status to whatever it isn't set to currently
@@ -576,16 +580,16 @@
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
-                this.$('.modalAccept').on('click', _.bind(this.onModalAccept,
-                  this)); //rebind to the default
+                this.$('.modalAccept').off('click'); 
+                this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
               this.$('.modalCancel').on('click', _.bind(function() {
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
-                this.$('.modalCancel').on('click', _.bind(this.onModalCancel,
-                  this)); //rebind to the default
+                this.$('.modalCancel').off('click'); 
+                this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
                 done();
               }, this));
 
