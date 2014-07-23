@@ -312,6 +312,13 @@
               " as available and allow tickets to be assigned.</p>", 
               "Mark as Available", "Cancel", user_id); //side effect
           }
+          this.$('.modalAccept').on('click', _.bind(function() {
+            console.log('accept');
+            this.toggleStatus(user.id);
+            this.$('.mymodal').modal('hide');
+            this.$('.modalAccept').off('click'); 
+            this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
+          }, this));
         });
 
     },
@@ -351,11 +358,6 @@
     *
     */
     onModalAccept: function(e) {
-      e.preventDefault();
-      var user_id = e.currentTarget.value;
-      if (user_id !== '') {
-        this.toggleStatus(user_id); //side effect
-      }
       this.$('.mymodal').modal('hide'); //side effect
     },
 
@@ -366,6 +368,7 @@
     *
     */
     onModalCancel: function(e) {
+      this.$('.mymodal').modal('hide'); //side effect
     },
 
     /*
@@ -571,6 +574,7 @@
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
+                this.$('.modalAccept').off('click'); 
                 this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
@@ -578,6 +582,7 @@
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
+                this.$('.modalCancel').off('click'); 
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
                 done();
               }, this));
