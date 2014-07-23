@@ -406,7 +406,6 @@
 
     //TODO: docs
     toggleTrigger: function(user_id, away_status) {
-      console.log(away_status);
       var trigger_id = this.setting('triggerID');
       this.ajax('getTriggerData', trigger_id)
         .done(_.bind(function(triggerdata) {
@@ -420,7 +419,6 @@
             };
             var addTrigger = triggerdata;
             addTrigger.trigger.conditions.any.push(new_any);
-            console.log(addTrigger);
             this.ajax('modifyTrigger', trigger_id, addTrigger);
           } else {
             var newdata = _.filter(any, function(object) {
@@ -428,8 +426,7 @@
             });
             var removeTrigger = triggerdata;
             removeTrigger.trigger.conditions.any = newdata;
-            console.log(removeTrigger);
-            this.ajax('modifyTrigger', 46928886, removeTrigger);
+            this.ajax('modifyTrigger', trigger_id, removeTrigger);
           }
         }, this))
         .fail(_.bind(function() {
