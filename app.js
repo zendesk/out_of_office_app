@@ -25,12 +25,12 @@
     requests: {
 
       /*
-      * Gets a list of agents
-      *
-      * parameters: the page number to load for the list of agents
-      * returns: a manifest object with a URL paramater for use by this.ajax
-      *
-      */
+       * Gets a list of agents
+       *
+       * parameters: the page number to load for the list of agents
+       * returns: a manifest object with a URL paramater for use by this.ajax
+       *
+       */
       'getAllAgents': function(page) {
         return {
           url: helpers.fmt(
@@ -39,12 +39,12 @@
       },
 
       /*
-      * Gets the user data for a single agent
-      *
-      * parameters: the agent's user ID
-      * returns: a manifest object with a URL paramater for use by this.ajax
-      *
-      */
+       * Gets the user data for a single agent
+       *
+       * parameters: the agent's user ID
+       * returns: a manifest object with a URL paramater for use by this.ajax
+       *
+       */
       'getSingleAgent': function(user_id) {
         return {
           url: helpers.fmt('/api/v2/users/%@.json', user_id)
@@ -53,13 +53,13 @@
 
 
       /*
-      * Sets the agent's away status
-      *
-      * parameters: the agent's user ID, the status to set
-      * returns: a manifest object with a URL paramater and data for use by this.ajax
-      * in a PUT request
-      *
-      */
+       * Sets the agent's away status
+       *
+       * parameters: the agent's user ID, the status to set
+       * returns: a manifest object with a URL paramater and data for use by this.ajax
+       * in a PUT request
+       *
+       */
       'setAgentStatus': function(user_id, away_status) {
         return {
           url: helpers.fmt('/api/v2/users/%@.json', user_id),
@@ -77,11 +77,11 @@
       },
 
       /*
-      * Gets a list of user fields
-      *
-      * returns: a manifest object with a URL paramater for use by this.ajax
-      *
-      */
+       * Gets a list of user fields
+       *
+       * returns: a manifest object with a URL paramater for use by this.ajax
+       *
+       */
       getUserFields: function() {
         return {
           url: '/api/v2/user_fields.json'
@@ -89,13 +89,13 @@
       },
 
       /*
-      * Creates the needed custom user field
-      *
-      *
-      * returns: a manifest object with a URL paramater and data for use by this.ajax
-      * in a PUT request to create a checkbox that applies the tag agent_ooo
-      *
-      */
+       * Creates the needed custom user field
+       *
+       *
+       * returns: a manifest object with a URL paramater and data for use by this.ajax
+       * in a PUT request to create a checkbox that applies the tag agent_ooo
+       *
+       */
       createUserField: function() {
         return {
           url: '/api/v2/user_fields.json',
@@ -117,13 +117,13 @@
       },
 
       /*
-      * Creates the needed trigger
-      *
-      *
-      * returns: a manifest object with a URL paramater and data for use by this.ajax
-      * in a PUT request to create a trigger to update peding tickets with the agent_ooo tag
-      *
-      */
+       * Creates the needed trigger
+       *
+       *
+       * returns: a manifest object with a URL paramater and data for use by this.ajax
+       * in a PUT request to create a trigger to update peding tickets with the agent_ooo tag
+       *
+       */
       createTrigger: function() {
         return {
           url: '/api/v2/triggers.json',
@@ -136,30 +136,25 @@
               "active": true,
               "position": 0,
               "conditions": {
-                "all": [
-                  {
-                      "field": "current_tags",
-                      "operator": "includes",
-                      "value": "agent_ooo" //we can grab this from settings maybe, if necessary...
-                  },
-                  {
-                      "field": "status",
-                      "operator": "value_previous",
-                      "value": "pending"
-                  },
-                  {   "field":"status",
-                      "operator":"not_value",
-                      "value":"solved"
-                  }
-                  ],
+                "all": [{
+                  "field": "current_tags",
+                  "operator": "includes",
+                  "value": "agent_ooo" //we can grab this from settings maybe, if necessary...
+                }, {
+                  "field": "status",
+                  "operator": "value_previous",
+                  "value": "pending"
+                }, {
+                  "field": "status",
+                  "operator": "not_value",
+                  "value": "solved"
+                }],
                 "any": []
               },
-              "actions": [
-                {
-                  "field": "assignee_id",
-                  "value": ""
-                }
-              ]
+              "actions": [{
+                "field": "assignee_id",
+                "value": ""
+              }]
             }
           })
         };
@@ -179,7 +174,7 @@
       //TODO: docs
       getTriggerData: function(tid) {
         return {
-            url: helpers.fmt('/api/v2/triggers/%@.json', tid)
+          url: helpers.fmt('/api/v2/triggers/%@.json', tid)
         };
       },
 
@@ -195,39 +190,46 @@
     },
 
     /*
-    * Ready variables and switch to user template
-    *
-    * Side Effects: will install the app if the required fields are not detected,
-    * will render the user sidebar app
-    */
+     * Ready variables and switch to user template
+     *
+     * Side Effects: will install the app if the required fields are not detected,
+     * will render the user sidebar app
+     */
     init: function() {
       this.checkInstalled();
       this.renderUser();
     },
 
     /*
-    * Fetch all agents then render the navbar template
-    *
-    * Side Effects: switches to the navbar template, focuses the search box
-    *
-    */
+     * Fetch all agents then render the navbar template
+     *
+     * Side Effects: switches to the navbar template, focuses the search box
+     *
+     */
     renderNavBar: function() {
       this.switchTo('loading'); // Without this line layout.hdbs would appear briefly before rendering the nav bar
+      var currentUser = this.currentUser();
+      var hasPermission = false;
+      if (currentUser.role() == 'admin'){
+        hasPermission = true;
+      }
       this.fetchAllUsers().done(_.bind(function(data) {
         this.switchTo('navbar', {
-          userlist: this.users
+          userlist: this.users,
+          permission: hasPermission
+
         }); //side effect
         this.$('#filter_search').focus(); //side effect
       }, this));
     },
 
     /*
-    * calls a request that gets all agents in a paginated list
-    *
-    * returns: a promise that handles the API call
-    * Side Effects: a notification on failure
-    *
-    */
+     * calls a request that gets all agents in a paginated list
+     *
+     * returns: a promise that handles the API call
+     * Side Effects: a notification on failure
+     *
+     */
     fetchAllUsers: function() {
 
       return this.promise(
@@ -258,42 +260,48 @@
     },
 
     /*
-    * Fetch current user (if they exist) then switch to the user template
-    *
-    * Side Effects: Switches to the user template, setting the user variable if the user is an admin
-    *
-    */
+     * Fetch current user (if they exist) then switch to the user template
+     *
+     * Side Effects: Switches to the user template, setting the user variable if the user is an admin
+     *
+     */
     renderUser: function() {
       this.switchTo('loading');
       if (this.currentLocation() == 'user_sidebar') {
-        var role = this.user().role();
+        var currentUser = this.currentUser();
+        var role = currentUser.role();
         if (role == 'admin' || role == 'agent') {
           this.ajax('getSingleAgent', this.user().id())
             .done(function(data) {
-              var currentUser = data.user;
+              var sidebarUser = data.user;
+              var hasPermission = false;
+              if (role == 'admin' || currentUser.id() == sidebarUser.id) {
+                hasPermission = true;
+              }
               this.switchTo('user', {
-                user: currentUser
-              }); //side effect
+                user: sidebarUser,
+                permission: hasPermission
+              });
             });
         } else {
           this.switchTo('user', {
             user: null
-          }); //side effect
+          });
         }
       } else {
         this.switchTo('user', {
           user: null
-        }); //side effect
+        });
       }
     },
 
     /*
-    * Checks current status, prepares modal for changing to opposite.
-    *
-    * parameters: the click event of the status toggle
-    * Side Effects: creates modal to confirm changes in agent status
-    *
-    */
+     * Checks current status, prepares modal for changing to opposite.
+     *
+     * parameters: the click event of the status toggle
+     * Side Effects: creates modal to confirm changes in agent status
+     *
+     */
     confirmAgentStatus: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
@@ -302,14 +310,14 @@
           var user = data.user;
           var agent_away = user.user_fields.agent_ooo;
           if (agent_away === false) {
-            this.popModal("Please Confirm Status Change", 
-              "<p>This action will reassign " + user.name + 
-              "'s open tickets and change their status to away.</p>", 
+            this.popModal("Please Confirm Status Change",
+              "<p>This action will reassign " + user.name +
+              "'s open tickets and change their status to away.</p>",
               "Mark as Unavailable", "Cancel", user_id); //side effect
           } else if (agent_away === true) {
-            this.popModal("Please Confirm Status Change", 
-              "<p>This action will mark " + user.name + 
-              " as available and allow tickets to be assigned.</p>", 
+            this.popModal("Please Confirm Status Change",
+              "<p>This action will mark " + user.name +
+              " as available and allow tickets to be assigned.</p>",
               "Mark as Available", "Cancel", user_id); //side effect
           }
         });
@@ -317,16 +325,16 @@
     },
 
     /*
-    * Generates the confirmation modal
-    *
-    * parameters: the header of the modal
-    * the content of the modal
-    * the text for the label of the confirm button
-    * optional text to replace the label of the cancel button
-    * Side Effects: creates a modal popup with the specified data,
-    * hides that modal's cancel button if none is speficied
-    *
-    */
+     * Generates the confirmation modal
+     *
+     * parameters: the header of the modal
+     * the content of the modal
+     * the text for the label of the confirm button
+     * optional text to replace the label of the cancel button
+     * Side Effects: creates a modal popup with the specified data,
+     * hides that modal's cancel button if none is speficied
+     *
+     */
     popModal: function(messageHeader, messageContent, messageConfirm,
       messageCancel, agent_id) {
       this.$('.mymodal').modal({
@@ -344,12 +352,12 @@
     },
 
     /*
-    * Changes the agent status on an accepted modal
-    *
-    * parameters: the click event for the modal accept button
-    * Side Effects: hides the modal popup, triggers an agent status update
-    *
-    */
+     * Changes the agent status on an accepted modal
+     *
+     * parameters: the click event for the modal accept button
+     * Side Effects: hides the modal popup, triggers an agent status update
+     *
+     */
     onModalAccept: function(e) {
       e.preventDefault();
       var user_id = e.currentTarget.value;
@@ -360,33 +368,32 @@
     },
 
     /*
-    * Abort changes and reset
-    *
-    * parameters: the click event for the modal cancel button
-    *
-    */
-    onModalCancel: function(e) {
-    },
+     * Abort changes and reset
+     *
+     * parameters: the click event for the modal cancel button
+     *
+     */
+    onModalCancel: function(e) {},
 
     /*
-    * Conditionally change agent status to whatever it isn't set to currently
-    *
-    * paramaters: user_id of agent to be set
-    * return: true if set to away, false if set to available
-    * Side Effects: Notifications, re-renders the UI, updates the agent specified
-    * to invert their current OOO status
-    *
-    */
+     * Conditionally change agent status to whatever it isn't set to currently
+     *
+     * paramaters: user_id of agent to be set
+     * return: true if set to away, false if set to available
+     * Side Effects: Notifications, re-renders the UI, updates the agent specified
+     * to invert their current OOO status
+     *
+     */
     toggleStatus: function(user_id) {
       this.ajax('getSingleAgent', user_id)
         .done(function(data) {
           var user = data.user;
           this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo) //side effect
-            .done(_.bind(function() {
-              this.notifySuccess();
-              this.refreshLocation();
-              this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
-            }, this))
+          .done(_.bind(function() {
+            this.notifySuccess();
+            this.refreshLocation();
+            this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
+          }, this))
             .fail(_.bind(function() {
               this.notifyFail(); //side effect
             }, this));
@@ -401,19 +408,18 @@
         .done(_.bind(function(triggerdata) {
           var conditions = triggerdata.trigger.conditions;
           var any = conditions.any;
-          if(away_status === true) {
+          if (away_status === true) {
             var new_any = {
-              "field":"assignee_id",
-              "operator":"is",
+              "field": "assignee_id",
+              "operator": "is",
               "value": user_id
             };
             var addTrigger = triggerdata;
             addTrigger.trigger.conditions.any.push(new_any);
             console.log(addTrigger);
             this.ajax('modifyTrigger', trigger_id, addTrigger);
-          }
-          else {
-            var newdata = _.filter(any,function(object){
+          } else {
+            var newdata = _.filter(any, function(object) {
               return object.value !== user_id;
             });
             var removeTrigger = triggerdata;
@@ -428,12 +434,12 @@
     },
 
     /*
-    * Selects which location to rended based on app context
-    * then calls the render for either the navbar or user sidebar UI
-    *
-    * Side Effects: either renders the navbar or renders the user sidebar app UI
-    *
-    */
+     * Selects which location to rended based on app context
+     * then calls the render for either the navbar or user sidebar UI
+     *
+     * Side Effects: either renders the navbar or renders the user sidebar app UI
+     *
+     */
     refreshLocation: function() {
       if (this.currentLocation() == 'nav_bar') {
         this.renderNavBar(); //side effect
@@ -443,14 +449,14 @@
     },
 
     /*
-    * Checks if a filter has been entered
-    * calls the render method
-    * TODO: merge with renderFilter and/or refactor to better split functionality
-    *
-    * parameters: the keyup function object
-    * Side Effects: either renders an unfiltered nav bar app UI or updates the UI with a filter
-    *
-    */
+     * Checks if a filter has been entered
+     * calls the render method
+     * TODO: merge with renderFilter and/or refactor to better split functionality
+     *
+     * parameters: the keyup function object
+     * Side Effects: either renders an unfiltered nav bar app UI or updates the UI with a filter
+     *
+     */
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
@@ -461,46 +467,46 @@
     },
 
     /*
-    * Filters the user list by name or email
-    * then updates the view with the new list
-    *
-    * parameters: the string that is filtered for
-    * Side Effects: replaces the #agent_list section with the filtered user list
-    *
-    */
+     * Filters the user list by name or email
+     * then updates the view with the new list
+     *
+     * parameters: the string that is filtered for
+     * Side Effects: replaces the #agent_list section with the filtered user list
+     *
+     */
     renderFilter: function(filter) {
       var users = _.filter(this.users, function(user) {
-      return (user.name.indexOf(filter) > -1 || user.email.indexOf(
-      filter) > -1);
+        return (user.name.indexOf(filter) > -1 || user.email.indexOf(
+          filter) > -1);
       });
       var table_filtered = this.renderTemplate('filter', {
-      userlist: users
+        userlist: users
       });
       this.$('#agent_list').replaceWith(table_filtered); //side effect
     },
 
     /*
-    * Calls the createUserField request to generate the needed user fields
-    * TODO: create trigger as well
-    * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
-    *
-    * Side Effects: many notifications, create trigger, create user field
-    *
-    */
+     * Calls the createUserField request to generate the needed user fields
+     * TODO: create trigger as well
+     * TODO: Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+     *
+     * Side Effects: many notifications, create trigger, create user field
+     *
+     */
     installApp: function() {
       this.ajax('createUserField') //side effect
-        .done(_.bind(function(data) {
-          services.notify('Successfully added required user fields.'); //side effect
-        }, this))
+      .done(_.bind(function(data) {
+        services.notify('Successfully added required user fields.'); //side effect
+      }, this))
         .fail(_.bind(function() {
           this.notifyFail(); //side effect
         }, this));
       this.ajax('createTrigger') //side effet
-        .done(_.bind(function(data) {
-          services.notify('Successfully added required trigger.');
-          var trigger_id = data.trigger.id;
-          this.addSetting('triggerID', trigger_id);// Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
-        }, this))
+      .done(_.bind(function(data) {
+        services.notify('Successfully added required trigger.');
+        var trigger_id = data.trigger.id;
+        this.addSetting('triggerID', trigger_id); // Need to grab the trigger ID and add it to the settings so when we add users to ANY we know what trigger to grab.
+      }, this))
         .fail(_.bind(function() {
           this.notifyFail(); //side effect
         }, this));
@@ -508,10 +514,10 @@
 
     //TODO: docs
     addSetting: function(setting_name, setting_value) {
-      if(setting_name == 'triggerID') {
+      if (setting_name == 'triggerID') {
         var data = {
           "settings": {
-            "triggerID":setting_value
+            "triggerID": setting_value
           }
         };
         this.ajax('modifySettings', data);
@@ -519,12 +525,12 @@
     },
 
     /*
-    * Check to see if the app has the required agent fields
-    * TODO: check for trigger as well
-    *
-    * Side Effects: Notification, will install the app if the check fails
-    *
-    */
+     * Check to see if the app has the required agent fields
+     * TODO: check for trigger as well
+     *
+     * Side Effects: Notification, will install the app if the check fails
+     *
+     */
     checkInstalled: function() {
       return this.promise(
         function(done, fail) {
@@ -537,9 +543,9 @@
                     field.type == 'checkbox' && field.tag == 'agent_ooo');
                 }).value();
 
-              if (!filtered_fields.length) {  //currently only tests for user field. Will need to test for trigger and create the resource that doesn't currently exist.
-                services.notify("Required user fields not present", 'error');  //side effect
-                this.installApp();  //side effect
+              if (!filtered_fields.length) { //currently only tests for user field. Will need to test for trigger and create the resource that doesn't currently exist.
+                services.notify("Required user fields not present", 'error'); //side effect
+                this.installApp(); //side effect
                 fail();
               } else {
                 done();
@@ -549,12 +555,12 @@
     },
 
     /*
-    * If agent is set to away and submits a ticket update, warn them to set their status to available
-    *
-    * return: a promise that checks if the assignee is out of office, and prevents saving with a modal
-    * Side Effects: Creates a modal popup if the agent has a ticket assigned to them while away
-    *
-    */
+     * If agent is set to away and submits a ticket update, warn them to set their status to available
+     *
+     * return: a promise that checks if the assignee is out of office, and prevents saving with a modal
+     * Side Effects: Creates a modal popup if the agent has a ticket assigned to them while away
+     *
+     */
     warnOnSave: function() {
       return this.promise(function(done, fail) {
         var ticket = this.ticket();
@@ -566,19 +572,20 @@
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
-                "Cancel", "Switch agent status", null);  //side effect
-              
+                "Cancel", "Switch agent status", null); //side effect
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
-                this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
+                this.$('.modalAccept').on('click', _.bind(this.onModalAccept,
+                  this)); //rebind to the default
                 fail();
               }, this));
               this.$('.modalCancel').on('click', _.bind(function() {
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
-                this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
+                this.$('.modalCancel').on('click', _.bind(this.onModalCancel,
+                  this)); //rebind to the default
                 done();
               }, this));
 
@@ -627,11 +634,11 @@
     },
 
     /*
-    * inform user that they must refresh the page
-    *
-    * Side Effects: Notification
-    *
-    */
+     * inform user that they must refresh the page
+     *
+     * Side Effects: Notification
+     *
+     */
     notifySuccess: function() {
       services.notify(
         'Your updates were successful. A refresh may be required to see these changes in Zendesk.'
@@ -639,27 +646,27 @@
     },
 
     /*
-    * generic failure notification
-    *
-    * Side Effects: Notification
-    *
-    */
+     * generic failure notification
+     *
+     * Side Effects: Notification
+     *
+     */
     notifyFail: function() {
       services.notify(
         'There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.',
-        'error');  //side effect
+        'error'); //side effect
     },
 
     /*
-    * Invalid assignment message
-    *
-    * Side Effects: Notification
-    *
-    */
+     * Invalid assignment message
+     *
+     * Side Effects: Notification
+     *
+     */
     notifyInvalid: function() {
       services.notify(
         'This agent is currently out of the office. Please assign to another agent',
-        'error');  //side effect
+        'error'); //side effect
     }
 
   };
