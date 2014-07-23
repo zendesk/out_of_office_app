@@ -324,7 +324,7 @@
             console.log('accept');
             this.toggleStatus(user.id);
             this.$('.mymodal').modal('hide');
-            this.$('.modalAccept').off('click'); 
+            this.$('.modalAccept').off('click');
             this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
           }, this));
         });
@@ -464,7 +464,7 @@
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
-        this.renderFilter(entry); //side effect
+        this.renderFilter(entry.toLowerCase()); //side effect
       } else {
         this.renderNavBar(); //side effect
       }
@@ -485,7 +485,7 @@
         hasPermission = true;
       }
       var users = _.filter(this.users, function(user) {
-        return (user.name.indexOf(filter) > -1 || user.email.indexOf(
+        return (user.name.toLowerCase().indexOf(filter) > -1 || user.email.toLowerCase().indexOf(
           filter) > -1);
       });
       var table_filtered = this.renderTemplate('filter', {
@@ -586,7 +586,7 @@
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
-                this.$('.modalAccept').off('click'); 
+                this.$('.modalAccept').off('click');
                 this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
@@ -594,7 +594,7 @@
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
-                this.$('.modalCancel').off('click'); 
+                this.$('.modalCancel').off('click');
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
                 done();
               }, this));
