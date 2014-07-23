@@ -40,8 +40,6 @@ th, td {
   border-color: dark;
   font-color: #ccc;
   width: 160px;
-  float: right;
-  
 }
 
 .btn.btn-busy.status-toggle {

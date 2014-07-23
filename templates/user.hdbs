@@ -7,21 +7,15 @@ display availability button group, with current status as selected and disabled 
   {{#unless user.restricted_agent}}
   <div class="btn-group status">
     {{#if user.user_fields.agent_ooo}}
-      <button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>
-      <button class="btn btn-busy btn-primary red">Unavailable</button>
+      {{#if permission}}<button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>{{/if}}
+      <button class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
     {{else}}
-      <button class="btn btn-available green btn-primary">Available</button>
-      <button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>
+      <button class="btn btn-available green btn-primary {{#unless permission}}disabled{{/unless}}">Available</button>
+      {{#if permission}}<button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>{{/if}}
     {{/if}}
+    </div>
   {{/unless}}
 {{else}}
   <p>This user is not an assignable agent.</p>
-{{/if}}
-<button class="btn date dateStart">July 2nd, 2014</button>
-<button class="btn date dateEnd">July 3rd, 2014</button>
 </div>
-<footer>
-  <p class="creators">Crafted by the <a href="mailto:{{author.email}}">
-    {{author.name}}
-  </a></p>
-</footer>
+{{/if}}

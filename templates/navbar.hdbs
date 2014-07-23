@@ -7,7 +7,9 @@
         <th>Name</th>
         <th>Email</th>
         <th>Status</th>
+        {{#if permission}}
         <th>Action</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -21,13 +23,11 @@
             {{else}}
             <td class="available"><span class="label label-success">Here</span></td>
             {{/if}}
-            <td><button class="btn status-toggle navbar" value="{{id}}">
-            {{#if user_fields.agent_ooo}}
-            Edit
-            {{else}}
-            Edit
+            {{#if permission}}
+            <td>
+            <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
+            </td>
             {{/if}}
-            </button></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
           </tr>
         {{/unless}}
