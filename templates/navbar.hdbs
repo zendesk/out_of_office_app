@@ -23,7 +23,7 @@
             {{else}}
             <td class="available"><span class="label label-success">Here</span></td>
             {{/if}}
-            {{#if permission}}
+            {{#if ../../permission}}
             <td>
             <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
             </td>
