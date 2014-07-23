@@ -479,12 +479,18 @@
      *
      */
     renderFilter: function(filter) {
+      var currentUser = this.currentUser();
+      var hasPermission = false;
+      if (currentUser.role() == 'admin'){
+        hasPermission = true;
+      }
       var users = _.filter(this.users, function(user) {
         return (user.name.indexOf(filter) > -1 || user.email.indexOf(
           filter) > -1);
       });
       var table_filtered = this.renderTemplate('filter', {
-        userlist: users
+        userlist: users,
+        permission: hasPermission,
       });
       this.$('#agent_list').replaceWith(table_filtered); //side effect
     },
