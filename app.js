@@ -324,7 +324,7 @@
             console.log('accept');
             this.toggleStatus(user.id);
             this.$('.mymodal').modal('hide');
-            this.$('.modalAccept').off('click'); 
+            this.$('.modalAccept').off('click');
             this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
           }, this));
         });
@@ -406,7 +406,6 @@
 
     //TODO: docs
     toggleTrigger: function(user_id, away_status) {
-      console.log(away_status);
       var trigger_id = this.setting('triggerID');
       this.ajax('getTriggerData', trigger_id)
         .done(_.bind(function(triggerdata) {
@@ -420,7 +419,6 @@
             };
             var addTrigger = triggerdata;
             addTrigger.trigger.conditions.any.push(new_any);
-            console.log(addTrigger);
             this.ajax('modifyTrigger', trigger_id, addTrigger);
           } else {
             var newdata = _.filter(any, function(object) {
@@ -428,8 +426,7 @@
             });
             var removeTrigger = triggerdata;
             removeTrigger.trigger.conditions.any = newdata;
-            console.log(removeTrigger);
-            this.ajax('modifyTrigger', 46928886, removeTrigger);
+            this.ajax('modifyTrigger', trigger_id, removeTrigger);
           }
         }, this))
         .fail(_.bind(function() {
@@ -464,7 +461,7 @@
     filterAgents: function(e) {
       var entry = e.currentTarget.value;
       if (entry.length) {
-        this.renderFilter(entry); //side effect
+        this.renderFilter(entry.toLowerCase()); //side effect
       } else {
         this.renderNavBar(); //side effect
       }
@@ -479,12 +476,18 @@
      *
      */
     renderFilter: function(filter) {
+      var currentUser = this.currentUser();
+      var hasPermission = false;
+      if (currentUser.role() == 'admin'){
+        hasPermission = true;
+      }
       var users = _.filter(this.users, function(user) {
-        return (user.name.indexOf(filter) > -1 || user.email.indexOf(
+        return (user.name.toLowerCase().indexOf(filter) > -1 || user.email.toLowerCase().indexOf(
           filter) > -1);
       });
       var table_filtered = this.renderTemplate('filter', {
-        userlist: users
+        userlist: users,
+        permission: hasPermission,
       });
       this.$('#agent_list').replaceWith(table_filtered); //side effect
     },
@@ -580,7 +583,7 @@
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
-                this.$('.modalAccept').off('click'); 
+                this.$('.modalAccept').off('click');
                 this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
@@ -588,7 +591,7 @@
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
-                this.$('.modalCancel').off('click'); 
+                this.$('.modalCancel').off('click');
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
                 done();
               }, this));

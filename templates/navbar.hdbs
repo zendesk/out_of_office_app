@@ -23,11 +23,11 @@
             {{else}}
             <td class="available size"><span class="label label-success">Here</span></td>
             {{/if}}
-            <!--{{#if permission}}
-            {{/if}}-->
-            <td><button class="btn status-toggle navbar" value="{{id}}">
-            Edit
-            </button></td>
+            {{#if ../../permission}}
+            <td>
+            <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
+            </td>
+            {{/if}}
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
           </tr>
         {{/unless}}
