@@ -16,12 +16,12 @@
       {{#userlist}}
         {{#unless restricted_agent}}
           <tr id="{{id}}">
-            <td><a href="#/users/{{id}}">{{name}}</a></td>
-            <td>{{email}}</td>
+            <td class="size"><a href="#/users/{{id}}">{{name}}</a></td>
+            <td class="size">{{email}}</td>
             {{#if user_fields.agent_ooo}}
-            <td class="unavailable"><span class="label label-important">Away</span></td>
+            <td class="unavailable size"><span class="label label-important">Away</span></td>
             {{else}}
-            <td class="available"><span class="label label-success">Here</span></td>
+            <td class="available size"><span class="label label-success">Here</span></td>
             {{/if}}
             {{#if ../../permission}}
             <td>
