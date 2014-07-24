@@ -4,6 +4,7 @@
 
 table#agent_list.table {
   margin-bottom: -10px;
+  margin-top: -6px;
 }
 
 th, td {
@@ -12,8 +13,26 @@ th, td {
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
-  padding: 15px 8px 8px 8px;
+  padding: 12px 8px 12px 8px;
   width: 20%;
+  border-style: dashed;
+}
+
+th {
+  font-size: 18px;
+}
+
+td.size {
+  padding-top: 18px;
+  font-size: 16px;
+}
+
+#available {
+  color: white;
+}
+
+#unavailable {
+  color: white;
 }
 
 .borderStyle {
@@ -23,7 +42,7 @@ th, td {
 .btn {
   padding: 20px 0px;
   font-weight: 450;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .btn-available {
@@ -31,19 +50,11 @@ th, td {
   border-radius: 3px;
 }
 
-.button.btn-available.status-toggle {
-  background-color: #ddd;
-}
-
 .btn.btn-busy.btn-primary.red {
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
   width: 160px;
-}
-
-.btn.btn-busy.status-toggle {
-  background-color: #ddd;
 }
 
 .btn.btn-cancel.modalCancel {
@@ -59,6 +70,8 @@ th, td {
   font-color: #fff;
   float: right;
   width: 242px;
+  padding: 0px;
+  margin-right: 8px;
 }
 
 .button.btn.status-toggle {
@@ -72,7 +85,7 @@ th, td {
   border-radius: 3px;
 }
 
-.btn.date {
+/*.btn.date {
   margin-top: 15px;
   padding: 10px;
   border-radius: 8px;
@@ -91,14 +104,13 @@ th, td {
   float: left;
   margin-right: 2px;
   margin-left: 1px;
-}
+}*/
 
 .btn.status-toggle.navbar {
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
   padding: 4px 8px;
-  margin-bottom: 6px;
 }
 
 .button.btn.status-toggle.navbar {
@@ -117,6 +129,24 @@ th, td {
   margin-top: 30px;
   padding-left: 18px;
   padding-right: 18px;
+  padding-top: 2px;
+  font-size: 16px;
+}
+
+.label.label-success {
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+.modal p {
+  font-size: 16px;
+  padding-bottom: 0px;
+}
+
+.modal-header.modalHeaderPosition {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .users-name {

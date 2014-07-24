@@ -310,15 +310,15 @@
           var user = data.user;
           var agent_away = user.user_fields.agent_ooo;
           if (agent_away === false) {
-            this.popModal("Please Confirm Status Change",
+            this.popModal("Please confirm status change",
               "<p>This action will reassign " + user.name +
               "'s open tickets and change their status to away.</p>",
-              "Mark as Unavailable", "Cancel", user_id); //side effect
+              "<p style=\"color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Unavailable</p>", "Cancel", user_id); //side effect
           } else if (agent_away === true) {
-            this.popModal("Please Confirm Status Change",
+            this.popModal("Please confirm status change",
               "<p>This action will mark " + user.name +
               " as available and allow tickets to be assigned.</p>",
-              "Mark as Available", "Cancel", user_id); //side effect
+              "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Available</p>", "Cancel", user_id); //side effect
           }
           this.$('.modalAccept').on('click', _.bind(function() {
             console.log('accept');

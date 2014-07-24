@@ -9,7 +9,7 @@
 
 <!--Modal for confirming change of status -->
  <div class="modal hide fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-header">
+   <div class="modal-header modalHeaderPosition">
      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
      <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
      <h3 class="modal-header">Header Text</h3>

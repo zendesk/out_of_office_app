@@ -8,9 +8,9 @@ display availability button group, with current status as selected and disabled 
   <div class="btn-group status">
     {{#if user.user_fields.agent_ooo}}
       {{#if permission}}<button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>{{/if}}
-      <button class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
+      <button id="unavailable" class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
     {{else}}
-      <button class="btn btn-available green btn-primary {{#unless permission}}disabled{{/unless}}">Available</button>
+      <button id="available" class="btn btn-available green btn-primary{{#unless permission}}disabled{{/unless}}">Available</button>
       {{#if permission}}<button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>{{/if}}
     {{/if}}
     </div>
