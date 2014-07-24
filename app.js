@@ -320,6 +320,7 @@
               " as available and allow tickets to be assigned.</p>",
               "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Available</p>", "Cancel", user_id); //side effect
           }
+          this.$('.modalAccept').off('click');
           this.$('.modalAccept').on('click', _.bind(function() {
             console.log('accept');
             this.toggleStatus(user.id);
@@ -580,6 +581,8 @@
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
                 "Cancel", "Switch agent status", null); //side effect
+
+              this.$('.modalAccept').off('click');
               this.$('.modalAccept').on('click', _.bind(function() {
                 console.log('accept');
                 this.$('.mymodal').modal('hide');
@@ -587,6 +590,8 @@
                 this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
+
+              this.$('.modalAccept').off('click');
               this.$('.modalCancel').on('click', _.bind(function() {
                 console.log('modalCancel');
                 this.toggleStatus(data.user.id);
