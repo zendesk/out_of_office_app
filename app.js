@@ -183,7 +183,7 @@
         return {
           type: 'PUT',
           url: "/api/v2/apps/installations/%@.json".fmt(this.installationId()),
-          dataType: 'JSON',
+          contentType: 'application/json',
           data: JSON.stringify(data)
         };
       }
