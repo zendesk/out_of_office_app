@@ -137,15 +137,12 @@
               "position": 0,
               "conditions": {
                 "all": [
-                {
-                  "field": "status",
-                  "operator": "value_previous",
-                  "value": "pending"
-                }, {
-                  "field": "status",
-                  "operator": "not_value",
-                  "value": "solved"
-                }],
+                  {
+                    "field": "status",
+                    "operator": "not_value",
+                    "value": "solved"
+                  }
+                ],
                 "any": []
               },
               "actions": [{
