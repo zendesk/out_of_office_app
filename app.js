@@ -136,11 +136,8 @@
               "active": true,
               "position": 0,
               "conditions": {
-                "all": [{
-                  "field": "current_tags",
-                  "operator": "includes",
-                  "value": "agent_ooo" //we can grab this from settings maybe, if necessary...
-                }, {
+                "all": [
+                {
                   "field": "status",
                   "operator": "value_previous",
                   "value": "pending"
