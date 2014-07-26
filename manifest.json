@@ -9,7 +9,7 @@
   "defaultLocale": "en",
   "private": true,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
-  "noTemplate": ["new_ticket_sidebar", "ticket_sidebar"],
+  //"noTemplate":["ticket_sidebar","new_ticket_sidebar"], //disabled for ZAT time
   "version": "0.1",
   "frameworkVersion": "1.0",
   "parameters": [

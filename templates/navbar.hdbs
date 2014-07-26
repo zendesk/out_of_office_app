@@ -4,11 +4,11 @@
   <table id="agent_list" class="table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
+        <th class="srt_header"><span>Name</span></th>
+        <th class="srt_header"><span>Email</span></th>
+        <th class="srt_header"><span>Status</span></th>
         {{#if permission}}
-        <th>Action</th>
+        <th class="no sort header">Action</th>
         {{/if}}
       </tr>
     </thead>

@@ -1,14 +1,3 @@
-  <table id="agent_list" class="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-        {{#if permission}}
-        <th>Action</th>
-        {{/if}}
-      </tr>
-    </thead>
     <tbody>
       {{#userlist}}
         {{#unless restricted_agent}}
@@ -30,4 +19,3 @@
         {{/unless}}
       {{/userlist}}
     </tbody>
-  </table>
