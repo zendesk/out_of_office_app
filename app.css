@@ -18,9 +18,35 @@ th, td {
   border-style: dashed;
 }
 
-th {
+th, th span {
   font-size: 18px;
+  position: relative;
 }
+
+th span:before {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  width: 7px;
+  height: 9px;
+  margin-top:-4px;
+  background: transparent app-asset-url("sorty.png") 0 0;
+}
+
+th.asc span:before {
+  background: transparent app-asset-url("sorty.png") -8px 0px;
+}
+
+th.desc span:before {
+  background: transparent app-asset-url("sorty.png") 8px 0px;
+}
+
+th.asc, th.desc {
+  background: #eee;
+}
+
 
 td.size {
   padding-top: 18px;

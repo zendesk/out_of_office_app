@@ -19,6 +19,7 @@
       'click .status-toggle': 'confirmAgentStatus',
       'keyup #filter_search': 'filterAgents',
       'ticket.save': 'warnOnSave',
+      'click .srt_header': 'toggleSort'
 
     },
 
@@ -472,6 +473,7 @@
      */
     renderFilter: function(filter) {
       var currentUser = this.currentUser();
+      var currentSort = this.$('#agent_list thead .current');
       var hasPermission = false;
       if (currentUser.role() == 'admin'){
         hasPermission = true;
@@ -480,11 +482,55 @@
         return (user.name.toLowerCase().indexOf(filter) > -1 || user.email.toLowerCase().indexOf(
           filter) > -1);
       });
+      if (currentSort.length > 0){
+        var sortValue = this.$(currentSort).find('span').text();
+        var sortOrder = this.$(currentSort).prop('className').split(' ')[2];
+        var sortedUsers = _.sortBy(users, function(user){
+          if (sortValue == 'Name'){
+            return user.name.toLowerCase().split(' ')[0];
+          }
+          else if (sortValue == 'Email') {
+            return user.email.toLowerCase().split('@')[0];
+          }
+          else if (sortValue == 'Status') {
+            return user.user_fields.agent_ooo;
+          }
+
+        });
+        if (sortOrder == 'desc') sortedUsers = sortedUsers.reverse();
+        users = sortedUsers;
+      }
+
       var table_filtered = this.renderTemplate('filter', {
         userlist: users,
         permission: hasPermission,
       });
-      this.$('#agent_list').replaceWith(table_filtered); //side effect
+      this.$('#agent_list tbody').replaceWith(table_filtered); //side effect
+    },
+
+    toggleSort: function(e) {
+      e.preventDefault();
+      var entry = e.currentTarget.value;
+      var target_header = e.currentTarget;
+      var target_class = this.$(target_header).prop('className').split(' ');
+      if(target_class.length === 1 && target_class[0] == 'srt_header') {
+        var header_array = this.$('#agent_list thead tr th.srt_header'); // all headers
+        _.each(header_array, _.bind(function(head){  //  Make each header class blank then add orig
+          this.$(head).toggleClass().addClass('srt_header');
+
+        }, this));
+        this.$(target_header).addClass('current asc'); //then make our current class the correct sort
+      }
+      else{
+        this.$(target_header).toggleClass("asc desc");
+      }
+      var entry = this.$('#filter_search').prop('value');
+      if (entry.length > 0) {
+        this.renderFilter(entry.toLowerCase());
+      }
+      else {
+        this.renderFilter('');
+      }
     },
 
     /*
