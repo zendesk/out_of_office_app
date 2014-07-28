@@ -11,6 +11,7 @@
       'app.activated': 'init',
       'pane.activated': 'renderNavBar',
       'pane.deactivated': 'renderUser',
+      'ticket.assignee.user.id.changed': 'renderTicket',
 
       // UI
       'click .modalAccept': 'onModalAccept',
@@ -192,7 +193,12 @@
      */
     init: function() {
       this.checkInstalled();
-      this.renderUser();
+      if (this.currentLocation() == 'user_sidebar') {
+        this.renderUser();
+      }
+      else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() ==  'new_ticket_sidebar') {
+        this.renderTicket();
+      }
     },
 
     /*
@@ -286,6 +292,26 @@
       } else {
         this.switchTo('user', {
           user: null
+        });
+      }
+    },
+
+    renderTicket: function() {
+      if(this.ticket().assignee().user() !== undefined) {
+        var assignee_id = this.ticket().assignee().user().id();
+        this.ajax('getSingleAgent', assignee_id)
+        .done(function(data){
+          this.switchTo('ticket', {
+            assignee: data.user
+          });
+        })
+        .fail(function(){
+          this.notifyFail();
+        });
+      }
+      else {
+        this.switchTo('ticket', {
+          none: 'none'
         });
       }
     },
@@ -442,6 +468,8 @@
         this.renderNavBar(); //side effect
       } else if (this.currentLocation() == 'user_sidebar') {
         this.renderUser(); //side effect
+      } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+        this.renderTicket();
       }
     },
 
@@ -524,7 +552,7 @@
       else{
         this.$(target_header).toggleClass("asc desc");
       }
-      var entry = this.$('#filter_search').prop('value');
+      entry = this.$('#filter_search').prop('value');
       if (entry.length > 0) {
         this.renderFilter(entry.toLowerCase());
       }

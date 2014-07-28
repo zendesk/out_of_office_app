@@ -1,0 +1,14 @@
+<div id="ticket_dash">
+{{#if assignee}}
+<p>The assignee ({{assignee.name}}) is:&nbsp;
+{{#if assignee.user_fields.agent_ooo}}
+<span class="label label-important">Away</span>
+{{else}}
+<span class="label label-success">Available</span>
+{{/if}}
+</p>
+{{/if}}
+{{#if none}}
+<p>This ticket is not assigned to an agent</p>
+{{/if}}
+</div>
