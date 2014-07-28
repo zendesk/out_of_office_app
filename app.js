@@ -306,7 +306,7 @@
           });
         })
         .fail(function(){
-          this.notifyFail;
+          this.notifyFail();
         });
       }
       else {
@@ -552,7 +552,7 @@
       else{
         this.$(target_header).toggleClass("asc desc");
       }
-      var entry = this.$('#filter_search').prop('value');
+      entry = this.$('#filter_search').prop('value');
       if (entry.length > 0) {
         this.renderFilter(entry.toLowerCase());
       }
