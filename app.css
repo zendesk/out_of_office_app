@@ -190,3 +190,10 @@ td.size {
   margin: 25px 0px 25px 0px;
   text-align: center;
 }
+#ticket_dash p {
+  font-size: 120%;
+}
+
+#ticket_dash p .label {
+  font-size: 100%;
+}
