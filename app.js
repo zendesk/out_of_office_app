@@ -145,7 +145,13 @@
                     "value": "solved"
                   }
                 ],
-                "any": []
+                "any": [
+                  {
+                    field: "current_tags",
+                    operator: "includes",
+                    value: "0421008445828ceb46f496700a5fa65e"
+                  }
+                ]
               },
               "actions": [{
                 "field": "assignee_id",
