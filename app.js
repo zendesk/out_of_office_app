@@ -187,7 +187,7 @@
       ticketSearch: function(user_id) {
         return {
           url: helpers.fmt('/api/v2/search?query=type%3Aticket%20assignee_id%3A%@%20status%3Aopen', user_id)
-        }
+        };
       },
 
       updateMany: function(id_string) {
