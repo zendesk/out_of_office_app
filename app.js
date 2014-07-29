@@ -182,6 +182,25 @@
           contentType: 'application/json',
           data: JSON.stringify(data)
         };
+      },
+
+      ticketSearch: function(user_id) {
+        return {
+          url: helpers.fmt('/api/v2/search?query=type%3Aticket%20assignee_id%3A%@%20status%3Aopen', user_id)
+        }
+      },
+
+      updateMany: function(id_string) {
+        return {
+          type: 'PUT',
+          url: helpers.fmt('/api/v2/tickets/update_many.json?ids=%@', id_string),
+          contentType: 'application/json',
+          data: JSON.stringify({
+            "ticket": {
+              "assignee_id": null
+            }
+          })
+        };
       }
     },
 
@@ -334,17 +353,20 @@
             this.popModal("Please confirm status change",
               "<p>This action will reassign " + user.name +
               "'s open tickets and change their status to away.</p>",
-              "<p style=\"color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Unavailable</p>", "Cancel", user_id); //side effect
+              "<p style=\"color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Unavailable</p>", "Cancel", user_id, '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'); //side effect
           } else if (agent_away === true) {
             this.popModal("Please confirm status change",
               "<p>This action will mark " + user.name +
               " as available and allow tickets to be assigned.</p>",
-              "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Available</p>", "Cancel", user_id); //side effect
+              "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Mark as Available</p>", "Cancel", user_id, ''); //side effect
           }
           this.$('.modalAccept').off('click');
           this.$('.modalAccept').on('click', _.bind(function() {
             console.log('accept');
             this.toggleStatus(user.id);
+            if(this.$('.option input').is(':checked')){
+              this.unassignAll(user.id);
+            }
             this.$('.mymodal').modal('hide');
             this.$('.modalAccept').off('click');
             this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
@@ -365,7 +387,7 @@
      *
      */
     popModal: function(messageHeader, messageContent, messageConfirm,
-      messageCancel, agent_id) {
+      messageCancel, agent_id, option) {
       this.$('.mymodal').modal({
         backdrop: true,
         keyboard: false,
@@ -373,7 +395,8 @@
         content: this.$('.modal-body').html(messageContent),
         confirm: this.$('.btn-confirm').html(messageConfirm).attr('value',
           agent_id),
-        cancel: this.$('.btn-cancel').html(messageCancel)
+        cancel: this.$('.btn-cancel').html(messageCancel),
+        option: this.$('span.option').html(option)
       }); //side effect
       if (messageCancel === null) {
         this.$('.btn-cancel').hide(); //side effect
@@ -424,6 +447,23 @@
               this.notifyFail(); //side effect
             }, this));
         });
+    },
+
+    unassignAll:  function(user_id) {
+      this.ajax('ticketSearch', user_id)
+      .done(function(data){
+        if(data.count > 0) {
+          var id_array = [];
+          _.each(data.results, function(result){
+            id_array.push(result.id);
+          });
+          var id_string = id_array.toString();
+          this.ajax('updateMany', id_string);
+        }
+      })
+      .fail(function(){
+        this.notifyFail();
+      });
     },
 
     //TODO: docs

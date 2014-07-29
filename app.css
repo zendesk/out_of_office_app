@@ -197,3 +197,14 @@ td.size {
 #ticket_dash p .label {
   font-size: 100%;
 }
+
+button.btn-canel {
+  clear: both;
+}
+
+span.option {
+  display: block;
+  left: 0;
+  margin-bottom: 10px;
+  margin-right: 65%;
+}
