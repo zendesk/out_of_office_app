@@ -368,7 +368,6 @@
           }
           this.$('.modalAccept').off('click');
           this.$('.modalAccept').on('click', _.bind(function() {
-            console.log('accept');
             this.toggleStatus(user.id);
             if(this.$('.option input').is(':checked')){
               this.unassignAll(user.id);
@@ -694,20 +693,18 @@
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
-                "Cancel", "Switch agent status", null); //side effect
+                "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Cancel</p>", "Switch Agent Status", null, ''); //side effect
 
               this.$('.modalAccept').off('click');
               this.$('.modalAccept').on('click', _.bind(function() {
-                console.log('accept');
                 this.$('.mymodal').modal('hide');
                 this.$('.modalAccept').off('click');
                 this.$('.modalAccept').on('click', _.bind(this.onModalAccept, this)); //rebind to the default
                 fail();
               }, this));
 
-              this.$('.modalAccept').off('click');
+              this.$('.modalCancel').off('click');
               this.$('.modalCancel').on('click', _.bind(function() {
-                console.log('modalCancel');
                 this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
                 this.$('.modalCancel').off('click');
@@ -719,7 +716,6 @@
               done();
             }
           }, function() {
-            console.log('request failed but ticket.save shall pass');
             done();
           }
         );
