@@ -683,9 +683,11 @@
      *
      */
     warnOnSave: function() {
+      var ticket = this.ticket();
+      var assignee = ticket.assignee().user();
+      if(typeof(assignee) !== "undefined") {
       return this.promise(function(done, fail) {
-        var ticket = this.ticket();
-        var assignee = ticket.assignee().user();
+
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
             if (data.user.user_fields.agent_ooo) {
@@ -720,6 +722,9 @@
           }
         );
       });
+    } else {
+      return true;
+    }
     },
 
     //TODO: docs
