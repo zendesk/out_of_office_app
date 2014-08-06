@@ -691,7 +691,7 @@
         var assignee = ticket.assignee().user();
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
-            if (data.user.user_fields.agent_ooo) {
+            if (data.user.user_fields.agent_ooo === true) { //  added to check for true value rather than existance of field.
 
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
