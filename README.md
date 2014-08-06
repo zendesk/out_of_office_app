@@ -6,16 +6,17 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 ## Features
 
-* On install, the app will create a trigger, which uses a custom tag to unassign any tickets which are updated while unsolved, and assigned to an unavailable agent, back to the parent group as unassigned.  
-* Setting an agent to unavailable will add the tag for the trigger to their unsolved tickets.  
+* On install, the app will create a trigger, which adds a user as a condition to unassign any tickets which are updated while unsolved, and assigned to an unavailable agent, back to the parent group as unassigned.  
+* Setting an agent to unavailable will add the user to the trigger so updates to their tickets unassign said tickets.  
 * Admins can view availability, as well as edit agents' status to make them available or unavailable from the user sidebar or navbar
 * Agents can set themselves available or unavailable from their user profile via the user sidebar location
 * Agents and Admins can view a ticket's assigned agent's current vacation status from within any ticket on the ticket apps panel
 * (Optional) When setting an agent as unavailable from the nav bar location, the admin can unassign all currently open tickets assigned to that agent back to the parent group
+* Setting the agent back to available removes them from the trigger
 
 ## Locations
 
-The app has three locations: nav bar, user sidebar, and ticket sidebar.  The nav bar can be viewed by all agents/admins, but the agent statuses can only be edited by admins. The user sidebar location is editable by the agents setting themselves on vacation, or admins.  The ticket sidebar is read-only, to simply display the currently assigned agent's status. 
+The app has three locations: nav bar, user sidebar, and ticket sidebar.  The nav bar can be viewed by all agents/admins, but the agent statuses can only be edited by admins. The user sidebar location is editable by the agents setting themselves on vacation, or admins.  The ticket sidebar is read-only, to simply display the currently assigned agent's status.
 
 ## Screenshots
 
