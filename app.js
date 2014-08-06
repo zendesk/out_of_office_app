@@ -683,11 +683,12 @@
      *
      */
     warnOnSave: function() {
-      var ticket = this.ticket();
-      var assignee = ticket.assignee().user();
-      if(typeof(assignee) !== "undefined") {
+      var ticket1 = this.ticket(); // janky but possibly a fix for Jeremiah's issue.
+      var assignee1 = ticket1.assignee().user();
+      if(typeof(assignee1) !== "undefined") {
       return this.promise(function(done, fail) {
-
+        var ticket = this.ticket();
+        var assignee = ticket.assignee().user();
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
             if (data.user.user_fields.agent_ooo) {
