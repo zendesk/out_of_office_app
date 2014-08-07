@@ -444,9 +444,9 @@
           var user = data.user;
           this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo) //side effect
           .done(_.bind(function() {
+            this.toggleTrigger(user_id, !user.user_fields.agent_ooo); // moved this to before refreshlocation to prevent race conditions.
             this.notifySuccess();
             this.refreshLocation();
-            this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
           }, this))
             .fail(_.bind(function() {
               this.notifyFail(); //side effect
@@ -683,19 +683,20 @@
      *
      */
     warnOnSave: function() {
-      var ticket = this.ticket();
-      var assignee = ticket.assignee().user();
-      if(typeof(assignee) !== "undefined") {
+      var ticket1 = this.ticket(); // janky but possibly a fix for Jeremiah's issue.
+      var assignee1 = ticket1.assignee().user();
+      if(typeof(assignee1) !== "undefined") {
       return this.promise(function(done, fail) {
-
+        var ticket = this.ticket();
+        var assignee = ticket.assignee().user();
         this.ajax('getSingleAgent', assignee.id()).then(
           function(data) {
-            if (data.user.user_fields.agent_ooo) {
+            if (data.user.user_fields.agent_ooo === true) { //  added to check for true value rather than existance of field.
 
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
-                "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Cancel</p>", "Switch Agent Status", null, ''); //side effect
+                "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Cancel</p>", "<a href='#/users/" + data.user.id + "'>Go to Agent Profile</a>", null, ''); //side effect
 
               this.$('.modalAccept').off('click');
               this.$('.modalAccept').on('click', _.bind(function() {
@@ -707,11 +708,10 @@
 
               this.$('.modalCancel').off('click');
               this.$('.modalCancel').on('click', _.bind(function() {
-                this.toggleStatus(data.user.id);
                 this.$('.mymodal').modal('hide');
                 this.$('.modalCancel').off('click');
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
-                done();
+                fail();
               }, this));
 
             } else {
