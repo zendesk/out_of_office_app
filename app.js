@@ -696,7 +696,7 @@
               this.popModal("Assignee is Unavailable",
                 "<p>The assignee you have selected: " + data.user.name +
                 " is currently marked as unavailable and cannot have tickets assigned to them.",
-                "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Cancel</p>", "Switch Agent Status", null, ''); //side effect
+                "<p style=\"color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px\">Cancel</p>", "<a href='#/users/" + data.user.id + "'>Go to Agent Profile</a>", null, ''); //side effect
 
               this.$('.modalAccept').off('click');
               this.$('.modalAccept').on('click', _.bind(function() {
@@ -708,11 +708,10 @@
 
               this.$('.modalCancel').off('click');
               this.$('.modalCancel').on('click', _.bind(function() {
-                this.toggleStatus(data.user.id);    // Can we create something like var pm = this.toggleStatus(data.user.id).done(function(){done()}); I hate this callback hell...
                 this.$('.mymodal').modal('hide');
                 this.$('.modalCancel').off('click');
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
-                done();
+                fail();
               }, this));
 
             } else {
