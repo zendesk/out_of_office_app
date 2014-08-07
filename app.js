@@ -444,9 +444,9 @@
           var user = data.user;
           this.ajax('setAgentStatus', user_id, !user.user_fields.agent_ooo) //side effect
           .done(_.bind(function() {
+            this.toggleTrigger(user_id, !user.user_fields.agent_ooo); // moved this to before refreshlocation to prevent race conditions.
             this.notifySuccess();
             this.refreshLocation();
-            this.toggleTrigger(user_id, !user.user_fields.agent_ooo);
           }, this))
             .fail(_.bind(function() {
               this.notifyFail(); //side effect
