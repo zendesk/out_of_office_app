@@ -708,7 +708,7 @@
 
               this.$('.modalCancel').off('click');
               this.$('.modalCancel').on('click', _.bind(function() {
-                this.toggleStatus(data.user.id);
+                this.toggleStatus(data.user.id);    // Can we create something like var pm = this.toggleStatus(data.user.id).done(function(){done()}); I hate this callback hell...
                 this.$('.mymodal').modal('hide');
                 this.$('.modalCancel').off('click');
                 this.$('.modalCancel').on('click', _.bind(this.onModalCancel, this)); //rebind to the default
