@@ -24,21 +24,21 @@ The app has three locations: nav bar, user sidebar, and ticket sidebar.  The nav
 
 Unavailable:
 
-![](http://content.screencast.com/users/AdamLobb/folders/Jing/media/e33dc957-3513-4cd5-a23d-55312a97c599/00000975.png)
+![](http://content.screencast.com/users/AL14/folders/Jing/media/e33dc957-3513-4cd5-a23d-55312a97c599/00000975.png)
 
 Available:
 
-![](http://content.screencast.com/users/AdamLobb/folders/Jing/media/1f0d27ac-a745-4350-b2e1-fb7840d27e15/00000976.png)
+![](http://content.screencast.com/users/AL14/folders/Jing/media/1f0d27ac-a745-4350-b2e1-fb7840d27e15/00000976.png)
 
 ####Ticket Sidebar:
 
 Unavailable:
 
-![](http://content.screencast.com/users/AdamLobb/folders/Jing/media/a42fa21e-b29a-4053-85cf-abf6fe70b1c7/00000978.png)
+![](http://content.screencast.com/users/AL14/folders/Jing/media/a42fa21e-b29a-4053-85cf-abf6fe70b1c7/00000978.png)
 
 Available:
 
-![](http://content.screencast.com/users/AdamLobb/folders/Jing/media/e18e2a60-fbf0-4370-87a2-bfe1b3a3b8cf/00000977.png)
+![](http://content.screencast.com/users/AL14/folders/Jing/media/e18e2a60-fbf0-4370-87a2-bfe1b3a3b8cf/00000977.png)
 
 ####Nav bar
 
@@ -52,4 +52,4 @@ Overview - status 'away':
 
 Confirmation popup when setting an agent on vacation, including the option to unassign all open tickets:
 
-![](http://content.screencast.com/users/AdamLobb/folders/Jing/media/84be3332-b1dc-4aae-ab41-a09f848cf0db/00000973.png)
+![](http://content.screencast.com/users/AL14/folders/Jing/media/84be3332-b1dc-4aae-ab41-a09f848cf0db/00000973.png)
