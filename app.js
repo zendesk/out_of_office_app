@@ -33,7 +33,7 @@
        * returns: a manifest object with a URL paramater for use by this.ajax
        *
        */
-      'getAllAgents': function(page) {
+      'getAllAgents': function(page) {  //need to change this so it actually uses groups -> assignable agents
         return {
           url: helpers.fmt(
             '/api/v2/users.json?role[]=agent&role[]=admin&page=%@', page)
