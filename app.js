@@ -217,6 +217,11 @@
      * will render the user sidebar app
      */
     init: function() {
+      this.require = require('context_loader')(this);
+      this._paginate = this.require('_paginate');
+      this.popmodal = this.require('popmodal');
+      this.fetchAllUsers = this.require('fetchAllUsers');
+      
       this.checkInstalled();
       if (this.currentLocation() == 'user_sidebar') {
         this.renderUser();
@@ -248,43 +253,7 @@
         this.$('#filter_search').focus(); //side effect
       }, this));
     },
-
-    /*
-     * calls a request that gets all agents in a paginated list
-     *
-     * returns: a promise that handles the API call
-     * Side Effects: a notification on failure
-     *
-     */
-    fetchAllUsers: function() {
-
-      return this.promise(
-        function(done, fail) {
-
-          this.users = [];
-
-          var fetchedUsers = this._paginate({
-            request: 'getAllAgents',
-            entity: 'users',
-            page: 1
-          });
-
-          fetchedUsers
-            .done(_.bind(
-              function(data) {
-                this.users = data;
-                done();
-              }, this))
-            .fail(_.bind(function() {
-              services.notify(
-                "Something went wrong and we couldn't reach the REST API to retrieve all user data",
-                'error'); //side effect
-            }, this));
-        }
-      );
-
-    },
-
+    
     /*
      * Fetch current user (if they exist) then switch to the user template
      *
@@ -380,34 +349,7 @@
 
     },
 
-    /*
-     * Generates the confirmation modal
-     *
-     * parameters: the header of the modal
-     * the content of the modal
-     * the text for the label of the confirm button
-     * optional text to replace the label of the cancel button
-     * Side Effects: creates a modal popup with the specified data,
-     * hides that modal's cancel button if none is speficied
-     *
-     */
-    popModal: function(messageHeader, messageContent, messageConfirm,
-      messageCancel, agent_id, option) {
-      this.$('.mymodal').modal({
-        backdrop: true,
-        keyboard: false,
-        header: this.$('.modal-header').text(messageHeader),
-        content: this.$('.modal-body').html(messageContent),
-        confirm: this.$('.btn-confirm').html(messageConfirm).attr('value',
-          agent_id),
-        cancel: this.$('.btn-cancel').html(messageCancel),
-        option: this.$('span.option').html(option)
-      }); //side effect
-      if (messageCancel === null) {
-        this.$('.btn-cancel').hide(); //side effect
-      }
-    },
-
+        
     /*
      * Changes the agent status on an accepted modal
      *
@@ -725,39 +667,6 @@
     } else {
       return true;
     }
-    },
-
-    //TODO: docs
-    //TODO: refactor params
-    _paginate: function(a) { //this just paginates our list of users...utility function.
-      var results = [];
-      var initialRequest = this.ajax(a.request, a.page);
-      var allPages = initialRequest.then(function(data) {
-        results.push(data[a.entity]);
-        var nextPages = [];
-        var pageCount = Math.ceil(data.count / 100);
-        for (; pageCount > 1; --pageCount) {
-          nextPages.push(this.ajax(a.request, pageCount));
-        }
-        return this.when.apply(this, nextPages).then(function() {
-          var entities = _.chain(arguments)
-            .flatten()
-            .filter(function(item) {
-              return (_.isObject(item) && _.has(item, a.entity));
-            })
-            .map(function(item) {
-              return item[a.entity];
-            })
-            .value();
-          results.push(entities);
-        }).then(function() {
-          return _.chain(results)
-            .flatten()
-            .compact()
-            .value();
-        });
-      });
-      return allPages;
     },
 
     /*
