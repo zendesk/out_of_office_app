@@ -14,7 +14,6 @@
     </thead>
     <tbody>
       {{#userlist}}
-        {{#unless restricted_agent}}
           <tr id="{{id}}">
             <td class="size"><a href="#/users/{{id}}">{{name}}</a></td>
             <td class="size">{{email}}</td>
@@ -30,7 +29,6 @@
             {{/if}}
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
           </tr>
-        {{/unless}}
       {{/userlist}}
     </tbody>
   </table>
