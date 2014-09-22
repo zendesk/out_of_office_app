@@ -1,123 +1,66 @@
 (function() {
 
-  return {
+    return {
 
-    defaultState: 'loading',
-    users: [],
+        defaultState: 'loading',
+        triggerTitle: 'out-of-office app trigger',
+        userFieldName: 'Agent Out?',
+        userFieldKey: 'agent_ooo',
 
-    events: {
+        events: require('events'), //magic happens here
 
-      // App
-      'app.activated': 'init',
-      'pane.activated': 'renderNavBar',
-      'pane.deactivated': 'renderUser',
-      'ticket.assignee.user.id.changed': 'renderTicket',
+        requests: require('requests'),
 
-      // UI
-      'click .modalAccept': 'onModalAccept',
-      'click .modalCancel': 'onModalCancel',
-      'click .set-status': 'toggleStatus',
-      'click .status-toggle': 'confirmAgentStatus',
-      'keyup #filter_search': 'filterAgents',
-      'ticket.save': 'warnOnSave',
-      'click .srt_header': 'toggleSort'
+        init: function(app) {
+            this.require = require('context_loader')(this);
+            if(app.firstLoad) {
+                this.install();
+            };
+            if (this.currentLocation() == 'nav_bar') {
+                this.ui().renderNavBar(); //side effect
+            } else if (this.currentLocation() == 'user_sidebar') {
+                this.ui().renderUser(); //side effect
+            } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+                this.ui().renderTicket();
+            }
+        },
 
-    },
+        ui: function() {
+            return this.require('ui');
+        },
 
-    requests: require('requests'),
-    
-    /*
-     * Ready variables and switch to user template
-     *
-     * Side Effects: will install the app if the required fields are not detected,
-     * will render the user sidebar app
-     */
-    init: function() {
-      this.require = require('context_loader')(this);
-      this.require('load_modules')();
+        install: function() {
+            var installApp = this.require('install_app');
+            this.require('fetch_data').checkInstalled().fail(installApp);
+        },
 
+        changeStatusMessage: function(user) {
+            return { 
+                available: {
+                    header:  'Please confirm status change',
+                    content: '<p>This action will mark ' + user.name + ' as available and allow tickets to be assigned.</p>',
+                    confirm: '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
+                    cancel:  'Cancel'
+                },
+                unavailable: {
+                    header:  'Please confirm status change',
+                    content: '<p>This action will reassign ' + user.name + '&#39;s open tickets and change their status to away.</p>',
+                    confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
+                    cancel:  'Cancel',
+                    options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
+                },
+            };
 
-      this.checkInstalled();
-      if (this.currentLocation() == 'user_sidebar') {
-        this.renderUser();
-      }
-      else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() ==  'new_ticket_sidebar') {
-        this.renderTicket();
-      }
-    },
+        },
 
-    renderNavBar: function() {
-      this.require = require('context_loader')(this);
-      this.require('load_modules')();
-      this.renderNavBar();
-    },
-
-
-    /*
-     * Selects which location to rended based on app context
-     * then calls the render for either the navbar or user sidebar UI
-     *
-     * Side Effects: either renders the navbar or renders the user sidebar app UI
-     *
-     */
-    refreshLocation: function() {
-      if (this.currentLocation() == 'nav_bar') {
-        this.renderNavBar(); //side effect
-      } else if (this.currentLocation() == 'user_sidebar') {
-        this.renderUser(); //side effect
-      } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
-        this.renderTicket();
-      }
-    },
- 
-
-    /*
-     * inform user that they must refresh the page
-     *
-     * Side Effects: Notification
-     *
-     */
-    notifySuccess: function() {
-      services.notify(
-        'Your updates were successful. A refresh may be required to see these changes in Zendesk.'
-      ); //side effect
-    },
-
-    /*
-     * generic failure notification
-     *
-     * Side Effects: Notification
-     *
-     */
-    notifyFail: function() {
-      services.notify(
-        'There was a problem communicating with Zendesks REST API. If a second try does not work, please contact the app developers for support.',
-        'error'); //side effect
-    },
-
-    /*
-     * Invalid assignment message
-     *
-     * Side Effects: Notification
-     *
-     */
-    notifyInvalid: function() {
-      services.notify(
-        'This agent is currently out of the office. Please assign to another agent',
-        'error'); //side effect
-    },
-    
-    renderUser: function() { this.renderUser();  },
-    renderTicket: function() { this.renderTicket(); },
-
-      // UI
-    onModalAccept: function(e) { this.onModalAccept(e);  },
-    onModalCancel: function(e) { this.onModalCancel(e);  },
-    toggleStatus: function(e) { this.toggleStatus(e);  },
-    confirmAgentStatus: function(e) { this.confirmAgentStatus(e);  },
-    filterAgents: function(e) { this.filterAgents();  },
-    warnOnSave: function(e) { this.warnOnSave();  },
-    toggleSort: function(e) { this.toggleSort(e);  }
-  };
+        saveHookMessage: function(user) {
+            return {
+                header:  'Assignee is Unavailable',
+                content: '<p>The assignee you have selected: ' + user.name + ' is currently marked as unavailable and cannot have tickets assigned to them.',
+                confirm: '<a href="#/users/' + user.id + '">Go to Agent Profile</a>',
+                cancel:  '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Cancel</p>', 
+            };
+        },
+    };
 
 }());

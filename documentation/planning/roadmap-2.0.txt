@@ -1,0 +1,20 @@
+Plan of Attack:
+
+- Break apart into minimal chunks (done)
+- Refactor individual funtions without worrying too hard about side effects
+    - Seperate UI calls and data manipulation
+    - Require explicit request for app framework where needed, none where irrelevant
+    - Make modules out of logic that isn't specific to app (modal, paginate, ???)
+    - Further refactor main app.js, improve event handling
+- Document functions, dependencies, and which items are app-framework reliant
+    - Investigate docstrings generator for JS?
+- Implement unit testing & mocking for functions which perform critical logic
+    - Ensure that app framework requirements don't bleed into where it isn't needed
+    - Nice to have as an option: Some sort of testing for UI elements as well (will be low priority)
+- Get everything back working to v1.0 functionality levels
+- Folow up with teammates for feedback & UI Polish
+- Squash bugs
+- Make Pull request to Master
+- Get everything back in sync
+- Tag as point release
+- Look at pending feature requests for v2

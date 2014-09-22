@@ -22,6 +22,10 @@
     "name": "triggerID",
     "type": "hidden",
     "value":""
-  }
+  },
+    { "name": "appTitle",
+      "type": "hidden",
+      "value": "ooo_app"
+    }
   ]
 }
