@@ -6,11 +6,32 @@
     triggerTitle: 'out-of-office app trigger',
     userFieldName: 'Agent Out?',
     userFieldKey: 'agent_ooo',
-    users: [],
 
     events: require('events'), //magic happens here
 
     requests: require('requests'),
+
+    init: function(app) {
+        if(app.firstLoad) {
+            this.install();
+        };
+        if (this.currentLocation() == 'nav_bar') {
+            this.ui().renderNavBar(); //side effect
+        } else if (this.currentLocation() == 'user_sidebar') {
+            this.ui().renderUser(); //side effect
+        } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+            this.ui().renderTicket();
+        }
+    },
+
+    ui: function() {
+        return this.require('ui');
+    },
+
+    install: function() {
+        var installApp = this.require('install_app');
+        this.require('fetch_data').checkInstalled().fail(installApp);
+    },
 
     changeStatusMessage: function(user) {
         return { 
@@ -30,7 +51,6 @@
         };
 
     },
-
 
     saveHookMessage: function(user) {
         return {
