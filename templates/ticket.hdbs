@@ -7,8 +7,7 @@
 <span class="label label-success">Available</span>
 {{/if}}
 </p>
-{{/if}}
-{{#if none}}
+{{else}}
 <p>This ticket is not assigned to an agent</p>
 {{/if}}
 </div>
