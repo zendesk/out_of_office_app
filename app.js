@@ -16,7 +16,7 @@
             installed: false,
             installationID: undefined,
             
-            createTrigger: false,            
+            createTrigger: true,            
             triggerTitle: 'out-of-office app trigger',
             triggerID: undefined,
 
@@ -41,7 +41,7 @@
                 installed: false,
                 installationID: undefined,
 
-                createTrigger: false,            
+                createTrigger: true,            
                 triggerTitle: 'out-of-office app trigger',
                 triggerID: undefined,
 
@@ -54,7 +54,7 @@
                 tagUnassignedTickets: false,
                 unassignTag: 'reasign_ooo',
 
-                preventAssignOOO: false,
+                preventAssignOOO: true,
             };
             this.require = require('context_loader')(this);
             var install = this.require('install_app', settings);
@@ -98,14 +98,11 @@
 
                     }
                     modal(message, function(options) { 
-                        console.log(unassignTickets);
-                        console.log(options[0]);
                         var unassignTickets = that.settings.unassignTickets;
                         if(options[0] === "on") {
                             unassignTickets = true;
                         }
 
-                        console.log(unassignTickets);
                         
                         that.trigger("toggle_status", {agentID: agentID, unassignTickets: unassignTickets});
                     });
@@ -118,9 +115,7 @@
         //toggle_status
         updateStatus: function(evt) {
             var agentID = evt.agentID;
-            console.log(evt.unassignTickets);
             var unassignTickets = evt.unassignTickets;
-        console.log(unassignTickets);
             var that = this;
             this.require('update_status', this.settings).
                 toggleStatus(agentID, unassignTickets).done(function(agentID) {
@@ -154,12 +149,14 @@
         //ticket.save
         verifyAssign: function() {
             var that = this;
-            var asignee = this.ticket().asignee().user();
+            var asignee = this.ticket().assignee().user();
+            
 
             return this.promise(function(done, fail) {
                 that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
+                    agent = agent.user;
                     if(that.settings.preventAssignOOO) {
-                        if(agent[that.settings.userFieldKey]) {
+                        if(agent.user_fields[that.settings.userFieldKey]) {
                             that.notifyAssign(agent.name);
                             fail();
                         } else {
