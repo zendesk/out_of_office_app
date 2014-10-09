@@ -4,7 +4,6 @@ AGENTS: can view, toggle status of themselves only
 display availability button group, with current status as selected and disabled button }}
 <div id='usertemplate'>
 {{#if user}}
-  {{#unless user.restricted_agent}}
   <div class="btn-group status">
     {{#if user.user_fields.agent_ooo}}
       {{#if permission}}<button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>{{/if}}
@@ -14,7 +13,6 @@ display availability button group, with current status as selected and disabled 
       {{#if permission}}<button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>{{/if}}
     {{/if}}
     </div>
-  {{/unless}}
 {{else}}
   <p>This user is not an assignable agent.</p>
 </div>

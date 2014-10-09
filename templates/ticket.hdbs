@@ -1,13 +1,20 @@
 <div id="ticket_dash">
+
+
 {{#if assignee}}
 <p>The assignee ({{assignee.name}}) is:&nbsp;
-{{#if assignee.user_fields.agent_ooo}}
-<span class="label label-important">Away</span>
-{{else}}
-<span class="label label-success">Available</span>
-{{/if}}
-</p>
+
+  <div class="btn-group status">
+    {{#if assignee.user_fields.agent_ooo}}
+      {{#if permission}}<button class="btn btn-available status-toggle" value="{{assignee.id}}">Available</button>{{/if}}
+      <button id="unavailable" class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
+    {{else}}
+      <button id="available" class="btn btn-available green btn-primary{{#unless permission}}disabled{{/unless}}">Available</button>
+      {{#if permission}}<button class="btn btn-busy status-toggle" value="{{assignee.id}}">Unavailable</button>{{/if}}
+    {{/if}}
+    </div>
 {{else}}
 <p>This ticket is not assigned to an agent</p>
 {{/if}}
 </div>
+
