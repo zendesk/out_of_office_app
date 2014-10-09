@@ -11,33 +11,11 @@
 
         requests: require('requests'),
 
-
-        settings: {
-            installed: false,
-            installationID: undefined,
-            
-            createTrigger: true,            
-            triggerTitle: 'out-of-office app trigger',
-            triggerID: undefined,
-
-            userFieldName: 'Agent Out?',
-            userFieldKey: 'agent_ooo',
-            
-            confirmChange: false,
-
-            unassignTickets:false,            
-            tagUnassignedTickets: false,
-            unassignTag: 'reasign_ooo',
-
-            preventAssignOOO: false,
-        },
-
-
-
-
         //app.init, installed_app
         init: function(app) {
+            this.switchTo('loading');            
             var settings =  {
+                appTitle: 'ooo_app',
                 installed: false,
                 installationID: undefined,
 
@@ -56,19 +34,21 @@
 
                 preventAssignOOO: true,
             };
-            this.require = require('context_loader')(this);
-            var install = this.require('install_app', settings);
-            install.loadSettings();
+            if(app.firstLoad) {
+                this.require = require('context_loader')(this);
+                var install = this.require('install_app', settings);
+                install.loadSettings();
+            } else {
+                this.trigger("render_app");                
+            }
         },
 
         //loaded_settings
         createSettings: function(evt) {
             this.settings = evt.settings;
             this.trigger("render_app");
-            this.trigger("ticket.save");
-
         },
-        
+
 
         //render_app
         render: function() {
@@ -103,7 +83,7 @@
                             unassignTickets = true;
                         }
 
-                        
+
                         that.trigger("toggle_status", {agentID: agentID, unassignTickets: unassignTickets});
                     });
                 });
@@ -119,38 +99,42 @@
             var that = this;
             this.require('update_status', this.settings).
                 toggleStatus(agentID, unassignTickets).done(function(agentID) {
-                //that.trigger('status_changed', {status: status, agentID: agentID});
             }).fail(function() {
-            that.trigger("render_app");
-                
+                that.notifyFail();
+                that.trigger("render_app");
             });
         },
 
 
         //status_changed
         notifyStatus: function(evt) {
-            var status = "here"
+            var status = "available"
             if(evt.agent.user_fields.agent_ooo) {
-                status = "away";
+                status = "unavailable";
             }
             services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
         },
-        
-        //unassigned_ooo
-        notifyUnAssign: function(evt) {
-            services.notify("Unassigned " + evt.count + " tickets assigned to " + evt.name + ".");
+
+        notifyFail: function() {
+            services.notify("Unable to update status for user");
         },
         
+
+        //unassigned_ooo
+        notifyUnAssign: function(evt) {
+            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
+        },
+
         //assigned_ooo
         notifyAssign: function(name) {
-            services.notify("Ticket assigned to " + name + " who is out of the office.");
+            services.notify("Ticket assigned to " + name + " who is out of the office.", 'alert');
         },
 
         //ticket.save
         verifyAssign: function() {
             var that = this;
             var asignee = this.ticket().assignee().user();
-            
+
 
             return this.promise(function(done, fail) {
                 that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
@@ -171,7 +155,7 @@
                 });
             });
         },
-    
+
         changeStatusMessage: function(name) {
             return { 
                 available: {
@@ -189,15 +173,6 @@
                 },
             };
 
-        },
-
-        saveHookMessage: function(user) {
-            return {
-                header:  'Assignee is Unavailable',
-                content: '<p>The assignee you have selected: ' + user.name + ' is currently marked as unavailable and cannot have tickets assigned to them.',
-                confirm: '<a href="#/users/' + user.id + '">Go to Agent Profile</a>',
-                cancel:  '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Cancel</p>', 
-            };
         },
     };
 
