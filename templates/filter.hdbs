@@ -4,9 +4,9 @@
             <td class="size"><a href='#/users/{{id}}'>{{name}}</a></td>
             <td class="size">{{email}}</td>
             {{#if user_fields.agent_ooo}}
-            <td class="unavailable size"><span class="label label-important">Away</span></td>
+            <td class="unavailable size"><span class="label label-important">Unavailable</span></td>
             {{else}}
-            <td class="available size"><span class="label label-success">Here</span></td>
+            <td class="available size"><span class="label label-success">Available</span></td>
             {{/if}}
             {{#if ../permission}}
             <td>

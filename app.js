@@ -36,8 +36,7 @@
             };
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
-                var install = this.require('install_app', settings);
-                install.loadSettings();
+                this.require('install_app', settings)();
             } else {
                 this.trigger("render_app");                
             }
@@ -79,16 +78,18 @@
                     }
                     modal(message, function(options) { 
                         var unassignTickets = that.settings.unassignTickets;
-                        if(options[0] === "on") {
-                            unassignTickets = true;
-                        }
-
+                        if(options.length === 1) {
+                            if(options[0].checked === true) {
+                                unassignTickets = true;
+                            }
+                        }                        
 
                         that.trigger("toggle_status", {agentID: agentID, unassignTickets: unassignTickets});
+                        
                     });
                 });
             } else {
-                this.trigger("toggle_status", {agentID: agentID});
+                this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.settings.unassignTickets});
             }
         },
 
@@ -100,7 +101,6 @@
             this.require('update_status', this.settings).
                 toggleStatus(agentID, unassignTickets).done(function(agentID) {
             }).fail(function() {
-                that.notifyFail();
                 that.trigger("render_app");
             });
         },
@@ -114,9 +114,10 @@
             }
             services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
         },
-
-        notifyFail: function() {
-            services.notify("Unable to update status for user");
+        
+        //status_error
+        notifyFail: function(evt) {
+            services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
         },
         
 
@@ -127,7 +128,7 @@
 
         //assigned_ooo
         notifyAssign: function(name) {
-            services.notify("Ticket assigned to " + name + " who is out of the office.", 'alert');
+            services.notify("Ticket assigned to " + name + " who is unavailable.", 'alert');
         },
 
         //ticket.save
@@ -166,7 +167,7 @@
                 },
                 unavailable: {
                     header:  'Please confirm status change',
-                    content: '<p>This action will reassign ' + name + '&#39;s open tickets and change their status to away.</p>',
+                    content: '<p>This action will mark ' + name + 'as unavailable and prevet tickets from being assigned to them.</p>',
                     confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
                     cancel:  'Cancel',
                     options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
