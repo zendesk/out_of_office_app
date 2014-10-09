@@ -11,29 +11,121 @@
 
         requests: require('requests'),
 
+
+        settings: {
+            installed: false,
+            installationID: undefined,
+            
+            createTrigger: false,            
+            triggerTitle: 'out-of-office app trigger',
+            triggerID: undefined,
+
+            userFieldName: 'Agent Out?',
+            userFieldKey: 'agent_ooo',
+            
+            confirmChange: false,
+
+            unassignTickets:false,            
+            tagUnassignedTickets: false,
+            unassignTag: 'reasign_ooo',
+
+            preventAssignOOO: false,
+        },
+
+
+
+
+        //app.init, installed_app
         init: function(app) {
             this.require = require('context_loader')(this);
-            if(app.firstLoad) {
-                this.install();
-            };
+            var install = this.require('install_app', this.settings);
+            install.loadSettings();
+        },
+
+        //loaded_settings
+        createSettings: function(settings) {
+            this.settings = settings;
+            this.trigger("render_app");
+        },
+        
+
+        //render_app
+        render: function() {
+            var ui = this.require('ui', this.settings);
             if (this.currentLocation() == 'nav_bar') {
-                this.ui().renderNavBar(); //side effect
+                console.log('navbar');
+                ui.renderNavBar(); //side effect
             } else if (this.currentLocation() == 'user_sidebar') {
-                this.ui().renderUser(); //side effect
+                ui.renderUser(); //side effect
             } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
-                this.ui().renderTicket();
+                ui.renderTicket();
+            }            
+        },
+        
+
+        //click .set-status
+        verifyChange: function(evt) {
+            console.log('hello');
+            var agentID = evt.currentTarget.value;
+            if(this.settings.confirmChange) {
+                var modal = this.require('modal_ui', this.settings);
+                modal.popModal(this.settings.changeStatusMessage, ["status_toggle", agentID], ["status_cancel"]);
+            } else {
+                this.trigger("toggle_status", agentID);
             }
         },
-
-        ui: function() {
-            return this.require('ui');
+        
+        //toggle_status
+        updateStatus: function(agentID) {
+            console.log(agentID);
+            console.log('toggleStatus');
+            var that = this;
+            this.require('update_status', this.settings).
+                toggleStatus(agentID).done(function(status) {
+                that.trigger('status_changed', status, agentID);
+            });
         },
 
-        install: function() {
-            var installApp = this.require('install_app');
-            this.require('fetch_data').checkInstalled().fail(installApp);
+
+        //status_changed
+        notifyStatus: function(status, name) {
+            services.notify("Updated status for " + name + " to " + status + ".");
+        },
+        
+        //unassigned_ooo
+        notifyUnAssign: function(evt) {
+            services.notify("Unassigned " + evt.count + " tickets assigned to " + evt.name + ".");
+        },
+        
+        //assigned_ooo
+        notifyAssign: function(name) {
+            services.notify("Ticket assigned to " + name + " who is out of the office.");
         },
 
+        //ticket.save
+        verifyAssign: function() {
+            var that = this;
+            var asignee = this.ticket().asignee().user();
+
+            return this.promise(function(done, fail) {
+                that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
+                    if(that.settings.preventAssignOOO) {
+                        if(agent[that.settings.userFieldKey]) {
+                            that.notifyAssign(agent.name);
+                            fail();
+                        } else {
+                            done();
+                        }
+                    } else {
+                        if(agent[that.settings.userFieldKey]) {
+                            that.notifyAssign(agent.name);
+                        }
+                        done();
+                    }
+                });
+            });
+        },
+    
         changeStatusMessage: function(user) {
             return { 
                 available: {
