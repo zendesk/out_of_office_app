@@ -1,0 +1,61 @@
+app.js:
+    - user field label
+    - user field key
+    - trigger title
+    - trigger ID
+    - unassign tag
+    - status change messages
+        - set out of office
+        - set back into office
+    - save warning message
+    - save prevented message
+    - features enabled
+        - unassign tickets
+            - always
+            - ask
+            - never
+        - save hook assignment
+            - never 
+            - warn
+            - prevent
+        - apps enabled
+            - ticket sidebar
+            - user 
+            - navbar
+        - trigger management 
+
+Modules: 
+
+    Show Status:
+        Description:    Only displays status, change status by editing user field
+        Events handled: renderNavbar, renderUser, renderTicket, renderUI
+        Events emitted: 
+        Requires:
+        Settings:       navbarEnabled, ticketEnabled, userEnabled
+
+    Update Status:
+        Description:    Provides a modal that confirms a status change. Provides functions to silently set a user in or out of office. Can set both user field value and edit trigger. 
+        Events handled: toggleStatus(userID), modalAccept(confirmationID), modalDeny(confirmationID)
+        Events emitted: statusChanged(userID, status) confirmModal(message, accept, cancel, confirmationID)
+        Requires:       popWarning
+        Settings:       unassignTickets, manageTrigger, statusChangeMessages, triggerID, userFieldKey, unassignTickets, unassignTag
+
+    popWarning:
+        Description:    Pops a modal with specified message and an accept and cancel message
+        Events handled: confirmModal(message, accept, cancel, confirmationID)
+        Events emitted: modalAccept(confirmationID), modalDeny(confirmationID)
+        Requires:   
+        Settings:
+
+
+    Settings:
+        Description:    Gets and sets Settings for out-of-office app
+        Events handled: paginatedData(data), setPrefrence(key, value), checkInstall()
+        Events emitted: appInstalled(<triggerID>), installApp(), getAll(url)
+        Requires:       getAll
+        Settings:       userFieldLabel, userFieldKey, triggerTitle
+
+    getAll:
+        Description:    gets all items in a given endpoint while unwrapping and depaginating
+        
+    
