@@ -11,10 +11,7 @@
 
         requests: require('requests'),
 
-        //app.init, installed_app
-        init: function(app) {
-            this.switchTo('loading');            
-            var settings =  {
+        options:  {
                 appTitle: 'ooo_app',
                 installed: false,
                 installationID: undefined,
@@ -33,10 +30,15 @@
                 unassignTag: 'reasign_ooo',
 
                 preventAssignOOO: true,
-            };
+            },
+
+        //app.init, installed_app
+        init: function(app) {
+            this.switchTo('loading');            
+                
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
-                this.require('install_app', settings)();
+                this.require('install_app', this.options)();
             } else {
                 this.trigger("render_app");                
             }
@@ -44,14 +46,14 @@
 
         //loaded_settings
         createSettings: function(evt) {
-            this.settings = evt.settings;
+            this.options = evt.settings;
             this.trigger("render_app");
         },
 
 
         //render_app
         render: function() {
-            var ui = this.require('ui', this.settings);
+            var ui = this.require('ui', this.options);
             if (this.currentLocation() == 'nav_bar') {
                 ui.renderNavBar(); //side effect
             } else if (this.currentLocation() == 'user_sidebar') {
@@ -66,9 +68,8 @@
         verifyChange: function(evt) {
             var agentID = evt.currentTarget.value;
             var that = this;
-            if(this.settings.confirmChange) {
+            if(this.options.confirmChange) {
                 var modal = this.require('popmodal');
-                var that = this;                
                 this.ajax('getSingleAgent', agentID).done(function(agent) {
                     agent = agent.user;
                     var message = that.changeStatusMessage(agent.name).unavailable;
@@ -76,10 +77,10 @@
                         message = that.changeStatusMessage(agent.name).available;
 
                     }
-                    modal(message, function(options) { 
-                        var unassignTickets = that.settings.unassignTickets;
-                        if(options.length === 1) {
-                            if(options[0].checked === true) {
+                    modal(message, function(input) { 
+                        var unassignTickets = that.options.unassignTickets;
+                        if(input.length === 1) {
+                            if(input[0].checked === true) {
                                 unassignTickets = true;
                             }
                         }                        
@@ -89,7 +90,7 @@
                     });
                 });
             } else {
-                this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.settings.unassignTickets});
+                this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets});
             }
         },
 
@@ -98,7 +99,7 @@
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
-            this.require('update_status', this.settings).
+            this.require('update_status', this.options).
                 toggleStatus(agentID, unassignTickets).done(function(agentID) {
             }).fail(function() {
                 that.trigger("render_app");
@@ -108,7 +109,7 @@
 
         //status_changed
         notifyStatus: function(evt) {
-            var status = "available"
+            var status = "available";
             if(evt.agent.user_fields.agent_ooo) {
                 status = "unavailable";
             }
@@ -119,6 +120,12 @@
         notifyFail: function(evt) {
             services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
         },
+        
+        //loaded_settings
+        notifyInstalled: function(evt) {
+            services.notify("Detected first run of app. Created user field and trigger in account.", 'alert');
+        },
+        
         
 
         //unassigned_ooo
@@ -140,15 +147,15 @@
             return this.promise(function(done, fail) {
                 that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
                     agent = agent.user;
-                    if(that.settings.preventAssignOOO) {
-                        if(agent.user_fields[that.settings.userFieldKey]) {
+                    if(that.options.preventAssignOOO) {
+                        if(agent.user_fields[that.options.userFieldKey]) {
                             that.notifyAssign(agent.name);
                             fail();
                         } else {
                             done();
                         }
                     } else {
-                        if(agent[that.settings.userFieldKey]) {
+                        if(agent[that.options.userFieldKey]) {
                             that.notifyAssign(agent.name);
                         }
                         done();
