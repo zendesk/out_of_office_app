@@ -12,30 +12,30 @@
         requests: require('requests'),
 
         options:  {
-                appTitle: 'ooo_app',
-                installed: false,
-                installationID: undefined,
+            appTitle: 'ooo_app',
+            installed: false,
+            installationID: undefined,
 
-                createTrigger: true,            
-                triggerTitle: 'out-of-office app trigger',
-                triggerID: undefined,
+            createTrigger: true,            
+            triggerTitle: 'out-of-office app trigger',
+            triggerID: undefined,
 
-                userFieldName: 'Agent Out?',
-                userFieldKey: 'agent_ooo',
+            userFieldName: 'Agent Out?',
+            userFieldKey: 'agent_ooo',
 
-                confirmChange: true,
+            confirmChange: true,
 
-                unassignTickets:false,            
-                tagUnassignedTickets: false,
-                unassignTag: 'reasign_ooo',
+            unassignTickets:false,            
+            tagUnassignedTickets: false,
+            unassignTag: 'reasign_ooo',
 
-                preventAssignOOO: true,
-            },
+            preventAssignOOO: true,
+        },
 
         //app.init, installed_app
         init: function(app) {
             this.switchTo('loading');            
-                
+
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
                 this.require('install_app', this.options)();
@@ -86,7 +86,7 @@
                         }                        
 
                         that.trigger("toggle_status", {agentID: agentID, unassignTickets: unassignTickets});
-                        
+
                     });
                 });
             } else {
@@ -115,18 +115,18 @@
             }
             services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
         },
-        
+
         //status_error
         notifyFail: function(evt) {
             services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
         },
-        
+
         //loaded_settings
         notifyInstalled: function(evt) {
             services.notify("Detected first run of app. Created user field and trigger in account.", 'alert');
         },
-        
-        
+
+
 
         //unassigned_ooo
         notifyUnAssign: function(evt) {
