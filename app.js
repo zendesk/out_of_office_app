@@ -40,9 +40,7 @@
                         options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
                     },
                 };
-
             },
-
         },
 
         //app.init, installed_app
@@ -94,44 +92,8 @@
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
-            this.require('update_status', this.options).
-                toggleStatus(agentID, unassignTickets).done(function(agentID) {
-            }).fail(function() {
-                that.trigger("render_app");
-            });
-        },
-
-
-        //status_changed
-        notifyStatus: function(evt) {
-            var status = "available";
-            if(evt.agent.user_fields.agent_ooo) {
-                status = "unavailable";
-            }
-            services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
-        },
-
-        //status_error
-        notifyFail: function(evt) {
-            services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
-        },
-
-        //loaded_settings
-        notifyInstalled: function(evt) {
-            services.notify("Detected first run of app. Created user field and trigger in account.", 'alert');
-        },
-
-
-
-        //unassigned_ooo
-        notifyUnAssign: function(evt) {
-            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
-        },
-
-        //assigned_ooo
-        notifyAssign: function(name) {
-            services.notify("Ticket assigned to " + name + " who is unavailable.", 'alert');
-        },
+            this.require('update_status', this.options)(agentID, unassignTickets);
+        },        
 
         //ticket.save
         verifyAssign: function() {
@@ -157,7 +119,35 @@
                 });
             });
         },
+        
+        //status_changed
+        notifyStatus: function(evt) {
+            var status = "available";
+            if(evt.agent.user_fields.agent_ooo) {
+                status = "unavailable";
+            }
+            services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
+        },
 
+        //status_error
+        notifyFail: function(evt) {
+            services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
+        },
+
+        //loaded_settings
+        notifyInstalled: function(evt) {
+            services.notify("Detected first run of app. Created user field and trigger in account.", 'alert');
+        },
+
+        //unassigned_ooo
+        notifyUnAssign: function(evt) {
+            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
+        },
+
+        //assigned_ooo
+        notifyAssign: function(name) {
+            services.notify("Ticket assigned to " + name + " who is unavailable.", 'alert');
+        },
     };
 
 }());
