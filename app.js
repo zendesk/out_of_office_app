@@ -2,13 +2,8 @@
 
     return {
 
-        defaultState: 'loading',
-        triggerTitle: 'out-of-office app trigger',
-        userFieldName: 'Agent Out?',
-        userFieldKey: 'agent_ooo',
-
-        events: require('events'), //magic happens here
-
+        events: require('events'),  
+        
         requests: require('requests'),
 
         options:  {
@@ -26,10 +21,28 @@
             confirmChange: true,
 
             unassignTickets:false,            
-            tagUnassignedTickets: false,
-            unassignTag: 'reasign_ooo',
 
             preventAssignOOO: true,
+
+            changeStatusMessage: function(name) {
+                return { 
+                    available: {
+                        header:  'Please confirm status change',
+                        content: '<p>This action will mark ' + name + ' as available and allow tickets to be assigned.</p>',
+                        confirm: '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
+                        cancel:  'Cancel'
+                    },
+                    unavailable: {
+                        header:  'Please confirm status change',
+                        content: '<p>This action will mark ' + name + 'as unavailable and prevet tickets from being assigned to them.</p>',
+                        confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
+                        cancel:  'Cancel',
+                        options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
+                    },
+                };
+
+            },
+
         },
 
         //app.init, installed_app
@@ -67,28 +80,10 @@
         //click .set-status
         verifyChange: function(evt) {
             var agentID = evt.currentTarget.value;
+            var ui = this.require('ui', this.options);
             var that = this;
             if(this.options.confirmChange) {
-                var modal = this.require('popmodal');
-                this.ajax('getSingleAgent', agentID).done(function(agent) {
-                    agent = agent.user;
-                    var message = that.changeStatusMessage(agent.name).unavailable;
-                    if(agent.user_fields.agent_ooo) {
-                        message = that.changeStatusMessage(agent.name).available;
-
-                    }
-                    modal(message, function(input) { 
-                        var unassignTickets = that.options.unassignTickets;
-                        if(input.length === 1) {
-                            if(input[0].checked === true) {
-                                unassignTickets = true;
-                            }
-                        }                        
-
-                        that.trigger("toggle_status", {agentID: agentID, unassignTickets: unassignTickets});
-
-                    });
-                });
+                ui.renderStatusModal(agentID);
             } else {
                 this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets});
             }
@@ -143,7 +138,6 @@
             var that = this;
             var asignee = this.ticket().assignee().user();
 
-
             return this.promise(function(done, fail) {
                 that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
                     agent = agent.user;
@@ -164,24 +158,6 @@
             });
         },
 
-        changeStatusMessage: function(name) {
-            return { 
-                available: {
-                    header:  'Please confirm status change',
-                    content: '<p>This action will mark ' + name + ' as available and allow tickets to be assigned.</p>',
-                    confirm: '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
-                    cancel:  'Cancel'
-                },
-                unavailable: {
-                    header:  'Please confirm status change',
-                    content: '<p>This action will mark ' + name + 'as unavailable and prevet tickets from being assigned to them.</p>',
-                    confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
-                    cancel:  'Cancel',
-                    options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
-                },
-            };
-
-        },
     };
 
 }());
