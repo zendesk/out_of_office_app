@@ -1,0 +1,37 @@
+<!-- modal.hdbs -->
+
+<div class="modal hide fade my_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h2 class="my_modal_label">Please confirm</h2>
+    <p>You are trying to update a ticket with an Assignee that's currently out of office</p>
+    <p>To remove the Assignee and/or Group on this ticket select below</p>
+  </div>
+  
+  <div class="modal-body">
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox">Remove Assignee
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox">Remove Group
+      </label>
+    </div>
+
+    <formgroup>
+      <button class='btn confirm'>CONFIRM</button>
+    </formgroup>
+  </div>
+
+</div>
+
+<!-- call the modal division above -->
+
+<div class="modal_button_cell">
+  <p>modal2.hdbs</p>
+  <a class="btn btn-large" data-toggle="modal" data-target=".my_modal">MODAL BUTTON</a>
+</div>
