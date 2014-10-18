@@ -106,8 +106,8 @@
                 message = {
                             header: 'Please Confirm',
                             content: '<li>You are trying to update a ticket with an Assignee that\'s currently out of office</li><li>To remove the Assignee and/or Group on this ticket select below</li><li>If you want to keep the Assignee and Group simply click \'yes\'</li>',
-                            confirm: 'yes',
-                            cancel: 'no',
+                            confirm: 'Confirm',
+                            cancel: 'Cancel',
                             options: '<div class="checkbox c1"><label><input type="checkbox">Remove Assignee</label></div>'
                           };
 
@@ -118,21 +118,24 @@
                     if(that.options.preventAssignOOO) {
                         if(agent.user_fields[that.options.userFieldKey]) {
                             that.notifyAssign(agent.name);
-                            fail();
-                        } else {
 
                             // [JEREMIAH - start] added modal for save hook if non-assignee agent updates ticket for OOO assignee
 
                             var confirm = function(options) {
                                     var ticket          = that.ticket(),
-                                        currentGroup    = ticket.assignee().group().id();
+                                        currentGroup    = ticket.assignee().group().id(),
+                                        currentAssigneeId = ticket.assignee().user().id(), // This is where I got stuck
+                                        currentAssigneeName = ticket.assignee().user().name();
 
                                     console.log(currentGroup);
+                                    console.log(currentAssigneeId);
+                                    console.log(currentAssigneeName);
 
                                     // handle options [start]
                                     if (options[0].checked) {
                                         console.log('remove assignee');
-                                        ticket.assignee({ userId: null }); // This is where I got stuck
+                                        // ticket.assignee().remove({ id: currentAssignee });; // This is where I got stuck
+                                        services.notify('Unassigned ticket from ' + currentAssigneeName);
                                         done();
                                     } else {
                                         console.log('keep assignee');
@@ -149,6 +152,8 @@
 
                             // [JEREMIAH - start] added modal for save hook if non-assignee agent updates ticket for OOO assignee
 
+                        } else {
+                            done();
                         }
                     } else {
                         if(agent[that.options.userFieldKey]) {
