@@ -127,6 +127,7 @@
                                         currentAssigneeId = ticket.assignee().user().id(), // This is where I got stuck
                                         currentAssigneeName = ticket.assignee().user().name();
 
+                                    console.log(ticket.id());
                                     console.log(currentGroup);
                                     console.log(currentAssigneeId);
                                     console.log(currentAssigneeName);
@@ -135,6 +136,15 @@
                                     if (options[0].checked) {
                                         console.log('remove assignee');
                                         // ticket.assignee().remove({ id: currentAssignee });; // This is where I got stuck
+                                        that.ajax('unassignMany', ticket.id()) // Will this need a promise?
+                                        .done(function(){ // Ticket is not getting unassigned?
+                                            console.log('unassignMany finished');
+                                            done();
+                                        }).fail(function(){
+                                            console.log('unassignMany failed');
+                                            fail();
+                                        });
+
                                         services.notify('Unassigned ticket from ' + currentAssigneeName);
                                         done();
                                     } else {
