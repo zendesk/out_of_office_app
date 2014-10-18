@@ -134,19 +134,18 @@
 
                                     // handle options [start]
                                     if (options[0].checked) {
-                                        console.log('remove assignee');
-                                        // ticket.assignee().remove({ id: currentAssignee });; // This is where I got stuck
-                                        that.ajax('unassignMany', ticket.id()) // Will this need a promise?
-                                        .done(function(){ // Ticket is not getting unassigned?
-                                            console.log('unassignMany finished');
-                                            done();
-                                        }).fail(function(){
-                                            console.log('unassignMany failed');
-                                            fail();
-                                        });
+                                        console.log('remove assignee - not really though');
+                                        // This is where I got stuck
+                                        ticket.assignee({ id: null }); // Doesn't work
 
-                                        services.notify('Unassigned ticket from ' + currentAssigneeName);
+                                        // AJAX at this point is overwritten by save hook resolving - won't work
+                                        // What's been tried to null the assignee is: 
+                                        // ticket.assignee({ id: null });
+                                        // ticket.assignee().remove({ id: currentAssignee });
+                                        // services.notify('Unassigned ticket from ' + currentAssigneeName);
+                                        
                                         done();
+                                        
                                     } else {
                                         console.log('keep assignee');
                                         done();
