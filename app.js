@@ -122,11 +122,13 @@
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
                 console.log(this.ticket().assignee().user().id());
                 var asignee = this.ticket().assignee().user();
+                var ticket = this.ticket().id();
                 console.log('else');
 
                 return this.promise(function(done, fail) { 
                     // PROMISE - start
                     console.log('[PROMISE] - start');
+                    console.log(data);
 
                     that.ajax('getSingleAgent', asignee.id()).done(function(agent) { 
                         // that.ajax - start
@@ -135,12 +137,21 @@
                         if (that.options.preventAssignOOO) { 
                             // IF - 1 - start
                             if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
+                                    console.log("Ticket: " + ticket);
+                                
+                                that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
+                                    if(ticket.ticket.assignee_id == asignee.id()) {
+                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);                                        
+                                        done();
+                                    } else {
+                                services.notify('Warning: ' + agent.name + ' is out of office. Please select a valid assignee for the ticket.', 'alert', 5000);                         
+                                        fail();
+                                    }
+                                });
                                 // IF - 2 - start
                                 console.log('[PROMISE] - IF - if');
                                 console.log('ticket_sidebar');
                                 console.log('OOO Agent updates permitted on existing tickets');
-                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
-                                done();
                                 // IF - 2 - end
                             } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
                                 // ELSE IF - start
