@@ -43,32 +43,28 @@
             },
         },
 
-        loadedCount: 0,
 
-        //app.init, installed_app
+        //app.created
         init: function(app) {
             this.switchTo('loading');
-            console.log(this.loadedCount++);
 
-            if(app.firstLoad) {
-                this.require = require('context_loader')(this);
+            this.require = require('context_loader')(this);
 
-                if(this.currentLocation() != 'nav_bar'){
-                    console.log("Init: "+ this.currentLocation());
+            console.log("Init: "+ this.currentLocation());
 
-                    this.require('install_app', this.options)();
+            if (this.currentLocation() != 'nav_bar') {
+                console.log("Init: "+ this.currentLocation());
 
-                }
-            } else {
-                this.trigger("render_app");                
+                this.require('install_app', this.options)();
+
             }
+
         },
 
         //loaded_settings
         createSettings: function(evt) {
             this.options = evt.settings;
             this.trigger("render_app");
-
         },
 
 
