@@ -3,7 +3,7 @@
     return {
 
         events: require('events'),
-        
+
         requests: require('requests'),
 
         options:  {
@@ -43,14 +43,22 @@
             },
         },
 
+        loadedCount: 0,
+
         //app.init, installed_app
         init: function(app) {
             this.switchTo('loading');
-            console.log("Init: "+ this.currentLocation());
+            console.log(this.loadedCount++);
 
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
-                this.require('install_app', this.options)();
+
+                if(this.currentLocation() != 'nav_bar'){
+                    console.log("Init: "+ this.currentLocation());
+
+                    this.require('install_app', this.options)();
+
+                }
             } else {
                 this.trigger("render_app");                
             }
@@ -60,11 +68,13 @@
         createSettings: function(evt) {
             this.options = evt.settings;
             this.trigger("render_app");
+
         },
 
 
         //render_app
-        render: function() {
+        render: function(evt) {
+
             console.log("Launch: "+ this.currentLocation());
             var ui = this.require('ui', this.options);
             if (this.currentLocation() == 'nav_bar') {
@@ -102,16 +112,16 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         verifyAssign: function(data) { 
-        // verifyAssign - start
+            // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
                 console.log('User && Group ID undefined');
-                
+
                 return true;
             } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
                 console.log('No agent assigned - assigning to Group: ' + this.ticket().assignee().group().name()); 
                 console.log('else if');
-                
+
                 return true;
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
                 console.log(this.ticket().assignee().user().id());
@@ -119,15 +129,15 @@
                 console.log('else');
 
                 return this.promise(function(done, fail) { 
-                // PROMISE - start
+                    // PROMISE - start
                     console.log('[PROMISE] - start');
-                    
+
                     that.ajax('getSingleAgent', asignee.id()).done(function(agent) { 
-                    // that.ajax - start
+                        // that.ajax - start
                         agent = agent.user;
-                        
+
                         if (that.options.preventAssignOOO) { 
-                        // IF - 1 - start
+                            // IF - 1 - start
                             if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
                                 // IF - 2 - start
                                 console.log('[PROMISE] - IF - if');
@@ -151,8 +161,8 @@
                                 // ELSE - 2 end
                             }
                         } else { 
-                        // IF - 1 - end
-                        // ELSE - 1 - start
+                            // IF - 1 - end
+                            // ELSE - 1 - start
                             console.log('that.options.preventAssignOOO = FALSE');
                             if(agent[that.options.userFieldKey]) {
                                 console.log('agent[that.options.userFieldKey] == TRUE');
@@ -160,16 +170,16 @@
                             }
                             console.log('agent[that.options.userFieldKey] == FALSE');
                             done();
-                        // ELSE - 1 - end
+                            // ELSE - 1 - end
                         }
-                    // that.ajax - end
+                        // that.ajax - end
                     });
-                // PROMISE - end
+                    // PROMISE - end
                 });
             }
-        // verifyAssign - end
+            // verifyAssign - end
         },
-        
+
         //status_changed
         notifyStatus: function(evt) {
             var status = "available";
