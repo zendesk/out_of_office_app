@@ -2,7 +2,7 @@
 
     return {
 
-        events: require('events'),  
+        events: require('events'),
         
         requests: require('requests'),
 
@@ -34,7 +34,7 @@
                     },
                     unavailable: {
                         header:  'Please confirm status change',
-                        content: '<p>This action will mark ' + name + 'as unavailable and prevet tickets from being assigned to them.</p>',
+                        content: '<p>This action will mark ' + name + ' as unavailable and prevet tickets from being assigned to them.</p>',
                         confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
                         cancel:  'Cancel',
                         options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
@@ -46,8 +46,6 @@
         //app.init, installed_app
         init: function(app) {
             this.switchTo('loading');
-
-            console.log('[init] you are here: ' + this.currentLocation());
 
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
@@ -97,82 +95,77 @@
             this.require('update_status', this.options)(agentID, unassignTickets);
         },
 
+
         //ticket.save
-        verifyAssign: function() {
+        //ticket.assignee.user.id.changed
+        //ticket.assignee.group.id.changed
+        verifyAssign: function(data) { 
+        // verifyAssign - start
             var that = this;
-            var asignee = this.ticket().assignee().user();
+            if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
+                console.log('User && Group ID undefined');
+                
+                return true;
+            } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
+                console.log('No agent assigned - assigning to Group: ' + this.ticket().assignee().group().name()); 
+                console.log('else if');
+                
+                return true;
+            } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
+                console.log(this.ticket().assignee().user().id());
+                var asignee = this.ticket().assignee().user();
+                console.log('else');
 
-            var modal   = this.require('popmodal'),
-                message = {
-                            header: 'Please Confirm',
-                            content: '<li>You are trying to update a ticket with an Assignee that\'s currently out of office</li><li>To remove the Assignee and/or Group on this ticket select below</li><li>If you want to keep the Assignee and Group simply click \'yes\'</li>',
-                            confirm: 'Confirm',
-                            cancel: 'Cancel',
-                            options: '<div class="checkbox c1"><label><input type="checkbox">Remove Assignee</label></div>'
-                          };
-
-            return this.promise(function(done, fail) {
-                that.ajax('getSingleAgent', asignee.id()).done(function(agent) {
-                    agent = agent.user;
-
-                    if(that.options.preventAssignOOO) {
-                        if(agent.user_fields[that.options.userFieldKey]) {
-                            that.notifyAssign(agent.name);
-
-                            // [JEREMIAH - start] added modal for save hook if non-assignee agent updates ticket for OOO assignee
-
-                            var confirm = function(options) {
-                                    var ticket          = that.ticket(),
-                                        currentGroup    = ticket.assignee().group().id(),
-                                        currentAssigneeId = ticket.assignee().user().id(), // This is where I got stuck
-                                        currentAssigneeName = ticket.assignee().user().name();
-
-                                    console.log(ticket.id());
-                                    console.log(currentGroup);
-                                    console.log(currentAssigneeId);
-                                    console.log(currentAssigneeName);
-
-                                    // handle options [start]
-                                    if (options[0].checked) {
-                                        console.log('remove assignee - not really though');
-                                        // This is where I got stuck
-                                        ticket.assignee({ id: null }); // Doesn't work
-
-                                        // AJAX at this point is overwritten by save hook resolving - won't work
-                                        // What's been tried to null the assignee is: 
-                                        // ticket.assignee({ id: null });
-                                        // ticket.assignee().remove({ id: currentAssignee });
-                                        // services.notify('Unassigned ticket from ' + currentAssigneeName);
-                                        
-                                        done();
-                                        
-                                    } else {
-                                        console.log('keep assignee');
-                                        done();
-                                    }
-                                    // handle options [end]
-                                },
-                                cancel  = function() {
-                                    console.log('cancel'); 
-                                    fail();
-                                };
-                            
-                            modal(message, confirm, cancel);
-
-                            // [JEREMIAH - start] added modal for save hook if non-assignee agent updates ticket for OOO assignee
-
-                        } else {
+                return this.promise(function(done, fail) { 
+                // PROMISE - start
+                    console.log('[PROMISE] - start');
+                    
+                    that.ajax('getSingleAgent', asignee.id()).done(function(agent) { 
+                    // that.ajax - start
+                        agent = agent.user;
+                        
+                        if (that.options.preventAssignOOO) { 
+                        // IF - 1 - start
+                            if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
+                                // IF - 2 - start
+                                console.log('[PROMISE] - IF - if');
+                                console.log('ticket_sidebar');
+                                console.log('OOO Agent updates permitted on existing tickets');
+                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
+                                done();
+                                // IF - 2 - end
+                            } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
+                                // ELSE IF - start
+                                console.log('[PROMISE] - IF - else if');
+                                console.log('new_ticket_sidebar');
+                                console.log('because this is a NEW ticket = prevent save');
+                                services.notify(agent.name + ' is out of office and new tickets cannot be assigned', 'error', 5000);
+                                fail();
+                                // ELSE IF - end
+                            } else {
+                                // ELSE - 2 start
+                                console.log('[PROMISE] - IF - else');
+                                done();
+                                // ELSE - 2 end
+                            }
+                        } else { 
+                        // IF - 1 - end
+                        // ELSE - 1 - start
+                            console.log('that.options.preventAssignOOO = FALSE');
+                            if(agent[that.options.userFieldKey]) {
+                                console.log('agent[that.options.userFieldKey] == TRUE');
+                                that.notifyAssign(agent.name);
+                            }
+                            console.log('agent[that.options.userFieldKey] == FALSE');
                             done();
+                        // ELSE - 1 - end
                         }
-                    } else {
-                        if(agent[that.options.userFieldKey]) {
-                            that.notifyAssign(agent.name);
-                        }
-                        done();
-                    }
+                    // that.ajax - end
+                    });
+                // PROMISE - end
                 });
-            });
-
+            }
+        // verifyAssign - end
         },
         
         //status_changed
@@ -202,7 +195,8 @@
         //assigned_ooo
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable.", 'alert');
-        },
+        }
+
     };
 
 }());
