@@ -2,6 +2,16 @@
   font-family: proxima-nova, sans-serif;
 }
 
+input[type=checkbox] {
+  float: left;
+
+}
+
+.p-input {
+  margin-right: 300px;
+  margin-bottom: 14px;
+}
+
 table#agent_list.table {
   margin-bottom: -10px;
   margin-top: -6px;
@@ -202,9 +212,9 @@ button.btn-canel {
   clear: both;
 }
 
-span.option {
+/*span.option {
   display: block;
   left: 0;
   margin-bottom: 10px;
   margin-right: 65%;
-}
+}*/

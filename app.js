@@ -37,7 +37,7 @@
                         content: '<p>This action will mark ' + name + ' as unavailable and prevet tickets from being assigned to them.</p>',
                         confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
                         cancel:  'Cancel',
-                        options: '<input type="checkbox" name="reassign_current" /> Unassign All Open Tickets?'
+                        options: '<p class="p-input"><label><input type="checkbox" name="reassign_current" />Unassign All Open Tickets</label></p>'
                     },
                 };
             },
@@ -110,7 +110,6 @@
         verifyAssign: function(data) { 
 
             var ui = this.require('ui', this.options);
-            
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
