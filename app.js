@@ -46,6 +46,7 @@
         //app.init, installed_app
         init: function(app) {
             this.switchTo('loading');
+            console.log("Init: "+ this.currentLocation());
 
             if(app.firstLoad) {
                 this.require = require('context_loader')(this);
@@ -64,6 +65,7 @@
 
         //render_app
         render: function() {
+            console.log("Launch: "+ this.currentLocation());
             var ui = this.require('ui', this.options);
             if (this.currentLocation() == 'nav_bar') {
                 ui.renderNavBar(); //side effect
