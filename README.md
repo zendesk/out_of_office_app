@@ -2,7 +2,7 @@
 
 This app will allow admins to manage their agents' vacation statuses, as well as allowing individual agents to manage their own vacation statuses, and reassigning assigned tickets to their parent group if updated during the vacation.  
 
-There is also an option to unassign all open tickets currently assigned to an agent, when setting the agent on vacation, to the parent group. (In order to do this you must enable "Allow re-assignment back to the general group." under Settings > Tickets > Assignment and save)
+There is also an option to unassign all open tickets currently assigned to an agent, when setting the agent on vacation, to the parent group. **In order to be able to unassign all open tickets the setting "Allow re-assignment back to the general group." under Settings > Tickets > Assignment must be enabled.**
 
 Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-of-office-app/issues). Pull requests are welcome.
 
