@@ -1,5 +1,7 @@
 (function() {
 
+    var locationArray = [];
+
     return {
 
         events: require('events'),
@@ -65,13 +67,98 @@
         //render_app
         render: function() {
             var ui = this.require('ui', this.options);
-            if (this.currentLocation() == 'nav_bar') {
-                ui.renderNavBar(); //side effect
-            } else if (this.currentLocation() == 'user_sidebar') {
-                ui.renderUser(); //side effect
-            } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+
+              console.log('*********START**********');
+
+              if (this.currentLocation() == 'new_ticket_sidebar') { // new
+                locationArray.push('new_ticket_sidebar');
+              } else if (this.currentLocation() == 'ticket_sidebar') { // existing
+                locationArray.push('ticket_sidebar');
+              } else if (this.currentLocation() == 'nav_bar') {
+                locationArray.push('nav_bar');
+              } else if (this.currentLocation() == 'user_sidebar') {
+                locationArray.push('user_sidebar');
+              } else {
+                console.log('no location found');
+              }
+
+              this.locationArray = locationArray;
+
+              if (_.first(locationArray) == 'nav_bar' && _.last(locationArray) == 'ticket_sidebar' && locationArray.length > 1) {
+                console.log('ticket_sidebar 1');
+                console.log('display *ticket_sidebar 1* template');
                 ui.renderTicket();
-            }            
+              } else if (_.first(locationArray) == 'ticket_sidebar' && _.last(locationArray) == 'nav_bar' && locationArray.length > 1) {
+                console.log('ticket_sidebar 2')
+                console.log('display *ticket_sidebar 2* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'nav_bar' && _.last(locationArray) == 'new_ticket_sidebar' && locationArray.length > 1) {
+                console.log('new_ticket_sidebar 1');
+                console.log('display *new_ticket_sidebar 1* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'new_ticket_sidebar' && _.last(locationArray) == 'nav_bar' && locationArray.length > 1) {
+                console.log('new_ticket_sidebar 2');
+                console.log('display *new_ticket_sidebar 2* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'new_ticket_sidebar' && _.last(locationArray) == 'ticket_sidebar' && locationArray.length > 1) {
+                console.log('new_ticket_sidebar & ticket_sidebar 1');
+                console.log('display *new_ticket_sidebar & ticket_sidebar 1* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'ticket_sidebar' && _.last(locationArray) == 'new_ticket_sidebar' && locationArray.length > 1) {
+                console.log('new_ticket_sidebar & ticket_sidebar 2');
+                console.log('display *new_ticket_sidebar & ticket_sidebar 2* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'ticket_sidebar' && _.last(locationArray) == 'ticket_sidebar' && locationArray.length > 1) {
+                console.log('ticket_sidebar & ticket_sidebar');
+                console.log('display *ticket_sidebar & ticket_sidebar* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'new_ticket_sidebar' && _.last(locationArray) == 'new_ticket_sidebar' && locationArray.length > 1) {
+                console.log('new_ticket_sidebar & new_ticket_sidebar');
+                console.log('display *new_ticket_sidebar & new_ticket_sidebar* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'nav_bar' && _.last(locationArray) == 'user_sidebar' && locationArray.length > 1) {
+                console.log('user_sidebar 1');
+                console.log('display *user_sidebar 1* template');
+                ui.renderUser();
+              } else if (_.first(locationArray) == 'user_sidebar' && _.last(locationArray) == 'nav_bar' && locationArray.length > 1) {
+                console.log('user_sidebar 2');
+                console.log('display *user_sidebar 2* template');
+                ui.renderUser();
+              } else if (_.first(locationArray) == 'nav_bar' && _.last(locationArray) == 'nav_bar' && locationArray.length > 1) {
+                console.log('nav_bar');
+                console.log('display NAV BAR template');
+                ui.renderNavBar();
+              } else if (_.first(locationArray) == 'ticket_sidebar' && _.last(locationArray) == 'ticket_sidebar' && locationArray.length < 2) {
+                console.log('ticket_sidebar 3');
+                console.log('display *ticket_sidebar 3* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'new_ticket_sidebar' && _.last(locationArray) == 'new_ticket_sidebar' && locationArray.length < 2) {
+                console.log('new_ticket_sidebar 3');
+                console.log('display *new_ticket_sidebar 3* template');
+                ui.renderTicket();
+              } else if (_.first(locationArray) == 'user_sidebar' && _.last(locationArray) == 'user_sidebar' && locationArray.length < 2) {
+                console.log('user_sidebar 3');
+                console.log('display *user_sidebar 3* template');
+                ui.renderUser();
+              } else {
+                console.log('render nothing');
+              }
+
+              console.log(locationArray.length);
+              console.log(locationArray);
+              console.log(locationArray.length > 1);
+
+              console.log('*********DONE**********');
+
+
+            // if (this.currentLocation() == 'nav_bar') {
+            //     ui.renderNavBar(); //side effect
+            // } else if (this.currentLocation() == 'user_sidebar') {
+            //     ui.renderUser(); //side effect
+            // } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+            //     ui.renderTicket();
+            // }   
+
         },
 
 
@@ -100,6 +187,9 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         verifyAssign: function(data) { 
+
+            var ui = this.require('ui', this.options);
+
         // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
@@ -109,6 +199,7 @@
             } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
                 console.log('No agent assigned - assigning to Group: ' + this.ticket().assignee().group().name()); 
                 console.log('else if');
+                ui.renderTicket();
                 
                 return true;
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
@@ -145,6 +236,7 @@
                             } else {
                                 // ELSE - 2 start
                                 console.log('[PROMISE] - IF - else');
+                                ui.renderTicket();
                                 done();
                                 // ELSE - 2 end
                             }
