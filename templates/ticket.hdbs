@@ -14,7 +14,7 @@
     {{/if}}
     </div>
 {{else}}
-<p>This ticket is not assigned to an agent</p>
+<p>Assignee not selected as specific agent</p>
 {{/if}}
 </div>
 
