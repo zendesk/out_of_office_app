@@ -3,7 +3,7 @@
     return {
 
         events: require('events'),
-        
+
         requests: require('requests'),
 
         options:  {
@@ -43,16 +43,22 @@
             },
         },
 
-        //app.init, installed_app
+
+        //app.created
         init: function(app) {
             this.switchTo('loading');
 
-            if(app.firstLoad) {
-                this.require = require('context_loader')(this);
+            this.require = require('context_loader')(this);
+
+            console.log("Init: "+ this.currentLocation());
+
+            if (this.currentLocation() != 'nav_bar') {
+                console.log("Init: "+ this.currentLocation());
+
                 this.require('install_app', this.options)();
-            } else {
-                this.trigger("render_app");                
+
             }
+
         },
 
         //loaded_settings
@@ -63,7 +69,9 @@
 
 
         //render_app
-        render: function() {
+        render: function(evt) {
+
+            console.log("Launch: "+ this.currentLocation());
             var ui = this.require('ui', this.options);
             if (this.currentLocation() == 'nav_bar') {
                 ui.renderNavBar(); //side effect
@@ -100,39 +108,50 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         verifyAssign: function(data) { 
-        // verifyAssign - start
+            // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
                 console.log('User && Group ID undefined');
-                
+
                 return true;
             } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
                 console.log('No agent assigned - assigning to Group: ' + this.ticket().assignee().group().name()); 
                 console.log('else if');
-                
+
                 return true;
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
                 console.log(this.ticket().assignee().user().id());
                 var asignee = this.ticket().assignee().user();
+                var ticket = this.ticket().id();
                 console.log('else');
 
                 return this.promise(function(done, fail) { 
-                // PROMISE - start
+                    // PROMISE - start
                     console.log('[PROMISE] - start');
-                    
+                    console.log(data);
+
                     that.ajax('getSingleAgent', asignee.id()).done(function(agent) { 
-                    // that.ajax - start
+                        // that.ajax - start
                         agent = agent.user;
-                        
+
                         if (that.options.preventAssignOOO) { 
-                        // IF - 1 - start
+                            // IF - 1 - start
                             if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
+                                    console.log("Ticket: " + ticket);
+                                
+                                that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
+                                    if(ticket.ticket.assignee_id == asignee.id()) {
+                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);                                        
+                                        done();
+                                    } else {
+                                services.notify('Warning: ' + agent.name + ' is out of office. Please select a valid assignee for the ticket.', 'alert', 5000);                         
+                                        fail();
+                                    }
+                                });
                                 // IF - 2 - start
                                 console.log('[PROMISE] - IF - if');
                                 console.log('ticket_sidebar');
                                 console.log('OOO Agent updates permitted on existing tickets');
-                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
-                                done();
                                 // IF - 2 - end
                             } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
                                 // ELSE IF - start
@@ -149,8 +168,8 @@
                                 // ELSE - 2 end
                             }
                         } else { 
-                        // IF - 1 - end
-                        // ELSE - 1 - start
+                            // IF - 1 - end
+                            // ELSE - 1 - start
                             console.log('that.options.preventAssignOOO = FALSE');
                             if(agent[that.options.userFieldKey]) {
                                 console.log('agent[that.options.userFieldKey] == TRUE');
@@ -158,16 +177,16 @@
                             }
                             console.log('agent[that.options.userFieldKey] == FALSE');
                             done();
-                        // ELSE - 1 - end
+                            // ELSE - 1 - end
                         }
-                    // that.ajax - end
+                        // that.ajax - end
                     });
-                // PROMISE - end
+                    // PROMISE - end
                 });
             }
-        // verifyAssign - end
+            // verifyAssign - end
         },
-        
+
         //status_changed
         notifyStatus: function(evt) {
             var status = "available";
