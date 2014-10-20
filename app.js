@@ -184,7 +184,7 @@
 
         //unassigned_ooo
         notifyUnAssign: function(evt) {
-            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ", please refresh the page now");
+            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
         },
 
         //assigned_ooo
