@@ -64,7 +64,6 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         render: function(evt) {
-            console.log('rerender');
             var ui = this.require('ui', this.options);
             if(!this.options.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
