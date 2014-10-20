@@ -123,15 +123,24 @@
 
                         if (that.options.preventAssignOOO) { 
                             // IF - 1 - start
-                            if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
+                            if (this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
+
                                     if(ticket.ticket.assignee_id == asignee.id()) {
-                                        services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
+
+                                        if(agent.user_fields[that.options.userFieldKey]) {
+                                            services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);                 
+                                        }
                                         done();
                                     } else {
-                                        services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
-                                        fail();
+                                        that.options.lockRender = true;
+                                        if (agent.user_fields[that.options.userFieldKey]) {
+                                            services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
+                                            fail();
+                                        } else {
+                                            done();
+                                        }
                                     }
                                 });
                                 // IF - 2 - start
