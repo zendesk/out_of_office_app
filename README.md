@@ -9,16 +9,38 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 ## Features
 
 * On install, the app will create a trigger, which adds a user as a condition to unassign any tickets which are updated while unsolved, and assigned to an unavailable agent, back to the parent group as unassigned.  
-* Setting an agent to unavailable will add the user to the trigger so updates to their tickets unassign said tickets.  
-* Admins can view availability, as well as edit agents' status to make them available or unavailable from the user sidebar or navbar
-* Agents can set themselves available or unavailable from their user profile via the user sidebar location
-* Agents and Admins can view a ticket's assigned agent's current vacation status from within any ticket on the ticket apps panel
+* Setting an agent to unavailable will add the user to the trigger so updates to their tickets unassign said tickets. 
+* Setting the agent back to available removes them from the trigger 
+* Admins can view availability of all agents with edit priviledges to their availability from all locations
+* Agents can set themselves available or unavailable on their user profile
+* Agents and Admins can view a ticket's assigned agent's current OOO status from both the new ticket sidebar and ticket sidebar locations
 * (Optional) When setting an agent as unavailable from the nav bar location, the admin can unassign all currently open tickets assigned to that agent back to the parent group
-* Setting the agent back to available removes them from the trigger
+* *Existing Tickets updated by the Requester while Assignee is OOO resets the Assignee field back to it's parent group and (notifies Requester)
+* *New* Tickets CAN NEVER be created with an Assignee that is OOO
+* *Existing* Tickets CAN be updated BY OTHER AGENTS while Assignee is marked as OOO with a warning
+* *New* OR *Existing* Tickets CAN be assigned to a group on creation/update without an Assignee as normal
+* *New* OR *Existing* Tickets CAN be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
+* *Existing* tickets not currently assigned to an OOO agent CAN NOT be assigned to them while they're OOO, unless the intended assignee is the current user even if current user is OOO
+
+## Known Issue
+
+Currently you're able to assign a ticket to a group with only one agent in its membership even if the sole agent in that group is OOO becasue currently we aren't checking for this. We will fix this in a future version.
 
 ## Locations
 
-The app has three locations: nav bar, user sidebar, and ticket sidebar.  The nav bar can be viewed by all agents/admins, but the agent statuses can only be edited by admins. The user sidebar location is editable by the agents setting themselves on vacation, or admins.  The ticket sidebar is read-only, to simply display the currently assigned agent's status.
+* Nav Bar (Viewed by all agents/admins, but the agent statuses is only editable by the agents themselves and all admins)
+* Ticket Sidebar (Viewed by all agents/admins, but the agent statuses is only editable by the agents themselves and all admins)
+* New Ticket Sidebar (Viewed by all agents/admins, but the agent statuses is only editable by the agents themselves and all admins)
+* User Sidebar (Editable by the agents setting themselves on vacation, and all admins)
+
+[More on Zendesk App Locations here](https://developer.zendesk.com/apps/docs/agent/manifest#location)
+
+## Future versions
+
+* [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/100) Setting: "Allow existing tickets not assigned to an OOO agent to be re-assigned to an OOO agent if the OOO agent is the current user"
+* [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/90) Custom OOO messages configurable by agents
+* [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/29) Avatar usage on agent list in Nav Bar
+* [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/10) Allow custom OOO tag on user field
 
 ## Screenshots
 

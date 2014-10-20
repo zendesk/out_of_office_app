@@ -67,8 +67,11 @@
             this.trigger("render_app");
         },
 
-
+        //app.activated
+        //pane.activated
         //render_app
+        //ticket.assignee.user.id.changed
+        //ticket.assignee.group.id.changed
         render: function(evt) {
 
             console.log("Launch: "+ this.currentLocation());
@@ -105,20 +108,7 @@
 
 
         //ticket.save
-        //ticket.assignee.user.id.changed
-        //ticket.assignee.group.id.changed
         verifyAssign: function(data) { 
-
-            // EXISTING Tickets updated by the Requester while Assignee is OOO resets the Assignee field back to it's parent group and (notifies Requester)
-            // NEW Tickets CAN NEVER be created with an Assignee that is OOO
-            // EXISTING Tickets CAN be updated BY OTHER AGENTS while Assignee is marked as OOO with a warning
-            // NEW OR EXISTING Tickets CAN be assigned to a group on creation/update without an Assignee as normal
-            // NEW OR EXISTING Tickets CAN be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
-            // Existing tickets not currently assigned to an OOO agent CAN NOT be assigned to them while they're OOO, unless the intended assignee is the current user even if current user is OOO
-            // Desired Setting: "Allow existing tickets not assigned to an OOO agent to be re-assigned to an OOO agent if the OOO agent is the current user"
-            // Known Issues - setting must be enabled for unassign all open tickets to work
-            // Known Issues - you can assign a ticket to a group with a single agent if the agent is OOO - no deep check for this
-            
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
