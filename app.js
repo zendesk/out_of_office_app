@@ -177,7 +177,7 @@
             services.notify("Unable to update status for " + evt.agent.name, 'alert');
         },
 
-        //loaded_settings
+        //created_requirements
         notifyInstalled: function(evt) {
             services.notify("Detected first run of app. Created user field and trigger in account", 'alert');
         },
