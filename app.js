@@ -152,10 +152,10 @@
                                 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
                                     if(ticket.ticket.assignee_id == asignee.id()) {
-                                services.notify('Warning: ' + agent.name + ' is out of office. If this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);                                        
+                                services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);                                        
                                         done();
                                     } else {
-                                services.notify('Warning: ' + agent.name + ' is out of office. Please select a valid assignee for the ticket.', 'alert', 5000);                         
+                                services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
                                         fail();
                                     }
                                 });
@@ -204,27 +204,27 @@
             if(evt.agent.user_fields.agent_ooo) {
                 status = "unavailable";
             }
-            services.notify("Updated status for " + evt.agent.name + " to " + status + ".");
+            services.notify("Updated status for " + evt.agent.name + " to " + status);
         },
 
         //status_error
         notifyFail: function(evt) {
-            services.notify("Unable to update status for " + evt.agent.name + ".", 'alert');
+            services.notify("Unable to update status for " + evt.agent.name, 'alert');
         },
 
         //loaded_settings
         notifyInstalled: function(evt) {
-            services.notify("Detected first run of app. Created user field and trigger in account.", 'alert');
+            services.notify("Detected first run of app. Created user field and trigger in account", 'alert');
         },
 
         //unassigned_ooo
         notifyUnAssign: function(evt) {
-            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
+            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ", please refresh the page now");
         },
 
         //assigned_ooo
         notifyAssign: function(name) {
-            services.notify("Ticket assigned to " + name + " who is unavailable.", 'alert');
+            services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
         }
 
     };
