@@ -50,15 +50,17 @@
             this.switchTo('loading');
             this.require = require('context_loader')(this);
 
-            if (this.currentLocation() != 'nav_bar') {          //prevent a race condition due to an app refresh on the top bar returning a location of both the sidebar and navbar simultaneously
-                this.require('install_app', this.options)();
+            if (this.currentLocation() == 'nav_bar') {          
+                this.options.lockRender = true;                     //prevent a race condition due to an app refresh on the top bar returning a location of both the sidebar and navbar simultaneously
             }
+            this.require('install_app', this.options)();            
 
         },
 
         //loaded_settings
         createSettings: function(evt) {
             this.options = evt.settings;
+            console.log(this.options);
             this.trigger("render_app");
         },
 
@@ -71,14 +73,15 @@
             var ui = this.require('ui', this.options);
             if(!this.options.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
-                    ui.renderNavBar(); //side effect
+                    var filter = this.$('#filter_search').val();
+                    console.log(filter);
+                    ui.renderNavBar(filter); 
                 } else if (this.currentLocation() == 'user_sidebar') {
-                    ui.renderUser(); //side effect
+                    ui.renderUser(); 
                 } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
                     ui.renderTicket();
                 } 
             } else {
-                console.log('unlocked');
                 this.options.lockRender = false; //prevent one update if the render status is locked, then unlock: fixes an issue where the ticket.assignee.user.id.changed event returns the wrong user
             }
         },
