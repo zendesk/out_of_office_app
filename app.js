@@ -109,7 +109,7 @@
         },
         //ticket.save
         verifyAssign: function(data) { 
-            that.options.lockRender = false;
+            this.options.lockRender = false;
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
