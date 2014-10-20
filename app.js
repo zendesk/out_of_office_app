@@ -41,7 +41,7 @@
                     },
                 };
             },
-            lockRender: false
+            lockRender: false,
         },
 
 
@@ -100,12 +100,13 @@
         },
 
         needsLock: function(assigneeID, groupID, ticket) {
-            console.log(assigneeID);
-            console.log(ticket.assignee_id);
-            if(assigneeID != ticket.assignee_id) {
-                console.log('assignee changed');
+            if(ticket.assignee_id == null) {
                 return true;
-            }
+            } else if(assigneeID != ticket.assignee_id ) {
+                return true;
+            } 
+            return false;
+
         },
         //ticket.save
         verifyAssign: function(data) { 
@@ -113,10 +114,9 @@
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
-
                 return true;
             } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
-
+                this.options.lockRender = true;
                 return true;
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
                 var assignee = this.ticket().assignee().user();
@@ -135,7 +135,6 @@
                             if (this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
-                                    console.log(ticket.ticket);
                                     that.options.lockRender = that.needsLock(assignee.id(),group.id(), ticket.ticket);                              
                                     if(agent.user_fields[that.options.userFieldKey] && ticket.ticket.assignee_id == assignee.id()) {
                                         services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
