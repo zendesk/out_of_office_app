@@ -12,7 +12,7 @@
             installationID: undefined,
 
             createTrigger: true,            
-            triggerTitle: 'out-of-office app trigger',
+            triggerTitle: 'out-of-office app unassign trigger [System Trigger]',
             triggerID: undefined,
 
             userFieldName: 'Agent Out?',
