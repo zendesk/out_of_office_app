@@ -4,16 +4,25 @@
 
 input[type=checkbox] {
   float: left;
-
+  margin-left: 10px;
 }
 
 .p-assignee {
   margin-bottom: 6px;
 }
 
-.p-input {
-  margin-right: 300px;
-  margin-bottom: 14px;
+.p-user {
+  margin-bottom: 6px;
+  font-size: 120%;
+}
+
+span#foo {
+  padding-right: 46px;
+}
+
+label {
+  width: 260px;
+  padding-bottom: 12px;
 }
 
 table#agent_list.table {
@@ -223,6 +232,5 @@ button.btn-canel {
 span.option {
   display: block;
   left: 0;
-  margin-bottom: 10px;
   margin-right: 65%;
 }

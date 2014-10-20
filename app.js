@@ -28,16 +28,16 @@
                 return { 
                     available: {
                         header:  'Please confirm status change',
-                        content: '<p>This action will mark <strong>' + name + '</strong> as available and allow tickets to be assigned.</p>',
+                        content: '<p>This action will mark <strong>' + name + '</strong> as available and allow tickets to be assigned</p>',
                         confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
                         cancel:  'Cancel'
                     },
                     unavailable: {
                         header:  'Please confirm status change',
-                        content: '<p>This action will mark <strong>' + name + '</strong> as unavailable and prevet tickets from being assigned to them.</p>',
+                        content: '<p>This action will mark <strong>' + name + '</strong> as out of office and prevent tickets from being assigned</p>',
                         confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
                         cancel:  'Cancel',
-                        options: '<p class="p-input" style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" />Unassign All Open Tickets</label></p>'
+                        options: '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">Unassign All Open Tickets</span></label></p>'
                     },
                 };
             },
