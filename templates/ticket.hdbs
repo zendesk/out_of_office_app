@@ -2,7 +2,7 @@
 
 
 {{#if assignee}}
-<p>The assignee ({{assignee.name}}) is:&nbsp;
+<p class="p-assignee">Agent: <strong>{{assignee.name}}</strong>
 
   <div class="btn-group status">
     {{#if assignee.user_fields.agent_ooo}}
