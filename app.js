@@ -48,19 +48,13 @@
         //app.created
         init: function(app) {
             this.switchTo('loading');
-            this.require = require('context_loader')(this);
-
-            if (this.currentLocation() == 'nav_bar') {          
-                this.options.lockRender = true;                     //prevent a race condition due to an app refresh on the top bar returning a location of both the sidebar and navbar simultaneously
-            }
+            this.require = require('context_loader')(this);            
             this.require('install_app', this.options)();            
-
         },
 
         //loaded_settings
         createSettings: function(evt) {
             this.options = evt.settings;
-            console.log(this.options);
             this.trigger("render_app");
         },
 
@@ -74,7 +68,6 @@
             if(!this.options.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
                     var filter = this.$('#filter_search').val();
-                    console.log(filter);
                     ui.renderNavBar(filter); 
                 } else if (this.currentLocation() == 'user_sidebar') {
                     ui.renderUser(); 
@@ -85,7 +78,6 @@
                 this.options.lockRender = false; //prevent one update if the render status is locked, then unlock: fixes an issue where the ticket.assignee.user.id.changed event returns the wrong user
             }
         },
-
 
         //click .set-status
         verifyChange: function(evt) {
