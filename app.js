@@ -28,16 +28,16 @@
                 return { 
                     available: {
                         header:  'Please confirm status change',
-                        content: '<p>This action will mark ' + name + ' as available and allow tickets to be assigned.</p>',
-                        confirm: '<p style="color: white; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
+                        content: '<p>This action will mark <strong>' + name + '</strong> as available and allow tickets to be assigned.</p>',
+                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Available</p>',        
                         cancel:  'Cancel'
                     },
                     unavailable: {
                         header:  'Please confirm status change',
-                        content: '<p>This action will mark ' + name + ' as unavailable and prevet tickets from being assigned to them.</p>',
-                        confirm: '<p style="color: white; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
+                        content: '<p>This action will mark <strong>' + name + '</strong> as unavailable and prevet tickets from being assigned to them.</p>',
+                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
                         cancel:  'Cancel',
-                        options: '<p class="p-input"><label><input type="checkbox" name="reassign_current" />Unassign All Open Tickets</label></p>'
+                        options: '<p class="p-input" style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" />Unassign All Open Tickets</label></p>'
                     },
                 };
             },
@@ -108,6 +108,17 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         verifyAssign: function(data) { 
+
+            // EXISTING Tickets updated by the Requester while Assignee is OOO resets the Assignee field back to it's parent group and (notifies Requester)
+            // NEW Tickets CAN NEVER be created with an Assignee that is OOO
+            // EXISTING Tickets CAN be updated BY OTHER AGENTS while Assignee is marked as OOO with a warning
+            // NEW OR EXISTING Tickets CAN be assigned to a group on creation/update without an Assignee as normal
+            // NEW OR EXISTING Tickets CAN be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
+            // Existing tickets not currently assigned to an OOO agent CAN NOT be assigned to them while they're OOO, unless the intended assignee is the current user even if current user is OOO
+            // Desired Setting: "Allow existing tickets not assigned to an OOO agent to be re-assigned to an OOO agent if the OOO agent is the current user"
+            // Known Issues - setting must be enabled for unassign all open tickets to work
+            // Known Issues - you can assign a ticket to a group with a single agent if the agent is OOO - no deep check for this
+            
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
