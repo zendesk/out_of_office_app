@@ -74,9 +74,13 @@
                 } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
                     ui.renderTicket();
                 } 
-            } else {
-                this.options.lockRender = false; //prevent one update if the render status is locked, then unlock: fixes an issue where the ticket.assignee.user.id.changed event returns the wrong user
-            }
+            } 
+        },
+        
+        //ticket.submit.always
+        renderHook: function() {
+            var that = this;
+            setTimeout(function() {that.options.lockRender = false;}, 100);         //prevent the app from re-rendering temporarily until everything finishes loading
         },
 
         //click .set-status
@@ -99,24 +103,14 @@
             this.require('update_status', this.options)(agentID, unassignTickets);
         },
 
-        needsLock: function(assigneeID, groupID, ticket) {
-            if(ticket.assignee_id == null) {
-                return true;
-            } else if(assigneeID != ticket.assignee_id ) {
-                return true;
-            } 
-            return false;
-
-        },
         //ticket.save
         verifyAssign: function(data) { 
-            this.options.lockRender = false;
+            this.options.lockRender = true;
             // verifyAssign - start
             var that = this;
             if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
                 return true;
             } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
-                this.options.lockRender = true;
                 return true;
             } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
                 var assignee = this.ticket().assignee().user();
@@ -135,12 +129,10 @@
                             if (this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
-                                    that.options.lockRender = that.needsLock(assignee.id(),group.id(), ticket.ticket);                              
                                     if(agent.user_fields[that.options.userFieldKey] && ticket.ticket.assignee_id == assignee.id()) {
                                         services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
                                         done();
                                     } else if (agent.user_fields[that.options.userFieldKey]){
-                                        that.options.lockRender = false;
                                         services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
                                         fail();
                                     } else {
