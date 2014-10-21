@@ -24,7 +24,8 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 ## Known Issue
 
-Currently you're able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable becasue currently we aren't checking for this. We will fix this in a future version.
+* Currently you're able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable because currently we aren't checking for this. We will fix this in a future version
+* Sometimes *recently assigned tickets* will not be properly reassign with the bulk unassign job when marking an agent as unavailable. If this happens, please wait a few minutes and try again
 
 ## Locations
 
