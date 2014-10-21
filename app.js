@@ -80,7 +80,7 @@
         //ticket.submit.always
         renderHook: function() {
             var that = this;
-            setTimeout(function() {that.options.lockRender = false;}, 100);         //prevent the app from re-rendering temporarily until everything finishes loading
+            setTimeout(function() {that.options.lockRender = false;}, 500);         //prevent the app from re-rendering temporarily until everything finishes loading
         },
 
         //click .set-status
