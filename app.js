@@ -97,6 +97,7 @@
 
         //toggle_status
         updateStatus: function(evt) {
+            console.log('toggle');
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
@@ -130,12 +131,11 @@
 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
                                     if(agent.user_fields[that.options.userFieldKey] && ticket.ticket.assignee_id == assignee.id()) {
-                                        services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
-                                        done();
+                                       // services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
+                                        done('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
                                     } else if (agent.user_fields[that.options.userFieldKey]){
-                                        services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
-                                        fail();
-                                    } else {
+                                        fail('<a href="/users/' + agent.id + '/">' + agent.name + '</a> is out of office, please select a valid assignee for the ticket <p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Mark as Available</p>');
+                                    } else { 
                                         done();
                                     }
                                 });
@@ -143,7 +143,7 @@
                                 // IF - 2 - end
                             } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
                                 // ELSE IF - start
-                                services.notify(agent.name + ' is out of office and new tickets cannot be assigned', 'error', 5000); 
+                                services.notify('<a href="/users/' + agent.id + '/">' + agent.name + '</a> is out of office and new tickets cannot be assigned', 'error', 5000); 
                                 fail();
                                 // ELSE IF - end
                             } else {
