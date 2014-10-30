@@ -134,7 +134,7 @@
                                        // services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
                                         done('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
                                     } else if (agent.user_fields[that.options.userFieldKey]){
-                                        fail('<a href="/users/' + agent.id + '/">' + agent.name + '</a> is out of office, please select a valid assignee for the ticket <p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Mark as Available</p>');
+                                        fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
                                     } else { 
                                         done();
                                     }
