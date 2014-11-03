@@ -43,7 +43,8 @@
             },
             lockRender: false,
         },
-
+    
+        renderRetries: 0,        
 
         //app.created
         init: function(app) {
@@ -219,7 +220,10 @@
         },
 
         notifyError: function(string) {
-            this.trigger("render_app");
+            if(this.renderRetries < 0){
+                this.trigger("render_app");            
+            }
+            this.renderRetries++
             services.notify("Error: Unable to " + string, 'error');
         },
 
