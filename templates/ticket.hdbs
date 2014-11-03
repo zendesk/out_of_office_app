@@ -1,20 +1,21 @@
 <div id="ticket_dash">
+  {{#if assignee}}
+  <p class="p-assignee">Agent: <strong>{{assignee.name}}</strong>
 
-
-{{#if assignee}}
-<p class="p-assignee">Agent: <strong>{{assignee.name}}</strong>
-
-  <div class="btn-group status">
-    {{#if assignee.user_fields.agent_ooo}}
-      {{#if permission}}<button class="btn btn-available status-toggle" value="{{assignee.id}}">Available</button>{{/if}}
-      <button id="unavailable" class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
-    {{else}}
-      <button id="available" class="btn btn-available green btn-primary{{#unless permission}}disabled{{/unless}}">Available</button>
-      {{#if permission}}<button class="btn btn-busy status-toggle" value="{{assignee.id}}">Unavailable</button>{{/if}}
-    {{/if}}
-    </div>
-{{else}}
-<p>This ticket is not assigned to an agent</p>
-{{/if}}
+    <div class="btn-group status">
+      {{#if assignee.user_fields.agent_ooo}}
+        {{#if permission}}
+        <button class="btn btn-available status-toggle" value="{{assignee.id}}">Available</button>
+        {{/if}}
+        <button id="unavailable" class="btn btn-busy btn-primary red <!--{{#unless permission}}disabled{{/unless}}-->">Unavailable</button>
+      {{else}}
+        <button id="available" class="btn btn-available green btn-primary <!--{{#unless permission}}disabled{{/unless}}-->">Available</button>
+        {{#if permission}}
+        <button class="btn btn-busy status-toggle" value="{{assignee.id}}">Unavailable</button>
+        {{/if}}
+      {{/if}}
+      </div>
+  {{else}}
+  <p>This ticket is not assigned to an agent</p>
+  {{/if}}
 </div>
-
