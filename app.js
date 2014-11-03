@@ -49,7 +49,7 @@
         init: function(app) {
             this.switchTo('loading');
             this.require = require('context_loader')(this);            
-            this.require('install_app', this.options)();            
+            this.require('install_app', this.options)();
         },
 
         //loaded_settings
@@ -97,6 +97,7 @@
 
         //toggle_status
         updateStatus: function(evt) {
+            console.log('toggle');
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
@@ -130,12 +131,22 @@
 
                                 that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
                                     if(agent.user_fields[that.options.userFieldKey] && ticket.ticket.assignee_id == assignee.id()) {
-                                        services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
-                                        done();
+                                       // services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
+                                        done('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
                                     } else if (agent.user_fields[that.options.userFieldKey]){
-                                        services.notify('Warning: ' + agent.name + ' is out of office, please select a valid assignee for the ticket', 'alert', 5000);                         
-                                        fail();
-                                    } else {
+                                        
+                                        // console.log('existing ticket - fail');
+                                        // fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
+                                        
+                                        if (this.currentUser().role() === 'admin') {
+                                            console.log('you are an admin!');
+                                            fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
+                                        } else {
+                                            console.log('you are not an admin!');
+                                            fail('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
+                                        }
+
+                                    } else { 
                                         done();
                                     }
                                 });
@@ -143,8 +154,18 @@
                                 // IF - 2 - end
                             } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
                                 // ELSE IF - start
-                                services.notify(agent.name + ' is out of office and new tickets cannot be assigned', 'error', 5000); 
-                                fail();
+                                
+                                // console.log('new ticket fail');
+                                // fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
+
+                                if (this.currentUser().role() === 'admin') {
+                                    console.log('you are an admin!');
+                                    fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
+                                } else {
+                                    console.log('you are not an admin!');
+                                    fail('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
+                                }
+
                                 // ELSE IF - end
                             } else {
                                 // ELSE - 2 start
