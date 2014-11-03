@@ -216,7 +216,13 @@
         //assigned_ooo
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
-        }
+        },
+
+        notifyError: function(string) {
+            this.trigger("render_app");
+            services.notify("Error: Unable to " + string, 'error');
+        },
+
 
     };
 
