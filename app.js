@@ -197,6 +197,7 @@
                 status = "unavailable";
             }
             services.notify("Updated status for " + evt.agent.name + " to " + status);
+            this.trigger("render_app");                        
         },
 
         //status_error
