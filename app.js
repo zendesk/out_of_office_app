@@ -99,8 +99,6 @@
             this.require('update_status', this.options)(agentID, unassignTickets);
         },
 
-        //ticket.save
-
         //status_changed
         notifyStatus: function(evt) {
             var status = "available";
@@ -116,7 +114,8 @@
             services.notify("Unable to update status for " + evt.agent.name, 'alert');
         },
 
-        //created_requirements
+        //createTrigger.done
+        //createUserField.done
         notifyInstalled: function(item) {
             services.notify("Detected first run of app. Created required " + item, 'alert');
         },
@@ -130,15 +129,25 @@
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
         },
-
+        
+        //getAllAgents.fail
+        //getSingleAgent.fail
+        //url.fail
+        //setAgentStatus.fail
+        //getTriggerData.fail
+        //modifyTrigger.fail
+        //unassignMany.fail
+        //ticketPreview.fail
+        //getSingleTicket.fail
+        //createTrigger.fail
+        //createUserField.fail
+        //getInstalledApps.fail
         notifyError: function(string) {
             if(this.renderRetries < 0){
                 this.trigger("render_app");
             }
             this.renderRetries++;
             services.notify("Error: Unable to " + string, 'error');
-        },
-
+        }
     };
-
 }());
