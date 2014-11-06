@@ -11,7 +11,7 @@
             installed: false,
             installationID: undefined,
 
-            createTrigger: true,            
+            createTrigger: true,
             triggerTitle: 'out-of-office app unassign trigger [System Trigger]',
             triggerID: undefined,
 
@@ -20,7 +20,7 @@
 
             confirmChange: true,
 
-            unassignTickets:false,            
+            unassignTickets:false,
 
             preventAssignOOO: true,
 
@@ -35,7 +35,7 @@
                     unavailable: {
                         header:  'Please confirm status change',
                         content: '<p>This action will mark <strong>' + name + '</strong> as out of office and prevent tickets from being assigned</p>',
-                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Mark as Unavailable</p>',
+                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">Mark as Unavailable</p>',
                         cancel:  'Cancel',
                         options: '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">Unassign All Open Tickets</span></label></p>'
                     },
@@ -43,7 +43,7 @@
             },
             lockRender: false,
         },
-    
+
         renderRetries: 0,        
 
         //app.created
@@ -77,7 +77,7 @@
                 } 
             } 
         },
-        
+
         //ticket.submit.always
         renderHook: function() {
             var that = this;
@@ -109,78 +109,45 @@
         verifyAssign: function(data) { 
             this.options.lockRender = true;
             // verifyAssign - start
-            var that = this;
-            if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() === undefined) {
-                return true;
-            } else if (this.ticket().assignee().user() === undefined && this.ticket().assignee().group() !== undefined) { 
-                return true;
-            } else { // (this.ticket().assignee().user() !== undefined && this.ticket().assignee().group() !== undefined)
-                var assignee = this.ticket().assignee().user();
-                var group = this.ticket().assignee().group();
-                var ticket = this.ticket().id();
 
+            var assignee = this.ticket().assignee().user();
+            var group = this.ticket().assignee().group();
+            var ticket = this.ticket().id();
+
+            var that = this;
+            if (assignee === undefined) {       //if assignee is undefined, group will also be undefined
+                return true;
+            } else {
                 return this.promise(function(done, fail) { 
                     // PROMISE - start
 
                     that.ajax('getSingleAgent', assignee.id()).done(function(agent) { 
+
                         // that.ajax - start
-                        agent = agent.user;
+                        agent = agent.user; //unpack agent
 
-                        if (that.options.preventAssignOOO) { 
-                            // IF - 1 - start
-                            if (this.currentLocation() == 'ticket_sidebar' && this.currentLocation() !== 'new_ticket_sidebar') {
+                        var warning = 'Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office';
 
-                                that.ajax('getSingleTicket', that.ticket().id()).done(function(ticket) {
-                                    if(agent.user_fields[that.options.userFieldKey] && ticket.ticket.assignee_id == assignee.id()) {
-                                       // services.notify('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office', 'alert', 5000);
-                                        done('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
-                                    } else if (agent.user_fields[that.options.userFieldKey]){
-                                        
-                                        // console.log('existing ticket - fail');
-                                        // fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
-                                        
-                                        if (this.currentUser().role() === 'admin') {
-                                            console.log('you are an admin!');
-                                            fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
-                                        } else {
-                                            console.log('you are not an admin!');
-                                            fail('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
-                                        }
+                        if (this.currentUser().role() === 'admin') {        //switch out the warning for the admin-specific one
+                            warning = '<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>';
+                        }
 
-                                    } else { 
-                                        done();
+                        if(!agent[that.options.userFieldKey]) { //if agent isn't ooo, allow it
+                            done();
+                        } else if (!that.options.preventAssignOOO) { //agent is ooo but we shouldn't prevent it
+                            done(warning);                           //allow assign, but warn
+                        } else {                            //agent is ooo and we should prevent it
+                            if (this.currentLocation() === 'new_ticket_sidebar') {  //can't assign a new ticket to an ooo user
+                                fail(warning);
+                            } else {
+                                that.ajax('getSingleTicket', ticket).done(function(ticket) {
+                                    if(ticket.ticket.assignee_id == assignee.id()) {            //check if ticket is still assigned to the same person
+                                        done(warning);                                          //allow it with a warning
+                                    } else {
+                                        fail(warning);                                          //otherwise, fail
                                     }
                                 });
-                                // IF - 2 - start
-                                // IF - 2 - end
-                            } else if (agent.user_fields[that.options.userFieldKey] && this.currentLocation() == 'new_ticket_sidebar') {
-                                // ELSE IF - start
-                                
-                                // console.log('new ticket fail');
-                                // fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
-
-                                if (this.currentUser().role() === 'admin') {
-                                    console.log('you are an admin!');
-                                    fail('<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>');
-                                } else {
-                                    console.log('you are not an admin!');
-                                    fail('Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office');
-                                }
-
-                                // ELSE IF - end
-                            } else {
-                                // ELSE - 2 start
-                                done();
-                                // ELSE - 2 end
                             }
-                        } else { 
-                            // IF - 1 - end
-                            // ELSE - 1 - start
-                            if(agent[that.options.userFieldKey]) {
-                                that.notifyAssign(agent.name);
-                            }
-                            done();
-                            // ELSE - 1 - end
                         }
                         // that.ajax - end
                     });
@@ -197,7 +164,7 @@
                 status = "unavailable";
             }
             services.notify("Updated status for " + evt.agent.name + " to " + status);
-            this.trigger("render_app");                        
+            this.trigger("render_app");
         },
 
         //status_error
@@ -222,12 +189,11 @@
 
         notifyError: function(string) {
             if(this.renderRetries < 0){
-                this.trigger("render_app");            
+                this.trigger("render_app");
             }
             this.renderRetries++
-            services.notify("Error: Unable to " + string, 'error');
+                services.notify("Error: Unable to " + string, 'error');
         },
-
 
     };
 
