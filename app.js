@@ -4,7 +4,7 @@
 
         events: require('events'),
 
-        requests: require('requests'),
+        requests: {},
 
         options:  {
             appTitle: 'ooo_app',
