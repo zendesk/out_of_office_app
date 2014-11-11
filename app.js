@@ -71,11 +71,84 @@
                 ajax: {
                     'unTagTicket': {},
                     'tagTicket': {},
-                    'pendingTickets': {},
+                    'pendingTickets': {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
+                    'ticketPreview':  {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
                     'unassignMany': {},
+                    'url':  {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
                     'setAgentStatus': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":true}}},
                     'getSingleAgent': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":false}}},
-,
                 },
 
                 trigger: true
