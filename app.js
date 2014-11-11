@@ -4,7 +4,7 @@
 
         events: require('events'),
 
-        requests: require('requests'),
+        requests: {},
 
         options:  {
             appTitle: 'ooo_app',
@@ -78,12 +78,6 @@
             } 
         },
 
-        //ticket.submit.always
-        renderHook: function() {
-            var that = this;
-            setTimeout(function() {that.options.lockRender = false;}, 500);         //prevent the app from re-rendering temporarily until everything finishes loading
-        },
-
         //click .set-status
         verifyChange: function(evt) {
             var agentID = evt.currentTarget.value;
@@ -105,58 +99,6 @@
             this.require('update_status', this.options)(agentID, unassignTickets);
         },
 
-        //ticket.save
-        verifyAssign: function(data) { 
-            this.options.lockRender = true;
-            // verifyAssign - start
-
-            var assignee = this.ticket().assignee().user();
-            var group = this.ticket().assignee().group();
-            var ticket = this.ticket().id();
-
-            var that = this;
-            if (assignee === undefined) {       //if assignee is undefined, group will also be undefined
-                return true;
-            } else {
-                return this.promise(function(done, fail) { 
-                    // PROMISE - start
-
-                    that.ajax('getSingleAgent', assignee.id()).done(function(agent) { 
-
-                        // that.ajax - start
-                        agent = agent.user; //unpack agent
-
-                        var warning = 'Warning: ' + agent.name + ' is out of office, if this request requires immediate attention please re-assign to a different agent who is not out of office';
-
-                        if (this.currentUser().role() === 'admin') {        //switch out the warning for the admin-specific one
-                            warning = '<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="console.log(window);$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>';
-                        }
-
-                        if(!agent[that.options.userFieldKey]) { //if agent isn't ooo, allow it
-                            done();
-                        } else if (!that.options.preventAssignOOO) { //agent is ooo but we shouldn't prevent it
-                            done(warning);                           //allow assign, but warn
-                        } else {                            //agent is ooo and we should prevent it
-                            if (this.currentLocation() === 'new_ticket_sidebar') {  //can't assign a new ticket to an ooo user
-                                fail(warning);
-                            } else {
-                                that.ajax('getSingleTicket', ticket).done(function(ticket) {
-                                    if(ticket.ticket.assignee_id == assignee.id()) {            //check if ticket is still assigned to the same person
-                                        done(warning);                                          //allow it with a warning
-                                    } else {
-                                        fail(warning);                                          //otherwise, fail
-                                    }
-                                });
-                            }
-                        }
-                        // that.ajax - end
-                    });
-                    // PROMISE - end
-                });
-            }
-            // verifyAssign - end
-        },
-
         //status_changed
         notifyStatus: function(evt) {
             var status = "available";
@@ -172,9 +114,10 @@
             services.notify("Unable to update status for " + evt.agent.name, 'alert');
         },
 
-        //created_requirements
-        notifyInstalled: function(evt) {
-            services.notify("Detected first run of app. Created user field and trigger in account", 'alert');
+        //createTrigger.done
+        //createUserField.done
+        notifyInstalled: function(item) {
+            services.notify("Detected first run of app. Created required " + item, 'alert');
         },
 
         //unassigned_ooo
@@ -186,15 +129,25 @@
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
         },
-
+        
+        //getAllAgents.fail
+        //getSingleAgent.fail
+        //url.fail
+        //setAgentStatus.fail
+        //getTriggerData.fail
+        //modifyTrigger.fail
+        //unassignMany.fail
+        //ticketPreview.fail
+        //getSingleTicket.fail
+        //createTrigger.fail
+        //createUserField.fail
+        //getInstalledApps.fail
         notifyError: function(string) {
             if(this.renderRetries < 0){
                 this.trigger("render_app");
             }
-            this.renderRetries++
-                services.notify("Error: Unable to " + string, 'error');
-        },
-
+            this.renderRetries++;
+            services.notify("Error: Unable to " + string, 'error');
+        }
     };
-
 }());
