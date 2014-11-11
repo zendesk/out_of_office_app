@@ -41,9 +41,10 @@
                     },
                 };
             },
-            lockRender: false,
         },
-
+        
+        debug: true,        
+        lockRender: false,        
         renderRetries: 0,        
 
         //app.created
@@ -57,6 +58,31 @@
         createSettings: function(evt) {
             this.options = evt.settings;
             this.trigger("render_app");
+            if(this.debug) {
+                this.runTests();
+            }
+            
+        },
+
+        runTests: function() {
+            console.log('running tests');
+            var statusMock = {
+
+                ajax: {
+                    'unTagTicket': {},
+                    'tagTicket': {},
+                    'pendingTickets': {},
+                    'unassignMany': {},
+                    'setAgentStatus': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":true}}},
+                    'getSingleAgent': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":false}}},
+,
+                },
+
+                trigger: true
+            };
+
+            var update_status = require('test_helper')(this, statusMock)('update_status', this.options);
+            update_status(123456, true);
         },
 
         //app.activated
@@ -66,7 +92,7 @@
         //ticket.assignee.group.id.changed
         render: function(evt) {
             var ui = this.require('ui', this.options);
-            if(!this.options.lockRender) {
+            if(!this.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
                     var filter = this.$('#filter_search').val();
                     ui.renderNavBar(filter); 
