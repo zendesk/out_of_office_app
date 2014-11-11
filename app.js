@@ -92,7 +92,6 @@
 
         //toggle_status
         updateStatus: function(evt) {
-            console.log('toggle');
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
@@ -152,7 +151,7 @@
                 this.trigger("render_app");
             }
             this.renderRetries++;
-            services.notify("Error: Unable to " + string, 'error');
+            console.log("Error: Unable to " + string, 'error');
         }
     };
 }());
