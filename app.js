@@ -129,6 +129,11 @@
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
         },
+
+        renderSave: function() {
+            var ui = this.require('ui', this.options);
+            return ui.renderSave();        
+        },
         
         //getAllAgents.fail
         //getSingleAgent.fail
