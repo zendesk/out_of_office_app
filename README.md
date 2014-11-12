@@ -25,7 +25,7 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 ## Known Issue
 
 * Currently you're able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable because currently we aren't checking for this. We will fix this in a future version
-* Sometimes *recently assigned tickets* will not be properly reassign with the bulk unassign job when marking an agent as unavailable. If this happens, please wait a few minutes and try again
+* "Error: Unable to get list of agents." will display for users in this role ![](http://i.imgur.com/059TpZW.png)
 
 ## Locations
 
@@ -47,28 +47,8 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 #### New Ticket Sidebar, Ticket Sidebar, & User Sidebar
 
-Unavailable:
+![](http://g.recordit.co/PP5QrWY87L.gif)
 
-![](http://i.imgur.com/ZurK10l.png)
+#### Navbar
 
-Available:
-
-![](http://i.imgur.com/mxdkGqi.png)
-
-#### Nav bar
-
-Overview - status 'here'
-
-![](http://i.imgur.com/IhjI0uB.jpg?1?1534)
-
-Overview - status 'away'
-
-![](http://i.imgur.com/wMU7uNN.jpg?1?2511)
-
-Confirmation popup when setting an Agent as unavailable, including the option to unassign all tickets with a status 'Open'
-
-![](http://i.imgur.com/3cbERSZ.png)
-
-Confirmation popup when setting an Agent as available
-
-![](http://i.imgur.com/9xpRgpE.png)
+![](http://g.recordit.co/hLvxGEw5Ha.gif)

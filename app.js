@@ -191,7 +191,6 @@
 
         //toggle_status
         updateStatus: function(evt) {
-            console.log('toggle');
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
@@ -228,6 +227,11 @@
         notifyAssign: function(name) {
             services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
         },
+
+        renderSave: function() {
+            var ui = this.require('ui', this.options);
+            return ui.renderSave();        
+        },
         
         //getAllAgents.fail
         //getSingleAgent.fail
@@ -246,7 +250,7 @@
                 this.trigger("render_app");
             }
             this.renderRetries++;
-            services.notify("Error: Unable to " + string, 'error');
+            console.log("Error: Unable to " + string, 'error');
         }
     };
 }());

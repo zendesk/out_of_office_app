@@ -8,20 +8,9 @@
   "defaultLocale": "en",
   "private": true,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
-  "version": "2.0",
+  "version": "2.1",
   "frameworkVersion": "1.0",
   "parameters": [
-  {
-    "name": "checkboxID",
-    "type": "hidden",
-    "value":""
-  },
-
-  {
-    "name": "triggerID",
-    "type": "hidden",
-    "value":""
-  },
     { "name": "appTitle",
       "type": "hidden",
       "value": "ooo_app"
