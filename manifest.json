@@ -11,17 +11,6 @@
   "version": "2.1",
   "frameworkVersion": "1.0",
   "parameters": [
-  {
-    "name": "checkboxID",
-    "type": "hidden",
-    "value":""
-  },
-
-  {
-    "name": "triggerID",
-    "type": "hidden",
-    "value":""
-  },
     { "name": "appTitle",
       "type": "hidden",
       "value": "ooo_app"
