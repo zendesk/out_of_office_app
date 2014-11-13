@@ -32,17 +32,29 @@ table#agent_list.table {
 
 th, td {
   vertical-align: center;
-  text-align: center;
+  text-align: left;
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
   padding: 12px 8px 12px 8px;
   width: 20%;
+}
+
+th {
+  border-bottom: solid;
+  border-width: thin;
+  border-color: #ccc;
+}
+
+td { 
   border-style: dashed;
 }
 
 th, th span {
-  font-size: 18px;
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+  letter-spacing: 0.25px;
   position: relative;
 }
 
@@ -70,10 +82,10 @@ th.asc, th.desc {
   background: #eee;
 }
 
-
 td.size {
   padding-top: 18px;
-  font-size: 16px;
+  font-size: 14px;
+  letter-spacing: 0.25px;
 }
 
 #available {
@@ -82,10 +94,6 @@ td.size {
 
 #unavailable {
   color: white;
-}
-
-.borderStyle {
-  border-style: dashed;
 }
 
 .btn {
@@ -174,7 +182,7 @@ td.size {
   margin-top: 6px;
 }
 
-.label {
+/*.label {
   margin-top: 30px;
   padding-left: 18px;
   padding-right: 18px;
@@ -185,7 +193,7 @@ td.size {
 .label.label-success {
   padding-left: 22px;
   padding-right: 22px;
-}
+}*/
 
 .modal p {
   font-size: 16px;
@@ -221,9 +229,9 @@ div.modal-body p {
   font-size: 120%;
 }
 
-#ticket_dash p .label {
+/*#ticket_dash p .label {
   font-size: 100%;
-}
+}*/
 
 button.btn-canel {
   clear: both;

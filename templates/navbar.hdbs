@@ -1,38 +1,84 @@
 <input class="search" type="text" id="filter_search" placeholder="Filter by name or email">
 
-<div id="maintemplate" class="well well-small">
+<div id="maintemplate">
   <table id="agent_list" class="table">
-    <thead>
+    <thead style="border-style: solid;">
       <tr>
+        <th style="width: 3%;"></th>
         <th class="srt_header"><span>Name</span></th>
         <th class="srt_header"><span>Email</span></th>
         <th class="srt_header"><span>Status</span></th>
+        
+        <!--
         {{#if permission}}
         <th class="no sort header">Action</th>
         {{/if}}
+        -->
+
+        <th style="width: 3%;"></th>
       </tr>
     </thead>
     <tbody>
       {{#userlist}}
           <tr id="{{id}}">
-            <td class="size"><a href="#/users/{{id}}">{{name}}</a></td>
-            <td class="size">{{email}}</td>
+            <td style="width: 3%;"></td>
+            <td class="size"><a style="color: #555;" href="#/users/{{id}}">{{name}}</a></td>
+            <td class="size"><a style="color: #555;" href="#/users/{{id}}">{{email}}</a></td>
 
 
             {{#if user_fields.agent_ooo}}
-            <td class="unavailable size"><span class="label label-important">Unavailable</span></td>
+            <td class="unavailable size"><button class="btn status-toggle navbar" value="{{id}}">Unavailable</button></td>
             {{else}}
-            <td class="available size"><span class="label label-success">Available</span></td>
+            <td class="available size"><button class="btn status-toggle navbar" value="{{id}}">Available</button></td>
             {{/if}}
 
+            <!--
             {{#if ../permission}}
             <td>
             <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
             </td>
             {{/if}}
+            -->
+
+            <td style="width: 3%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
           </tr>
       {{/userlist}}
     </tbody>
   </table>
 </div>
+
+<!-- To be used in v3.0
+
+<footer>
+  <div id="ember2552" class="ember-view pagination pagination-centered" style>
+    <ul id="ember2556" class"ember-view">
+      <li class="ember-view disabled relative">
+        <a tabindex="0" class="page-link" data-ember-action="120">«</a>
+      </li>
+      <li class="ember-view disabled relative">
+        <a tabindex="0" class="page-link" data-ember-action="121">‹</a>
+      </li>
+      <li class="ember-view active">
+        <a tabindex="0" class="page-link" data-ember-action="122">1</a>
+      </li>
+      <li class="ember-view">
+        <a tabindex="0" class="page-link" data-ember-action="123">2</a>
+      </li>
+      <li class="ember-view">
+        <a tabindex="0" class="page-link" data-ember-action="124">3</a>
+      </li>
+      <li class="ember-view">
+        <a tabindex="0" class="page-link" data-ember-action="125">4</a>
+      </li>
+      <li class="ember-view relative">
+        <a tabindex="0" class="page-link" data-ember-action="126">›</a>
+      </li>
+      <li class="ember-view relative">
+        <a tabindex="0" class="page-link" data-ember-action="127">»</a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+-->
