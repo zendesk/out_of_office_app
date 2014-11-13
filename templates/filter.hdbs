@@ -1,18 +1,24 @@
     <tbody>
       {{#userlist}}
           <tr id='{{id}}'>
-            <td class="size"><a href='#/users/{{id}}'>{{name}}</a></td>
-            <td class="size">{{email}}</td>
+            <td style="width: 3%;"></td>
+            <td class="size"><a style="color: #555;" href='#/users/{{id}}'>{{name}}</a></td>
+            <td class="size"><a style="color: #555;" href="#/users/{{id}}">{{email}}</a></td>
             {{#if user_fields.agent_ooo}}
-            <td class="unavailable size"><span class="label label-important">Unavailable</span></td>
+            <td class="unavailable size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button></td>
             {{else}}
-            <td class="available size"><span class="label label-success">Available</span></td>
+            <td class="available size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
             {{/if}}
+
+            <!--
             {{#if ../permission}}
             <td>
             <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
             </td>
             {{/if}}
+            -->
+
+            <td style="width: 3%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" />
           </tr>
       {{/userlist}}
