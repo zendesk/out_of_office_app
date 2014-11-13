@@ -51,4 +51,4 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 #### Navbar
 
-![](http://g.recordit.co/hLvxGEw5Ha.gif)
+![](http://g.recordit.co/0xmM6FYw07.gif)
