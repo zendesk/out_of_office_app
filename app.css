@@ -2,22 +2,17 @@
   font-family: proxima-nova, sans-serif;
 }
 
+button.btn-canel {
+  clear: both;
+}
+
+div.modal-body p {
+  font-family: proxima-nova, sans-serif;
+}
+
 input[type=checkbox] {
   float: left;
   margin-left: 10px;
-}
-
-.p-assignee {
-  margin-bottom: 6px;
-}
-
-.p-user {
-  margin-bottom: 6px;
-  font-size: 120%;
-}
-
-span#foo {
-  padding-right: 46px;
 }
 
 label {
@@ -25,9 +20,33 @@ label {
   padding-bottom: 12px;
 }
 
+span#foo {
+  padding-right: 46px;
+}
+
+span.option {
+  display: block;
+  left: 0;
+  margin-right: 65%;
+}
+
 table#agent_list.table {
   margin-bottom: -10px;
   margin-top: -6px;
+}
+
+td { 
+  border-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #E7E6E6;
+}
+
+td.size {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  vertical-align: middle;
+  font-size: 14px;
+  letter-spacing: 0.25px;
 }
 
 th, td {
@@ -43,16 +62,12 @@ th, td {
 
 th {
   border-bottom: solid;
-  border-width: 2px;
-  border-color: #ccc;
-}
-
-td { 
-  border-style: solid;
+  border-width: 1px;
+  border-color: #C7C7C7;
 }
 
 th, th span {
-  font-size: 14px;
+  font-size: 30px;
   color: #555;
   font-weight: bold;
   letter-spacing: 0.25px;
@@ -60,7 +75,8 @@ th, th span {
 }
 
 th span {
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: bold;
   vertical-align: middle;
 }
 
@@ -92,16 +108,12 @@ th.asc, th.desc {
   background: #eee;
 }
 
-td.size {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  vertical-align: middle;
-  font-size: 14px;
-  letter-spacing: 0.25px;
-}
-
 #available {
   color: white;
+}
+
+#ticket_dash p {
+  font-size: 120%;
 }
 
 #unavailable {
@@ -115,6 +127,11 @@ td.size {
 }
 
 .btn-available {
+  width: 160px;
+  border-radius: 3px;
+}
+
+.btn-busy {
   width: 160px;
   border-radius: 3px;
 }
@@ -149,9 +166,10 @@ td.size {
   padding: 4px 8px;
 }
 
-.btn-busy {
-  width: 160px;
-  border-radius: 3px;
+.button.btn.status-toggle.navbar {
+  bg-color: dark;
+  border-color: dark;
+  font-color: #ccc;
 }
 
 .btn.status-toggle.navbar {
@@ -159,12 +177,6 @@ td.size {
   border-color: dark;
   font-color: #ccc;
   padding: 4px 8px;
-}
-
-.button.btn.status-toggle.navbar {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
 }
 
 .creators {
@@ -178,19 +190,19 @@ td.size {
   padding-bottom: 0px;
 }
 
-div.modal-body p {
-  font-family: proxima-nova, sans-serif;
-}
-
 .modal-header.modalHeaderPosition {
   text-align: center;
   font-size: 24px;
   font-weight: 600;
 }
 
-.users-name {
-  font-weight: 900;
-  text-decoration: underline;
+.p-assignee {
+  margin-bottom: 6px;
+}
+
+.p-user {
+  margin-bottom: 6px;
+  font-size: 120%;
 }
 
 .search {
@@ -203,16 +215,8 @@ div.modal-body p {
   margin: 25px 0px 25px 0px;
   text-align: center;
 }
-#ticket_dash p {
-  font-size: 120%;
-}
 
-button.btn-canel {
-  clear: both;
-}
-
-span.option {
-  display: block;
-  left: 0;
-  margin-right: 65%;
+.users-name {
+  font-weight: 900;
+  text-decoration: underline;
 }
