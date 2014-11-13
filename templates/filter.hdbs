@@ -4,19 +4,30 @@
             <td style="width: 3%;"></td>
             <td class="size"><a style="color: #555;" href='#/users/{{id}}'>{{name}}</a></td>
             <td class="size"><a style="color: #555;" href="#/users/{{id}}">{{email}}</a></td>
-            {{#if user_fields.agent_ooo}}
-            <td class="unavailable size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button></td>
-            {{else}}
-            <td class="available size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
-            {{/if}}
+            
 
-            <!--
             {{#if ../permission}}
-            <td>
-            <button class="btn status-toggle navbar" value="{{id}}">Edit</button>
-            </td>
+
+              {{#if user_fields.agent_ooo}}
+
+              <td class="unavailable size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button></td>
+              {{else}}
+              <td class="available size"><button style="font-size: 14px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: white;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
+
+              {{/if}}
+
+            {{else}}
+
+              {{#if user_fields.agent_ooo}}
+
+              <td class="unavailable size"><button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 14px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: white;" class="btn navbar" value="{{id}}">Unavailable</button></td>
+              {{else}}
+              <td class="available size"><button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 14px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: white;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
+
+              {{/if}}
+
             {{/if}}
-            -->
+            
 
             <td style="width: 3%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" />
