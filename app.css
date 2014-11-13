@@ -31,19 +31,37 @@ table#agent_list.table {
 }
 
 th, td {
+  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana,Tahoma,sans-serif;
   vertical-align: center;
-  text-align: center;
+  text-align: left;
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
   padding: 12px 8px 12px 8px;
   width: 20%;
-  border-style: dashed;
+}
+
+th {
+  border-bottom: solid;
+  border-width: 2px;
+  border-color: #ccc;
+}
+
+td { 
+  border-style: solid;
 }
 
 th, th span {
-  font-size: 18px;
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+  letter-spacing: 0.25px;
   position: relative;
+}
+
+th span {
+  font-size: 14px;
+  vertical-align: middle;
 }
 
 th span:before {
@@ -58,6 +76,10 @@ th span:before {
   background: transparent app-asset-url("sorty.png") 0 0;
 }
 
+th.asc span:after {
+  background: transparent app-asset-url("sorty.png") -8px 0px;
+}
+
 th.asc span:before {
   background: transparent app-asset-url("sorty.png") -8px 0px;
 }
@@ -70,10 +92,12 @@ th.asc, th.desc {
   background: #eee;
 }
 
-
 td.size {
-  padding-top: 18px;
-  font-size: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  vertical-align: middle;
+  font-size: 14px;
+  letter-spacing: 0.25px;
 }
 
 #available {
@@ -82,10 +106,6 @@ td.size {
 
 #unavailable {
   color: white;
-}
-
-.borderStyle {
-  border-style: dashed;
 }
 
 .btn {
@@ -134,27 +154,6 @@ td.size {
   border-radius: 3px;
 }
 
-/*.btn.date {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 8px;
-  width: 150px;
-  font-weight: 100;
-  font-size: 14px;
-}
-
-.btn.date.dateEnd {
-  float: right;
-  margin-right: 1px;
-  margin-left: 2px;
-}
-
-.btn.date.dateStart {
-  float: left;
-  margin-right: 2px;
-  margin-left: 1px;
-}*/
-
 .btn.status-toggle.navbar {
   bg-color: dark;
   border-color: dark;
@@ -172,19 +171,6 @@ td.size {
   text-align: center;
   font-size: 85%;
   margin-top: 6px;
-}
-
-.label {
-  margin-top: 30px;
-  padding-left: 18px;
-  padding-right: 18px;
-  padding-top: 2px;
-  font-size: 16px;
-}
-
-.label.label-success {
-  padding-left: 22px;
-  padding-right: 22px;
 }
 
 .modal p {
@@ -219,10 +205,6 @@ div.modal-body p {
 }
 #ticket_dash p {
   font-size: 120%;
-}
-
-#ticket_dash p .label {
-  font-size: 100%;
 }
 
 button.btn-canel {
