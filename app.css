@@ -89,7 +89,6 @@ th span:before {
   width: 7px;
   height: 9px;
   margin-top:-4px;
-  background: transparent app-asset-url("sorty.png") 0 0;
 }
 
 th.asc span:after {
