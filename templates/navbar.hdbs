@@ -1,4 +1,4 @@
-<span class="ui-icon ui-icon-search" style="margin-top: 12px; margin-left: 8px; position: absolute;"></span>
+<span class="ui-icon ui-icon-search" style="margin-top: 10px; margin-left: 8px; position: absolute;"></span>
 <input class="search" type="text" id="filter_search" alt="Search" placeholder="Search for agents" />
 
 <div id="maintemplate">
