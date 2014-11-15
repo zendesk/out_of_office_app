@@ -1,4 +1,5 @@
-<input class="search" type="text" id="filter_search" placeholder="Filter by name or email">
+<span class="ui-icon ui-icon-search" style="margin-top: 12px; margin-left: 8px; position: absolute;"></span>
+<input class="search" type="text" id="filter_search" alt="Search" placeholder="Search for agents" />
 
 <div id="maintemplate">
   <table id="agent_list" class="table">

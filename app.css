@@ -165,19 +165,6 @@ th.asc, th.desc {
   padding: 4px 8px;
 }
 
-/*.button.btn.status-toggle.navbar {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
-}
-
-.btn.status-toggle.navbar {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
-  padding: 4px 8px;
-}*/
-
 .creators {
   text-align: center;
   font-size: 85%;
@@ -206,6 +193,12 @@ th.asc, th.desc {
 
 .search {
   margin-bottom: 20px;
+  width: 30%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 28px;
+  font-size: 13px;
+  text-overflow: ellipsis;
 }
 
 .title {
