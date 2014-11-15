@@ -7,41 +7,51 @@
 
 
 
-
             {{#if ../permission}}
-
                 {{#if user_fields.agent_ooo}}
+                    <td class="unavailable size">
+                        <div class="btn-group status">
+                            <button style="font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button>
 
-                <td class="unavailable size">
-                    <button style="font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button>
-                </td>
-                
+                            {{! removing 'status-toggle' }}
+                            <button style="font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
+                        </div>
+                    </td>
                 {{else}}
-                
-                <td class="available size">
-                    <button style="font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
-                </td>
+                    <td class="available size">
+                        <div class="btn-group status">
+                            <button style="font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
 
+                            {{! removing 'status-toggle' }}
+                            <button style="font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button>
+                        </div>
+                    </td>
                 {{/if}}
-
             {{else}}
-
               {{#if user_fields.agent_ooo}}
+                  <td class="unavailable size">
+                      <div class="btn-group status">
+                          <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">Unavailable</button>
 
-              <td class="unavailable size">
-                  <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">Unavailable</button>
-              </td>
-
+                          {{!
+                            {{! removing 'status-toggle' }}
+                          <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
+                          }}
+                      </div>
+                  </td>
               {{else}}
+                  <td class="available size">
+                      <div class="btn-group status">
+                          <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
 
-              <td class="available size">
-                  <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
-              </td>
-
+                          {{!
+                            {{! removing 'status-toggle' }}
+                          <button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555;" class="btn navbar" value="{{id}}">Unavailable</button>
+                          }}
+                      </div>
+                  </td>
               {{/if}}
-
             {{/if}}
-  
 
 
 

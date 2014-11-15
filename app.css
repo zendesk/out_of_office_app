@@ -165,7 +165,7 @@ th.asc, th.desc {
   padding: 4px 8px;
 }
 
-.button.btn.status-toggle.navbar {
+/*.button.btn.status-toggle.navbar {
   bg-color: dark;
   border-color: dark;
   font-color: #ccc;
@@ -176,7 +176,7 @@ th.asc, th.desc {
   border-color: dark;
   font-color: #ccc;
   padding: 4px 8px;
-}
+}*/
 
 .creators {
   text-align: center;
@@ -205,7 +205,7 @@ th.asc, th.desc {
 }
 
 .search {
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .title {
