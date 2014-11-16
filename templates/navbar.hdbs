@@ -1,5 +1,7 @@
-<span class="ui-icon ui-icon-search" style="margin-top: 10px; margin-left: 8px; position: absolute;"></span>
-<input class="search" type="text" id="filter_search" alt="Search" placeholder="Search for agents" />
+<div class="search_wrapper">
+  <span class="ui-icon ui-icon-search" style="margin-top: 10px; margin-left: 8px; position: absolute;"></span>
+  <input class="search" type="search" id="filter_search" alt="Search" placeholder="Search for agents" />
+</div>
 
 <div id="maintemplate">
   <table id="agent_list" class="table">

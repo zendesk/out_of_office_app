@@ -2,12 +2,20 @@
   font-family: proxima-nova, sans-serif;
 }
 
+a {
+  text-shadow: 0px 1px 2px white;
+}
+
 button.btn-canel {
   clear: both;
 }
 
 div.modal-body p {
   font-family: proxima-nova, sans-serif;
+}
+
+header {
+  text-shadow: 0px 1px 2px white;
 }
 
 input[type=checkbox] {
@@ -51,6 +59,7 @@ td.size {
 
 th, td {
   font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana,Tahoma,sans-serif;
+  text-shadow: 0px 1px 2px white;
   vertical-align: center;
   text-align: left;
   bg-color: dark;
@@ -199,6 +208,14 @@ th.asc, th.desc {
   padding-left: 28px;
   font-size: 13px;
   text-overflow: ellipsis;
+}
+
+.search_wrapper {
+  background-color: #f8f8f8;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-radius: 6px;
 }
 
 .title {
