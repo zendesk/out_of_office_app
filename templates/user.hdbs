@@ -1,24 +1,36 @@
-{{! displays current user's availability status
-ADMINS: can view, can toggle status of all agents
-AGENTS: can view, toggle status of themselves only
-display availability button group, with current status as selected and disabled button }}
+{{! 
+    Displays current user's availability status
+        ADMINS: can view, can toggle status of all agents
+        AGENTS: can view, toggle status of themselves only
+    Display availability button group, with current status as selected and disabled button 
+}}
 
 <div id='usertemplate'>
+    {{#if user}}
+        <p class="p-user">Agent: <strong>{{user.name}}</strong>
+        <div class="btn-group status">
+            {{#if user.user_fields.agent_ooo}}
+                {{#if permission}}
+                {{! IF YOU ARE AN ADMIN }}
+                    <button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>
+                {{/if}}
+                {{#unless permission}}
+                    <p class="p-user" style="margin-top: -4px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">Please check with an Administrator if this agent's availability needs to be changed</p>
+                {{/unless}}
+                <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%;"{{/unless}}>Unavailable</button>
 
-{{#if user}}
-
-  <p class="p-user">Agent: <strong>{{user.name}}</strong>
-
-  <div class="btn-group status">
-    {{#if user.user_fields.agent_ooo}}
-      {{#if permission}}<button class="btn btn-available status-toggle" value="{{user.id}}">Available</button>{{/if}}
-      <button id="unavailable" class="btn btn-busy btn-primary red {{#unless permission}}disabled{{/unless}}">Unavailable</button>
+            {{else}}
+                {{#if permission}}
+                {{! IF YOU ARE AN ADMIN }}
+                    <button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>
+                {{/if}}
+                {{#unless permission}}
+                    <p class="p-user" style="margin-top: -4px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">Please check with an Administrator if this agent's availability needs to be changed</p>
+                {{/unless}}
+                <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%;"{{/unless}}>Available</button>
+            {{/if}}
+        </div>
     {{else}}
-      <button id="available" class="btn btn-available green btn-primary{{#unless permission}}disabled{{/unless}}">Available</button>
-      {{#if permission}}<button class="btn btn-busy status-toggle" value="{{user.id}}">Unavailable</button>{{/if}}
+        <p>This user is not an assignable agent.</p>
     {{/if}}
-    </div>
-{{else}}
-  <p>This user is not an assignable agent.</p>
 </div>
-{{/if}}

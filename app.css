@@ -193,13 +193,12 @@ th.asc, th.desc {
   font-weight: 600;
 }
 
-.p-assignee {
-  margin-bottom: 6px;
-}
-
-.p-user {
-  margin-bottom: 6px;
-  font-size: 120%;
+.p-assignee, .p-user {
+  margin-bottom: 10px;
+  margin-top: 14px;
+  text-shadow: 2px 2px 30px white;
+  font-size: 20px;
+  text-align: center;
 }
 
 .search {

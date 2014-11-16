@@ -24,7 +24,7 @@
 
 
             {{#if ../permission}}
-              {{! ***If you are an ADMIN** }}
+              {{! IF YOU ARE AN ADMIN }}
 
                 {{#if user_fields.agent_ooo}}
                     <td class="unavailable size">
