@@ -2,12 +2,20 @@
   font-family: proxima-nova, sans-serif;
 }
 
+a {
+  text-shadow: 0px 1px 2px white;
+}
+
 button.btn-canel {
   clear: both;
 }
 
 div.modal-body p {
   font-family: proxima-nova, sans-serif;
+}
+
+header {
+  text-shadow: 0px 1px 2px white;
 }
 
 input[type=checkbox] {
@@ -51,6 +59,7 @@ td.size {
 
 th, td {
   font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Verdana,Tahoma,sans-serif;
+  text-shadow: 0px 1px 2px white;
   vertical-align: center;
   text-align: left;
   bg-color: dark;
@@ -89,7 +98,6 @@ th span:before {
   width: 7px;
   height: 9px;
   margin-top:-4px;
-  background: transparent app-asset-url("sorty.png") 0 0;
 }
 
 th.asc span:after {
@@ -105,7 +113,9 @@ th.desc span:before {
 }
 
 th.asc, th.desc {
-  background: #eee;
+  background: #f8f8f8;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 #available {
@@ -166,19 +176,6 @@ th.asc, th.desc {
   padding: 4px 8px;
 }
 
-.button.btn.status-toggle.navbar {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
-}
-
-.btn.status-toggle.navbar {
-  bg-color: dark;
-  border-color: dark;
-  font-color: #ccc;
-  padding: 4px 8px;
-}
-
 .creators {
   text-align: center;
   font-size: 85%;
@@ -206,7 +203,21 @@ th.asc, th.desc {
 }
 
 .search {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  width: 20%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 28px;
+  font-size: 13px;
+  text-overflow: ellipsis;
+}
+
+.search_wrapper {
+  background-color: #f8f8f8;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-radius: 6px;
 }
 
 .title {

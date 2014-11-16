@@ -1,4 +1,7 @@
-<input class="search" type="text" id="filter_search" placeholder="Filter by name or email">
+<div class="search_wrapper">
+  <span class="ui-icon ui-icon-search" style="margin-top: 10px; margin-left: 8px; position: absolute;"></span>
+  <input class="search" type="search" id="filter_search" alt="Search" placeholder="Search for agents" />
+</div>
 
 <div id="maintemplate">
   <table id="agent_list" class="table">
@@ -19,28 +22,56 @@
             <td class="size"><a style="color: #555; font-size: 13px; letter-spacing: 0.25px;" href="#/users/{{id}}">{{email}}</a></td>
 
 
+
             {{#if ../permission}}
+              {{! ***If you are an ADMIN** }}
 
-              {{#if user_fields.agent_ooo}}
+                {{#if user_fields.agent_ooo}}
+                    <td class="unavailable size">
+                        <div class="btn-group status">
+                            <button style="border-radius: 2.5px; font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button>
+                            
+                            <button style="border-radius: 2.5px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
+                        </div>
+                    </td>
+                {{else}}              
+                    <td class="available size">
+                        <div class="btn-group status">
+                            
+                            <button style="border-radius: 2.5px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button>
 
-              <td class="unavailable size"><button style="font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn status-toggle navbar" value="{{id}}">Unavailable</button></td>
-              {{else}}
-              <td class="available size"><button style="font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
+                            <button style="border-radius: 2.5px; font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5; padding: 6px 12px;" class="btn status-toggle navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
 
-              {{/if}}
+                        </div>
+                    </td>
+                {{/if}}
 
             {{else}}
+              {{! ***If you are NOT AN admin** }}
 
-              {{#if user_fields.agent_ooo}}
+                {{#if user_fields.agent_ooo}}
+                    <td class="unavailable size">
+                        <div class="btn-group status">
+                            <button style="border-radius: 2.5px; bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">Unavailable</button>
 
-              <td class="unavailable size"><button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: rgb(51, 51, 51); border-color: rgb(51, 51, 51); box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">Unavailable</button></td>
-              {{else}}
-              <td class="available size"><button style="bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button></td>
+                            <button style="border-radius: 2.5px; bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
+                        </div>
+                    </td>
+                {{else}}
+                    <td class="available size">
+                        <div class="btn-group status">
 
-              {{/if}}
+                            <button style="border-radius: 2.5px; bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #ffffff; border: 1px solid #ddd; box-shadow: none; color: #555;" class="btn navbar" value="{{id}}">Unavailable</button>
+
+                            <button style="border-radius: 2.5px; bg-color: dark; border-color: dark; font-color: #ccc; padding: 4px 8px; font-size: 13px; letter-spacing: 0.25px; background-color: #79a21d; border-color: #79a21d; box-shadow: none; color: #F9F5F5;" class="btn navbar" value="{{id}}">&nbsp;&nbsp;Available&nbsp;&nbsp;</button>
+
+                        </div>
+                    </td>
+                {{/if}}
 
             {{/if}}
-            
+
+  
 
             <td style="width: 3%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
@@ -50,7 +81,7 @@
   </table>
 </div>
 
-<!-- To be used in v3.0
+{{! *To potentially be used in v3.0+*
 
 <footer>
   <div id="ember2552" class="ember-view pagination pagination-centered" style>
@@ -83,4 +114,4 @@
   </div>
 </footer>
 
--->
+}}
