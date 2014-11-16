@@ -7,24 +7,24 @@
   <table id="agent_list" class="table">
     <thead style="border-style: solid;">
       <tr>
-        <th style="width: 3%;"></th>
+        <th style="width: 0.25%;"></th>
         <th class="srt_header"><span>Name</span></th>
         <th class="srt_header"><span>Email</span></th>
         <th class="srt_header"><span>Status</span></th>
-        <th style="width: 3%;"></th>
+        <th style="width: 0.25%;"></th>
       </tr>
     </thead>
     <tbody>
       {{#userlist}}
           <tr id="{{id}}">
-            <td style="width: 3%;"></td>
+            <td style="width: 0.25%;"></td>
             <td class="size"><a style="color: #555; font-size: 13px; letter-spacing: 0.25px;" href="#/users/{{id}}">{{name}}</a></td>
             <td class="size"><a style="color: #555; font-size: 13px; letter-spacing: 0.25px;" href="#/users/{{id}}">{{email}}</a></td>
 
 
 
             {{#if ../permission}}
-              {{! ***If you are an ADMIN** }}
+              {{! IF YOU ARE AN ADMIN }}
 
                 {{#if user_fields.agent_ooo}}
                     <td class="unavailable size">
@@ -73,7 +73,7 @@
 
   
 
-            <td style="width: 3%;"></td>
+            <td style="width: 0.25%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" >
           </tr>
       {{/userlist}}

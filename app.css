@@ -69,10 +69,13 @@ th, td {
   width: 20%;
 }
 
-th {
+th.srt_header {
   border-bottom: solid;
   border-width: 1px;
   border-color: #C7C7C7;
+  background: #f8f8f8;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 th, th span {
@@ -114,6 +117,12 @@ th.desc span:before {
 
 th.asc, th.desc {
   background: #f8f8f8;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+th.srt_header:hover {
+  background: #e7e7e7;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
@@ -193,13 +202,12 @@ th.asc, th.desc {
   font-weight: 600;
 }
 
-.p-assignee {
-  margin-bottom: 6px;
-}
-
-.p-user {
-  margin-bottom: 6px;
-  font-size: 120%;
+.p-assignee, .p-user {
+  margin-bottom: 10px;
+  margin-top: 14px;
+  text-shadow: 2px 2px 30px white;
+  font-size: 20px;
+  text-align: center;
 }
 
 .search {
