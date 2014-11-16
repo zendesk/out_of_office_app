@@ -113,7 +113,9 @@ th.desc span:before {
 }
 
 th.asc, th.desc {
-  background: #eee;
+  background: #f8f8f8;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 #available {
