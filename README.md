@@ -45,10 +45,12 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 ## Screenshots
 
-#### New Ticket Sidebar, Ticket Sidebar, & User Sidebar
+##### Agent experience: 
 
-![](http://g.recordit.co/PP5QrWY87L.gif)
+![](http://g.recordit.co/tjcr81oKSw.gif)
+![](http://g.recordit.co/i6g09xm1wY.gif)
 
-#### Navbar
+##### Administrator experience: 
 
-![](http://g.recordit.co/0xmM6FYw07.gif)
+![](http://g.recordit.co/Q6RWiHZpXX.gif)
+![](http://g.recordit.co/ienhSvKi7H.gif)
