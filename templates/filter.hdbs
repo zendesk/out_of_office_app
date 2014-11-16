@@ -1,7 +1,7 @@
     <tbody>
       {{#userlist}}
           <tr id='{{id}}'>
-            <td style="width: 3%;"></td>
+            <td style="width: 0.25%;"></td>
             <td class="size"><a style="color: #555; font-size: 13px; letter-spacing: 0.25px;" href='#/users/{{id}}'>{{name}}</a></td>
             <td class="size"><a style="color: #555; font-size: 13px;" href="#/users/{{id}}">{{email}}</a></td>
 
@@ -57,7 +57,7 @@
 
 
 
-            <td style="width: 3%;"></td>
+            <td style="width: 0.25%;"></td>
             <input type="hidden" value="{{name}},{{email}}" class="filter_field" />
           </tr>
       {{/userlist}}
