@@ -128,7 +128,6 @@
             } else if(evt.ticketView == 'ticketPreview') {
                 action = 'Unassigned ';
                 status = 'previously assigned to ';
-
             }
             services.notify(action + evt.count + " tickets " + status + evt.name + ".");
         },
