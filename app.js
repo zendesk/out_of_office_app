@@ -124,7 +124,7 @@
             var action = 'Updated ';
             var status = ' tickets assigned to ';
             if(evt.ticketView == 'pendingTickets') {
-                status = ' pending tickets with agent status for ';
+                status = ' pending/on-hold tickets with agent status for ';
             } else if(evt.ticketView == 'ticketPreview') {
                 action = 'Unassigned ';
                 status = ' tickets previously assigned to ';
