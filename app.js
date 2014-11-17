@@ -119,9 +119,18 @@
             services.notify("Detected first run of app. Created required " + item, 'alert');
         },
 
-        //unassigned_ooo
+        //tickets_tagged
         notifyUnAssign: function(evt) {
-            services.notify("Unassigned " + evt.count + " tickets previously assigned to " + evt.name + ".");
+            var action = 'Updated ';
+            var status = ' assigned to ';
+            if(evt.ticketView == 'pendingTickets') {
+                status = 'with agent status for ';
+            } else if(evt.ticketView == 'ticketPreview') {
+                action = 'Unassigned ';
+                status = 'previously assigned to ';
+
+            }
+            services.notify(action + evt.count + " tickets " + status + evt.name + ".");
         },
 
         //assigned_ooo
