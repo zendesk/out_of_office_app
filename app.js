@@ -50,7 +50,7 @@
         init: function(app) {
             this.switchTo('loading');
             this.require = require('context_loader')(this);            
-            this.require('install_app', this.options)();
+            this.require('install_app', this.options).loadSettings();
         },
 
         //loaded_settings
@@ -95,7 +95,7 @@
             var agentID = evt.agentID;
             var unassignTickets = evt.unassignTickets;
             var that = this;
-            this.require('update_status', this.options)(agentID, unassignTickets);
+            this.require('update_status', this.options).toggleStatus(agentID, unassignTickets);
         },
 
         //status_changed
