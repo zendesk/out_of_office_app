@@ -8,13 +8,13 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 ## Tags
 
-The tag "agent_ooo" is added to the agent's user profile in the user field titled, "Agent Out?" when they mark themselves as unavailable. This tag is used via adding/removing on tickets based on the agent's out of office status. 
+* The tag "agent_ooo" is added to the agent's user profile in the user field titled, "Agent Out?" when they mark themselves as unavailable. This tag is used via adding/removing on tickets based on the agent's out of office status. 
 
-If an Agent changes their OOO status to being unavailable then all Pending/On-Hold tickets have the "agent_ooo" tag added. If the change is to being available then all Pending/On-Hold tickets have the tag removed.
+* If an Agent changes their OOO status to being unavailable then all Pending/On-Hold tickets have the "agent_ooo" tag added. If the change is to being available then all Pending/On-Hold tickets have the tag removed.
 
-If an Agent has a ticket assigned to them then changes to being unavailable & updates that ticket without a status of "Open" then the ticket is not tagged with "agent_ooo". If the update includes changing the status to "Open" in that case the ticket gets the "agent_ooo" tag.
+* If an Agent has a ticket assigned to them then changes to being unavailable & updates that ticket without a status of "Open" then the ticket is not tagged with "agent_ooo". If the update includes changing the status to "Open" in that case the ticket gets the "agent_ooo" tag.
 
-If the Assignee on a ticket is changed from an unavailable agent to an available agent then the "agent_ooo" tag is removed. A ticket can't be assigned to an OOO agent on creation. An existing ticket can't be assigned to an OOO agent.
+* If the Assignee on a ticket is changed from an unavailable agent to an available agent then the "agent_ooo" tag is removed. A ticket can't be assigned to an OOO agent on creation. An existing ticket can't be assigned to an OOO agent.
 
 ## Features
 
