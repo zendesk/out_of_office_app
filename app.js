@@ -10,19 +10,25 @@
             appTitle: 'ooo_app',
             installed: false,
             installationID: undefined,
-
             createTrigger: true,
             triggerTitle: 'out-of-office app unassign trigger [System Trigger]',
             triggerID: undefined,
-
             userFieldName: 'Agent Out?',
             userFieldKey: 'agent_ooo',
-
             confirmChange: true,
-
-            unassignTickets:false,
-
+            unassignTickets: false,
             preventAssignOOO: true,
+
+            // Settings for review
+
+            // createTrigger: this.setting('createTrigger'),
+            // triggerTitle: this.setting('triggerTitle'),
+            // triggerID: undefined, // This is not in the app settings
+            // userFieldName: this.setting('userFieldName'),
+            // userFieldKey: this.setting('userFieldKey'),
+            // confirmChange: this.setting('confirmChange'),
+            // unassignTickets: this.setting('unassignTickets'),
+            // preventAssignOOO: this.setting('preventAssignOOO'),
 
             changeStatusMessage: function(name) {
                 return { 
