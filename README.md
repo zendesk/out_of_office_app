@@ -44,11 +44,11 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 * Agents and Admins can view a ticket's assigned Agent's current out of office status from both the new ticket sidebar and ticket sidebar locations
 * (Optional) When setting an Agent as unavailable from the nav bar location, the Admin can unassign all currently open tickets assigned to that Agent back to the parent group
 * *Existing Tickets updated by the Requester while Assignee is unavailable resets the Assignee field back to it's parent group and (notifies Requester)
-* *New* Tickets CAN NEVER be created with an Assignee that is unavailable
-* *Existing* Tickets CAN be updated BY OTHER AgentS while Assignee is marked as unavailable with a warning
-* *New* OR *Existing* Tickets CAN be assigned to a group on creation/update without an Assignee as normal
-* *New* OR *Existing* Tickets CAN be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
-* *Existing* tickets not currently assigned to an unavailable Agent CAN NOT be assigned to them while they're unavailable, unless the intended Assignee is the current user even if current user is unavailable
+* *New* Tickets **can never** be created with an Assignee that is unavailable
+* *Existing* Tickets **can** be updated **by other agents** while Assignee is marked as unavailable with a warning
+* *New* or *Existing* Tickets **can** be assigned to a group on creation/update without an Assignee as normal
+* *New* or *Existing* Tickets **can** be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
+* *Existing* tickets not currently assigned to an unavailable Agent **can not** be assigned to them while they're unavailable, unless the intended Assignee is the current user even if current user is unavailable
 
 ## Known Issue
 
