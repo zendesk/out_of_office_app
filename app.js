@@ -30,22 +30,39 @@
             // unassignTickets: this.setting('unassignTickets'),
             // preventAssignOOO: this.setting('preventAssignOOO'),
 
-            changeStatusMessage: function(name) {
-                return { 
-                    available: {
-                        header:  'Please confirm status change',
-                        content: '<p>This action will tag <strong>' + name + '</strong> as available and allow tickets to be assigned.</p>',
-                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Set to Available</p>',        
-                        cancel:  'Cancel'
-                    },
-                    unavailable: {
-                        header:  'Please confirm status change',
-                        content: '<p>This action will tag <strong>' + name + '</strong> as out of office and prevent tickets from being assigned.</p>',
-                        confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">Set to Unavailable</p>',
-                        cancel:  'Cancel',
-                        options: '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">Unassign All Open Tickets</span></label></p>'
-                    },
-                };
+            changeStatusMessage: function(name, unassignTickets) { // right before 127 in ui.js it passes in the agent name and gets an object that contains the available / unavailable html defninitation to create the modal - need to change this function needs another parameter to see maybe where there's availabe & an object - unavailbale & an object is a checkbox in the option section - clear it out to be blank it will no longer send hte checkbox through
+                if (unassignTickets === true) {  // **NOTE** checkbox CHECKED = checkbox HIDDEN ; unassignTickets option TRUE = checkbox HIDDEN
+                    return {
+                        available: {
+                            header:  'Please confirm status change',
+                            content: '<p>This action will tag <strong>' + name + '</strong> as available and allow tickets to be assigned.</p>',
+                            confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Set to Available</p>',        
+                            cancel:  'Cancel'
+                        },
+                        unavailable: {
+                            header:  'Please confirm status change',
+                            content: '<p>This action will tag <strong>' + name + '</strong> as out of office and prevent tickets from being assigned.</p>',
+                            confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">Set to Unavailable</p>',
+                            cancel:  'Cancel'
+                        },
+                    };
+                } else {
+                    return {
+                        available: {
+                            header:  'Please confirm status change',
+                            content: '<p>This action will tag <strong>' + name + '</strong> as available and allow tickets to be assigned.</p>',
+                            confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">Set to Available</p>',        
+                            cancel:  'Cancel'
+                        },
+                        unavailable: {
+                            header:  'Please confirm status change',
+                            content: '<p>This action will tag <strong>' + name + '</strong> as out of office and prevent tickets from being assigned.</p>',
+                            confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">Set to Unavailable</p>',
+                            cancel:  'Cancel',
+                            options: '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">Unassign All Open Tickets</span></label></p>'
+                        },
+                    };
+                }
             },
             lockRender: false,
         },
@@ -54,6 +71,8 @@
 
         //app.created
         init: function(app) {
+            console.log(this.options.unassignTickets);
+
             this.switchTo('loading');
             this.require = require('context_loader')(this);            
             this.require('install_app', this.options)();
