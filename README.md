@@ -6,6 +6,24 @@ There is also an option to unassign all open tickets currently assigned to an Ag
 
 Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-of-office-app/issues). Pull requests are welcome.
 
+## Re-assigning Open tickets to a specific Agent
+
+This functionality does not exist by default.
+
+By default the two system triggers that work in the background in conjuction with this app don't include functionality which allows the user to re-assign Open tickets to any specific Agent. 
+
+When the option "Unassign All Open Tickets" is checked those tickets will have the Assignee field become empty but the respective groups will remained assigned to the respective tickets.
+
+That doesn't mean it's not possible - here's how one of the system triggers, 'Ticket: out-of-office app unassign trigger [System Trigger]', is configured by default: 
+
+![](http://i.imgur.com/5EQsqlD.png)
+
+A tag can be added to every ticket unassigned by this app by adding an action to the above trigger which would look something like the following: 
+
+![](http://i.imgur.com/IXtGYdP.png)
+
+Now every time a ticket is unassigned by this system trigger the tag "unassigned_by_ooo_app" will be added. At this point business rules may be created around this new tag. For example one might use this new tag to assign tickets to a specific group or agent on ticket update.
+
 ## Tags
 
 * The tag "agent_ooo" is added to the agent's user profile in the user field titled, "Agent Out?" when they mark themselves as unavailable. This tag is used via adding/removing on tickets based on the agent's out of office status. 
@@ -34,7 +52,7 @@ Please submit bug reports to [the issues page](https://github.com/ZendeskES/out-
 
 ## Known Issue
 
-* Currently you're able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable because currently we aren't checking for this. We will fix this in a future version
+* Currently agent's are able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable because currently we aren't checking for this. We will fix this in a future version
 * "Error: Unable to get list of agents." will display for users in this role ![](http://i.imgur.com/059TpZW.png)
 
 ## Locations
