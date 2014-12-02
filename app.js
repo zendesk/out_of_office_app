@@ -30,6 +30,11 @@
             // unassignTickets: this.setting('unassignTickets'),
             // preventAssignOOO: this.setting('preventAssignOOO'),
 
+            saveFailMessage: '<p style="margin-top: 16px; margin-bottom: 10px; text-align: center; font-weight: bold; font-size: 20px;">TICKET NOT SAVED</p>',
+            saveWarning: function(name) { 
+                return '<p style="margin-top: 16px; margin-bottom: 10px; text-align: center; font-size: 14px;"><strong>' + name + '</strong> is <strong>UNAVAILABLE</strong><br/></p><p style="margin-top: 12px; margin-bottom: 6px; text-align: center; font-size: 14px;">If this request requires immediate attention please re-assign to a different agent</p>';
+            },
+
             changeStatusMessage: function(name) {
                 return { 
                     available: {
@@ -47,6 +52,8 @@
                     },
                 };
             },
+
+            saveHookMessage: function(name, )
             lockRender: false,
         },
 
