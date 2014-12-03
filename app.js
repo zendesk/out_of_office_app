@@ -116,6 +116,12 @@
             this.trigger("render_app");
         },
 
+        warnStatus: function(evt) {
+            if(evt.agent.user_fields.agent_ooo) {
+                services.notify(this.options.saveWarning(evt.agent.name), 'warning', 5000);
+            }
+        },
+
         //status_error
         notifyFail: function(evt) {
             services.notify("Unable to update status for " + evt.agent.name, 'alert');
