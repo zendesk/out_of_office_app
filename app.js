@@ -120,7 +120,12 @@
         //createTrigger.done
         //createUserField.done
         notifyInstalled: function(item) {
-            services.notify("Detected first run of app. Created required " + item, 'alert');
+            switch(item) {
+                case 'trigger': services.notify("Detected first run of app. Created required triggers.", 'alert');
+                    break;
+                case 'user_field': services.notify("Detected first run of app. Created required user field.", 'alert');
+                    break;
+            }
         },
 
         //tickets_tagged
