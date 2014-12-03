@@ -15,26 +15,6 @@
       "type": "hidden",
       "value": "ooo_app"
     },
-    { "name": "createTrigger",
-      "type": "checkbox",
-      "default": true,
-      "helptext": "Defines whether or not to use the trigger to automatically unassign tickets"
-    },
-    { "name": "triggerTitle",
-      "type": "text",
-      "default": "out-of-office app unassign trigger [System Trigger]",
-      "helptext": "Lets you dynamically define the trigger title"
-    },
-    { "name": "userFieldName",
-      "type": "text",
-      "default": "Agent Out?",
-      "helptext": "Lets you define the user field label"
-    },
-    { "name": "userFieldKey",
-      "type": "text",
-      "default": "agent_ooo",
-      "helptext": "Lets you define the user field key and tag"
-    },
     { "name": "confirmChange",
       "type": "checkbox",
       "default": true,
