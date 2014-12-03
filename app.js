@@ -8,7 +8,7 @@
 
         options:  {
             appTitle: 'ooo_app',
-            installed: false,
+            requirementsCreated: false,
             installationID: undefined,
             createTrigger: true,
             triggerTitle: 'out-of-office app unassign trigger [System Trigger]',
