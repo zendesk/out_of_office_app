@@ -138,7 +138,7 @@
                 status = ' Pending/On-Hold tickets with the agent status for ';
             } else if(evt.ticketView == 'ticketPreview') {
                 action = 'Unassigned ';
-                status = ' tickets previously assigned to ';
+                status = ' Open tickets previously assigned to ';
             }
             services.notify(action + evt.count + status + evt.name + ".");
         },
