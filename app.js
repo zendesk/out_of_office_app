@@ -162,7 +162,7 @@
                 case 'setStatus': if(evt.errorCode == 403) {
                     services.notify('Permissions error while updating status for ' + evt.agent.name + '. Please make sure you are allowed to update their user profile.', 'error', 5000);
                 }
-            };
+            }
         },
 
         //network_error
