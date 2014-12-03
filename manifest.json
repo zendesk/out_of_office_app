@@ -22,7 +22,7 @@
     },
     { "name": "triggerTitle",
       "type": "text",
-      "default": "out-of-office app trigger",
+      "default": "out-of-office app unassign trigger [System Trigger]",
       "helptext": "Lets you dynamically define the trigger title"
     },
     { "name": "userFieldName",
