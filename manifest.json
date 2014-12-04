@@ -8,7 +8,7 @@
   "defaultLocale": "en",
   "private": true,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
-  "version": "2.1",
+  "version": "2.3",
   "frameworkVersion": "1.0",
   "parameters": [
     { "name": "appTitle",
@@ -29,6 +29,11 @@
       "type": "checkbox",
       "default": true,
       "helptext": "Enables or disables the save hook"
+    },
+    {
+      "name": "requirementsCreated",
+      "type": "hidden",
+      "value": false
     }
   ]
 }
