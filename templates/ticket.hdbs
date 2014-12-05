@@ -14,6 +14,7 @@
             <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%;"{{/unless}}>Unavailable</button>
 
         {{else}}
+            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%;"{{/unless}}>Available</button>
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
                 <button class="btn btn-busy status-toggle" value="{{assignee.id}}">Unavailable</button>
@@ -21,7 +22,7 @@
             {{#unless permission}}
                 <p class="p-user" style="margin-top: -4px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">Please check with an Administrator if this agent's availability needs to be changed</p>
             {{/unless}}
-            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%;"{{/unless}}>Available</button>
+            
         {{/if}}
       </div>
   {{else}}
