@@ -10,7 +10,6 @@
             appTitle: 'ooo_app',
             requirementsCreated: false,
             installationID: undefined,
-
             createTrigger: true,
             triggerTitle: 'out-of-office app unassign trigger [System Trigger]',
             userFieldDescription: "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
