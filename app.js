@@ -48,9 +48,9 @@
                     }
                 };
             },
-            lockRender: false,
         },
 
+        lockRender: false,
         renderRetries: 0,        
 
         //app.created
@@ -73,7 +73,7 @@
         //ticket.assignee.group.id.changed
         render: function(evt) {
             var ui = this.require('ui', this.options);
-            if(!this.options.lockRender) {
+            if(!this.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
                     var filter = this.$('#filter_search').val();
                     ui.renderNavBar(filter); 
@@ -109,7 +109,7 @@
         notifyStatus: function(evt) {
             var status = "available";
             var tags = "removed";
-            if(evt.agent.user_fields.agent_ooo) {
+            if(evt.agent.user_fields[this.options.userFieldKey]) {
                 status = "unavailable";
                 tags = "added";
             } 
@@ -120,7 +120,7 @@
         },
 
         warnStatus: function(evt) {
-            if(evt.agent.user_fields.agent_ooo) {
+            if(evt.agent.user_fields[this.options.userFieldKey]) {
                 services.notify(this.options.saveWarning(evt.agent.name), 'warning', 5000);
             }
         },
