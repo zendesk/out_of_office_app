@@ -7,7 +7,6 @@
         requests: {},
 
         options:  {
-            appTitle: 'ooo_app',
             requirementsCreated: false,
             installationID: undefined,
             createTrigger: true,
@@ -55,6 +54,7 @@
 
         //app.created
         init: function(app) {
+        //    console.log(this.I18n.t('trigger.title'));
             this.switchTo('loading');
             this.require = require('context_loader')(this);            
             this.require('install_app', this.options).loadSettings();
@@ -134,22 +134,22 @@
         //createUserField.done
         notifyInstalled: function(item) {
             switch(item) {
-                case 'trigger': services.notify("Detected first run of app. Created required triggers.", 'alert');
+                case 'trigger': services.notify(this.I18n.t('notify.installed.trigger'), 'alert');
                     break;
-                case 'user_field': services.notify("Detected first run of app. Created required user field.", 'alert');
+                case 'user_field': services.notify(this.I18n.t('notify.installed.user_field'), 'alert');
                     break;
             }
         },
 
         //tickets_tagged
         notifyUnAssign: function(evt) {
-            var action = 'Updated ';
-            var status = ' tickets assigned to ';
+            var action = this.I18n.t('notify.unassign.default.action');
+            var status = this.I18n.t('notify.unassign.default.status');
             if(evt.ticketView == 'pendingTickets') {
-                status = ' Pending/On-Hold tickets with the agent status for ';
+                status = this.I18n.t('notify.unassign.pendingTickets.status');
             } else if(evt.ticketView == 'ticketPreview') {
-                action = 'Unassigned ';
-                status = ' Open tickets previously assigned to ';
+                action = this.I18n.t('notify.unassign.ticketPreview.action');
+                status = this.I18n.t('notify.unassign.ticketPreview.status');;
             }
             services.notify(action + evt.count + status + evt.name + ".");
         },
