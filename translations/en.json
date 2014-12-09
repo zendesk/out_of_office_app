@@ -26,6 +26,11 @@
     },
     "checkbox": "Unassign All Open Tickets"
   },
+  "saveFailMessage": "TICKET NOT SAVED",
+    "saveWarningMessage": {
+        "status": "UNAVAILABLE",
+        "message": "If this request requires immediate attention please re-assign to a different agent"
+        },
   "user_field": {
     "description":   "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
     "name": "Agent Out?"
