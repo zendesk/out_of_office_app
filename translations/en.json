@@ -1,50 +1,85 @@
 {
-  "app": {
-    "package": "app_name",
-    "description": {
-      "value": "Play the famous zen tunes in your help desk.",
-      "title": "app description"
+  "trigger": {
+    "title": {
+      "ticket": "Ticket: out-of-office app unassign trigger [System Trigger]",
+      "tag": "Tag: out-of-office app unassign trigger [System Trigger]"
     }
   },
-
+  "changeStatusMessage": {
+    "available": {
+      "header": "Please confirm status change",
+      "content": {
+        "first": "This action will tag ",
+        "second": " as available and allow tickets to be assigned."
+      },
+      "confirm": "Set to Available",
+      "cancel": "Cancel"
+    },
+    "unavailable": {
+      "header": "Please confirm status change",
+      "content": {
+        "first": "This action will tag ",
+        "second": " as out of office and prevent tickets from being assigned."
+      },
+      "confirm": "Set to Unavailable",
+      "cancel": "Cancel"
+    },
+    "checkbox": "Unassign All Open Tickets"
+  },
+  "user_field": {
+    "description":   "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
+    "name": "Agent Out?"
+  },
+  "notify": {
+    "installed": {
+      "trigger": "Detected first run of app. Created required triggers.",
+      "user_field": "Detected first run of app. Created required user field."
+    },
+    "assign": {
+      "one": "Ticket assigned to ",
+      "two": " who is unavailable"
+    },
+    "unassign": {
+      "default": {
+        "action": "Updated ",
+        "status": " tickets assigned to "
+      },
+      "pendingTickets": {
+        "action": "Updated ",
+        "status": " Pending/On-Hold tickets with the agent status for "
+      },
+      "ticketPreview": {
+        "action": "Unassigned ",
+        "status": " Open tickets previously assigned to "
+      }
+    },
+    "fail": "Unable to update status for ",
+    "status": {
+      "available": "available.</strong> ",
+      "unavailable": "unavailable.</strong> ",
+      "tags": {
+        "removed": "removed",
+        "added": "added"
+      },
+      "statusMessage": " is now <strong>",
+      "tagsMessage": {
+        "one": "Tickets assigned to <strong>",
+        "two": "</strong> with the status <strong>Pending/On-Hold</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>"
+      }
+    }
+  },
   "loading": {
     "value": "Loading",
     "title": "loading placeholder"
   },
-
-  "fetch": {
-    "done": {
-      "value": "Good",
-      "title": "fetch success"
+  "functionalError": {
+    "setStatusPending": {
+      "one": "Unable to look up pending tickets for ",
+      "two": ". This agent may not be an assignable agent."
     },
-    "fail": {
-      "value": "failed to fecth information from the server",
-      "title": "fetch failure"
+    "setStatus": {
+      "one": "Permissions error while updating status for ",
+      "two": ". Please make sure you are allowed to update their user profile."
     }
-  },
-
-  "id": {
-    "value": "ID",
-    "title": "user id"
-  },
-
-  "email": {
-    "value": "Email",
-    "title": "user email"
-  },
-
-  "name": {
-    "value": "Name",
-    "title": "user name"
-  },
-
-  "role": {
-    "value": "Role",
-    "title": "user role"
-  },
-
-  "groups": {
-    "value": "Groups",
-    "title": "user groups"
   }
 }
