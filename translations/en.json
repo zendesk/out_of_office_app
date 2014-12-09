@@ -5,6 +5,27 @@
       "tag": "Tag: out-of-office app unassign trigger [System Trigger]"
     }
   },
+  "changeStatusMessage": {
+    "available": {
+      "header": "Please confirm status change",
+      "content": {
+        "first": "This action will tag ",
+        "second": " as available and allow tickets to be assigned."
+      },
+      "confirm": "Set to Available",
+      "cancel": "Cancel"
+    },
+    "unavailable": {
+      "header": "Please confirm status change",
+      "content": {
+        "first": "This action will tag ",
+        "second": " as out of office and prevent tickets from being assigned."
+      },
+      "confirm": "Set to Unavailable",
+      "cancel": "Cancel"
+    },
+    "checkbox": "Unassign All Open Tickets"
+  },
   "user_field": {
     "description":   "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
     "name": "Agent Out?"
