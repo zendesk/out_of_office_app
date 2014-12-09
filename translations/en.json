@@ -48,6 +48,14 @@
         "action": "Unassigned ",
         "status": " Open tickets previously assigned to "
       }
+    }, 
+    "status": {
+      "available": "available",
+      "unavailable": "unavailable",
+      "tags": {
+        "removed": "removed",
+        "added": "added"
+      }
     }
   },
   "loading": {

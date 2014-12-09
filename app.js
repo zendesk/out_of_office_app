@@ -109,11 +109,11 @@
 
         //status_changed
         notifyStatus: function(evt) {
-            var status = "available";
-            var tags = "removed";
+            var status = this.I18n.t('notify.status.available');
+            var tags = this.I18n.t('notify.status.tags.removed');
             if(evt.agent.user_fields[this.options.userFieldKey]) {
-                status = "unavailable";
-                tags = "added";
+                status = this.I18n.t('notify.status.unavailable');
+                tags = this.I18n.t('notify.status.tags.added');
             } 
             var statusMessage = '<p>' + evt.agent.name + ' is now <strong>' + status + '.</strong> </p>';
             var tagsMessage = '<p>Tickets assigned to <strong>' + evt.agent.name + '</strong> with the status <strong>Pending/On-Hold</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>' + tags + '</strong>.</p>';
