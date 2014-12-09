@@ -115,8 +115,8 @@
                 status = this.I18n.t('notify.status.unavailable');
                 tags = this.I18n.t('notify.status.tags.added');
             } 
-            var statusMessage = '<p>' + evt.agent.name + ' is now <strong>' + status + '.</strong> </p>';
-            var tagsMessage = '<p>Tickets assigned to <strong>' + evt.agent.name + '</strong> with the status <strong>Pending/On-Hold</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>' + tags + '</strong>.</p>';
+            var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>';
+            var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
             services.notify(statusMessage + tagsMessage, 5000);
             this.trigger("render_app");
         },
@@ -129,7 +129,7 @@
 
         //status_error
         notifyFail: function(evt) {
-            services.notify("Unable to update status for " + evt.agent.name, 'alert');
+            services.notify(this.I18n.t('notify.fail') + evt.agent.name, 'alert');
         },
 
         //createTrigger.done
@@ -158,7 +158,7 @@
 
         //assigned_ooo
         notifyAssign: function(name) {
-            services.notify("Ticket assigned to " + name + " who is unavailable", 'alert');
+            services.notify(this.I18n.t('notify.assign.one') + name + this.I18n.t('notify.assign.two'), 'alert');
         },
 
         renderSave: function() {
@@ -170,10 +170,10 @@
         functionalError: function(evt) {
             console.log(evt);
             switch(evt.location) {
-                case 'setStatusPending': services.notify('Unable to look up pending tickets for ' + evt.agent.name + '. This agent may not be an assignable agent.', 'error', 5000);
+                case 'setStatusPending': services.notify(this.I18n.t('functionalError.setStatusPending.one') + evt.agent.name + this.I18n.t('functionalError.setStatusPending.two'), 'error', 5000);
                     break;
                 case 'setStatus': if(evt.errorCode == 403) {
-                    services.notify('Permissions error while updating status for ' + evt.agent.name + '. Please make sure you are allowed to update their user profile.', 'error', 5000);
+                    services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error', 5000);
                 }
             }
         },

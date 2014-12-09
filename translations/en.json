@@ -35,6 +35,10 @@
       "trigger": "Detected first run of app. Created required triggers.",
       "user_field": "Detected first run of app. Created required user field."
     },
+    "assign": {
+      "one": "Ticket assigned to ",
+      "two": " who is unavailable"
+    },
     "unassign": {
       "default": {
         "action": "Updated ",
@@ -48,18 +52,34 @@
         "action": "Unassigned ",
         "status": " Open tickets previously assigned to "
       }
-    }, 
+    },
+    "fail": "Unable to update status for ",
     "status": {
-      "available": "available",
-      "unavailable": "unavailable",
+      "available": "available.</strong> ",
+      "unavailable": "unavailable.</strong> ",
       "tags": {
         "removed": "removed",
         "added": "added"
+      },
+      "statusMessage": " is now <strong>",
+      "tagsMessage": {
+        "one": "Tickets assigned to <strong>",
+        "two": "</strong> with the status <strong>Pending/On-Hold</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>"
       }
     }
   },
   "loading": {
     "value": "Loading",
     "title": "loading placeholder"
+  },
+  "functionalError": {
+    "setStatusPending": {
+      "one": "Unable to look up pending tickets for ",
+      "two": ". This agent may not be an assignable agent."
+    },
+    "setStatus": {
+      "one": "Permissions error while updating status for ",
+      "two": ". Please make sure you are allowed to update their user profile."
+    }
   }
 }
