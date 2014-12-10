@@ -10,6 +10,7 @@
             requirementsCreated: false,
             installationID: undefined,
             createTrigger: true,
+            tagPending: true,
             userFieldKey: 'agent_ooo',
             confirmChange: true,
             unassignTickets: false,
