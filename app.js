@@ -101,6 +101,10 @@
             if (unassignTickets === true) {  // **NOTE** checkbox CHECKED = checkbox HIDDEN ; unassignTickets option TRUE = checkbox HIDDEN
                 checkbox = undefined;
             }
+            if (!this.options.preventAssignOOO) {
+                unavailableContentSecond    =   this.I18n.t('changeStatusMessage.unavailable.content.secondAllow');
+                availableContentSecond      =   this.I18n.t('changeStatusMessage.available.content.secondAllow');
+            }
             return {
 
                 available: {

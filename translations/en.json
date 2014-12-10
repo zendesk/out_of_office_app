@@ -25,7 +25,8 @@
       "header": "Please confirm status change",
       "content": {
         "first": "This action will tag ",
-        "second": " as available and allow tickets to be assigned."
+        "second": " as available and allow tickets to be assigned.",
+        "secondAllow": " as available."
       },
       "confirm": "Set to Available",
       "cancel": "Cancel"
@@ -34,7 +35,8 @@
       "header": "Please confirm status change",
       "content": {
         "first": "This action will tag ",
-        "second": " as out of office and prevent tickets from being assigned."
+        "second": " as unavailable and prevent tickets from being assigned.",
+        "secondAllow": " as unavailable."
       },
       "confirm": "Set to Unavailable",
       "cancel": "Cancel"
