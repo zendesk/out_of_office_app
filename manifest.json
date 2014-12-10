@@ -11,24 +11,25 @@
   "version": "2.3",
   "frameworkVersion": "1.0",
   "parameters": [
-    { "name": "appTitle",
+    { 
+      "name": "appTitle",
       "type": "hidden",
       "value": "ooo_app"
     },
-    { "name": "confirmChange",
+    { 
+      "name": "confirmChange",
       "type": "checkbox",
-      "default": true,
-      "helptext": "Determines if a modal will be shown when the out of office toggle is clicked on"
+      "default": true
     },
-    { "name": "unassignTickets",
+    { 
+      "name": "unassignTickets",
       "type": "checkbox",
-      "default": false,
-      "helptext": "If set to true, will automatically unassign tickets without needing to check the box in the modal (TODO: remove the checkbox if this is true)"
+      "default": false
     },
-    { "name": "preventAssignOOO",
+    { 
+      "name": "preventAssignOOO",
       "type": "checkbox",
-      "default": true,
-      "helptext": "Enables or disables the save hook"
+      "default": true
     },
     {
       "name": "requirementsCreated",
