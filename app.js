@@ -177,11 +177,6 @@
             services.notify(this.I18n.t('notify.assign.one') + name + this.I18n.t('notify.assign.two'), 'alert');
         },
 
-        renderSave: function() {
-            var ui = this.require('ui', this.options);
-            return ui.renderSave();        
-        },
-
         //functional_error
         functionalError: function(evt) {
             console.log(evt);
