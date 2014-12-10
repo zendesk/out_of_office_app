@@ -50,7 +50,7 @@
             } 
         },
 
-        //click .set-status
+        //click .status-toggle
         verifyChange: function(evt) {                     
             var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
             var ui = this.require('ui', this.options);  //load ui.js module
