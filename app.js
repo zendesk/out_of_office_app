@@ -16,33 +16,32 @@
             preventAssignOOO: true,
         },
 
-        lockRender: false,
-        renderRetries: 0,        
+        lockRender: false, //this is used to prevent the UI from rendering twice due to Lotus bug #885042
+        renderRetries: 0,  //in some instances we will retry a failed network request, this tracks that to limit it to a few retries      
 
         //app.created
         init: function(app) {
-        //    console.log(this.I18n.t('trigger.title'));
             this.switchTo('loading');
-            this.require = require('context_loader')(this);            
-            this.require('install_app', this.options).loadSettings();
+            this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
+            this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
         },
 
         //loaded_settings
-        createSettings: function(evt) {
-            this.options = evt.settings;
-            this.trigger("render_app");
-        },
+        createSettings: function(evt) {       //most functions in app.js are on an event hook - while the various modules could call them directly, 
+            this.options = evt.settings;      //in some instances this makes keeping things encapsulated easier
+            this.trigger("render_app");       //could just call this.render() here, but being consistent about how things are accessed...
+        },                                    //would be interesting to go back and see if this organization method actually helps or not - too late to change it now really
 
         //app.activated
         //pane.activated
         //render_app
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
-        render: function(evt) {
-            var ui = this.require('ui', this.options);
-            if(!this.lockRender) {
+        render: function(evt) {                         //most render paths here will update the current status from the server - this is the primary method used to update the UI when an agent's status has changed
+            var ui = this.require('ui', this.options);  //load in the ui.js module which owns most of the methods which access the DOM
+            if(!this.lockRender) {                          //check to see if rendering is prevented
                 if (this.currentLocation() == 'nav_bar') {
-                    ui.renderNavBar(); 
+                    ui.renderNavBar();                  
                 } else if (this.currentLocation() == 'user_sidebar') {
                     ui.renderUser(); 
                 } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
@@ -52,22 +51,21 @@
         },
 
         //click .set-status
-        verifyChange: function(evt) {
-            var agentID = evt.currentTarget.value;
-            var ui = this.require('ui', this.options);
-            var that = this;
-            if(this.options.confirmChange) {
-                ui.renderStatusModal(agentID);
+        verifyChange: function(evt) {                     
+            var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
+            var ui = this.require('ui', this.options);  //load ui.js module
+            var that = this;                            //clunky - TODO: refactor
+            if(this.options.confirmChange) {            //these options will be loaded in on app.created from the installation settings
+                ui.renderStatusModal(agentID);          //this uses the UI method to generate a modal to confirm the agent status change
             } else {
-                this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets});
+                this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets}); //trigger a change of status
             }
         },
 
         //toggle_status
         updateStatus: function(evt) {
-            var agentID = evt.agentID;
-            var unassignTickets = evt.unassignTickets;
-            var that = this;
+            var agentID = evt.agentID;           
+            var unassignTickets = evt.unassignTickets;  //agent ID and prefrence on wheter to unasign open tickets will be passed in
             this.require('update_status', this.options).toggleStatus(agentID, unassignTickets);
         },
 
