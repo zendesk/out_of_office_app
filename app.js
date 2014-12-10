@@ -102,8 +102,8 @@
                 checkbox = undefined;
             }
             if (!this.options.preventAssignOOO) {
-                unavailableContentSecond    =   this.I18n.t('changeStatusMessage.unavailable.content.avAllow');
-                availableContentSecond      =   this.I18n.t('changeStatusMessage.available.content.uvAllow');
+                unavailableContentSecond    =   this.I18n.t('changeStatusMessage.unavailable.content.secondA');
+                availableContentSecond      =   this.I18n.t('changeStatusMessage.available.content.secondA');
             }
             return {
 
