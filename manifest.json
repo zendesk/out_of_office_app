@@ -18,17 +18,14 @@
     { "name": "confirmChange",
       "type": "checkbox",
       "default": true,
-      "helptext": "Determines if a modal will be shown when the out of office toggle is clicked on"
     },
     { "name": "unassignTickets",
       "type": "checkbox",
       "default": false,
-      "helptext": "If set to true, will automatically unassign tickets without needing to check the box in the modal (TODO: remove the checkbox if this is true)"
     },
     { "name": "preventAssignOOO",
       "type": "checkbox",
       "default": true,
-      "helptext": "Enables or disables the save hook"
     },
     {
       "name": "requirementsCreated",
