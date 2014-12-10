@@ -11,21 +11,25 @@
   "version": "2.3",
   "frameworkVersion": "1.0",
   "parameters": [
-    { "name": "appTitle",
+    { 
+      "name": "appTitle",
       "type": "hidden",
       "value": "ooo_app"
     },
-    { "name": "confirmChange",
+    { 
+      "name": "confirmChange",
       "type": "checkbox",
-      "default": true,
+      "default": true
     },
-    { "name": "unassignTickets",
+    { 
+      "name": "unassignTickets",
       "type": "checkbox",
-      "default": false,
+      "default": false
     },
-    { "name": "preventAssignOOO",
+    { 
+      "name": "preventAssignOOO",
       "type": "checkbox",
-      "default": true,
+      "default": true
     },
     {
       "name": "requirementsCreated",
