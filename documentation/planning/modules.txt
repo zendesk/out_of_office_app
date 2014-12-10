@@ -1,3 +1,8 @@
+####
+# Some useful historical documents - these were created when I was brainstorming how the app would fit together. 
+####
+
+
 app.js:
     - user field label
     - user field key
