@@ -5,7 +5,7 @@ var requests = {
             'url': url
         };
     }
-}
+};
 
 //Private, module only utilities go in var utility - they will be pulled into
 //the functions but won't be accessible to code that requires the module
@@ -26,7 +26,7 @@ module.exports = {
         _.extend(context.requests, requests); //patch the requests from this module into the app framework
         _.extend(util, context.require('get_all')); //provides access to the getAll and other data fetch methods
         util.appFramework = context; //provide the App Framwork to the functions 
-        util.settings = settings //take in passed through settings (if required)
+        util.settings = settings; //take in passed through settings (if required)
         return {
             internalContext: this.internalContext,
             exampleFunction: this.exampleFunction,
