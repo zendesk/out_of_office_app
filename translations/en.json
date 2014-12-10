@@ -5,6 +5,14 @@
       "tag": "Tag: out-of-office app unassign trigger [System Trigger]"
     }
   },
+  "unavailable": "Unavailable",
+  "available": "Available",
+  "name": "Name",
+  "email": "Email",
+  "status": "Status",
+  "pleaseCheck": "Please check with an Administrator if this agent's availability needs to be changed",
+  "thisTicket": "This ticket is not assigned to an agent",
+  "thisUser": "This user is not an assignable agent.",
   "changeStatusMessage": {
     "available": {
       "header": "Please confirm status change",
