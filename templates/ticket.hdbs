@@ -6,26 +6,26 @@
             
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
-                <button class="btn btn-available status-toggle" value="{{assignee.id}}">Available</button>
+                <button class="btn btn-available status-toggle" value="{{assignee.id}}">{{t "available"}}</button>
             {{/if}}
+            <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
             {{#unless permission}}
-                <p class="p-user" style="margin-top: -4px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">Please check with an Administrator if this agent's availability needs to be changed</p>
+                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
             {{/unless}}
-            <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%;"{{/unless}}>Unavailable</button>
 
         {{else}}
-            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%;"{{/unless}}>Available</button>
+            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "available"}}</button>
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
-                <button class="btn btn-busy status-toggle" value="{{assignee.id}}">Unavailable</button>
+                <button class="btn btn-busy status-toggle" value="{{assignee.id}}">{{t "unavailable"}}</button>
             {{/if}}
             {{#unless permission}}
-                <p class="p-user" style="margin-top: -4px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">Please check with an Administrator if this agent's availability needs to be changed</p>
+                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
             {{/unless}}
             
         {{/if}}
       </div>
   {{else}}
-      <p>This ticket is not assigned to an agent</p>
+      <p>{{t "thisTicket"}}</p>
   {{/if}}
 </div>
