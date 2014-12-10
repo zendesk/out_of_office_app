@@ -9,17 +9,16 @@
 <!--Modal for confirming change of status -->
  <div class="modal hide fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-header modalHeaderPosition">
-     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-     <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
-     <h3 class="modal-header">Header Text</h3>
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+     <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true"></button>
+     <h3 class="modal-header"></h3>
    </div>
    <div class="modal-body">
-     <p>This action will reassign <span class='users-name'></span>'s open tickets and change their status to away. Please confirm.</p>
    </div>
    <div class="modal-footer">
      <span class="option"></span>
-     <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true">Cancel</button>
-     <button id="confirm" class="btn btn-primary btn-confirm modalAccept" aria-hidden="true">Yes, Mark this agent as away</button>
+     <button class="btn btn-cancel modalCancel" data-dismiss="modal" aria-hidden="true"></button>
+     <button id="confirm" class="btn btn-primary btn-confirm modalAccept" aria-hidden="true"></button>
    </div>
  </div>
  <!--END status confirmation modal -->
