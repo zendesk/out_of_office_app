@@ -73,12 +73,11 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 
 ## Screenshots
 
-##### Agent experience: 
-
-![](http://g.recordit.co/tjcr81oKSw.gif)
-![](http://g.recordit.co/i6g09xm1wY.gif)
-
 ##### Administrator experience: 
 
-![](http://g.recordit.co/Q6RWiHZpXX.gif)
-![](http://g.recordit.co/ienhSvKi7H.gif)
+![](http://g.recordit.co/7dfkDvTIFX.gif)
+![](http://g.recordit.co/5nz3l4M0WR.gif)
+
+##### Agent experience: 
+
+![](http://g.recordit.co/j6GPUfHDIb.gif)
