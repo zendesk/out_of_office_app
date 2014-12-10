@@ -8,9 +8,9 @@
     <thead style="border-style: solid;">
       <tr>
         <th style="width: 0.25%;"></th>
-        <th class="srt_header"><span>{{t "name"}}</span></th>
-        <th class="srt_header"><span>{{t "email"}}</span></th>
-        <th class="srt_header"><span>{{t "status"}}</span></th>
+        <th class="srt_header" id="name_head"><span>{{t "name"}}</span></th>
+        <th class="srt_header" id="email_head"><span>{{t "email"}}</span></th>
+        <th class="srt_header" id="status_head"><span>{{t "status"}}</span></th>
         <th style="width: 0.25%;"></th>
       </tr>
     </thead>

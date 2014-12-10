@@ -42,8 +42,7 @@
             var ui = this.require('ui', this.options);
             if(!this.lockRender) {
                 if (this.currentLocation() == 'nav_bar') {
-                    var filter = this.$('#filter_search').val();
-                    ui.renderNavBar(filter); 
+                    ui.renderNavBar(); 
                 } else if (this.currentLocation() == 'user_sidebar') {
                     ui.renderUser(); 
                 } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
