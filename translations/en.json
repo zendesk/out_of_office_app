@@ -26,7 +26,7 @@
       "content": {
         "first": "This action will tag ",
         "second": " as available and allow tickets to be assigned.",
-        "secondAllow": " as available."
+        "avAllow": " as available."
       },
       "confirm": "Set to Available",
       "cancel": "Cancel"
@@ -36,7 +36,7 @@
       "content": {
         "first": "This action will tag ",
         "second": " as unavailable and prevent tickets from being assigned.",
-        "secondAllow": " as unavailable."
+        "unAllow": " as unavailable."
       },
       "confirm": "Set to Unavailable",
       "cancel": "Cancel"
