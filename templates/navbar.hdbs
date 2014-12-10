@@ -8,9 +8,9 @@
     <thead style="border-style: solid;">
       <tr>
         <th style="width: 0.25%;"></th>
-        <th class="srt_header"><span>Name</span></th>
-        <th class="srt_header"><span>Email</span></th>
-        <th class="srt_header"><span>Status</span></th>
+        <th class="srt_header" id="name_head"><span>Name</span></th>
+        <th class="srt_header" id="email_head"><span>Email</span></th>
+        <th class="srt_header" id="status_head"><span>Status</span></th>
         <th style="width: 0.25%;"></th>
       </tr>
     </thead>
