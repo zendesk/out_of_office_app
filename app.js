@@ -10,6 +10,7 @@
             requirementsCreated: false,
             installationID: undefined,
             createTrigger: true,
+            tagPending: true,
             userFieldKey: 'agent_ooo',
             confirmChange: true,
             unassignTickets: false,
@@ -20,17 +21,11 @@
         renderRetries: 0,  //in some instances we will retry a failed network request, this tracks that to limit it to a few retries      
 
         //app.created
-        init: function(app) {
+        init: function(app) {     
             this.switchTo('loading');
             this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
             this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
         },
-
-        //loaded_settings
-        createSettings: function(evt) {       //most functions in app.js are on an event hook - while the various modules could call them directly, 
-            this.options = evt.settings;      //in some instances this makes keeping things encapsulated easier
-            this.trigger("render_app");       //could just call this.render() here, but being consistent about how things are accessed...
-        },                                    //would be interesting to go back and see if this organization method actually helps or not - too late to change it now really
 
         //app.activated
         //pane.activated
@@ -50,7 +45,7 @@
             } 
         },
 
-        //click .set-status
+        //click .status-toggle
         verifyChange: function(evt) {                     
             var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
             var ui = this.require('ui', this.options);  //load ui.js module
@@ -59,7 +54,10 @@
                 ui.renderStatusModal(agentID);          //this uses the UI method to generate a modal to confirm the agent status change
             } else {
                 this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets}); //trigger a change of status
-            }
+            }               //most functions in app.js are on an event hook - while the various modules could call them directly, 
+                            //in some instances this makes keeping things encapsulated easier
+                            //could just call this.render() here, but being consistent about how things are accessed...
+                            //would be interesting to go back and see if this organization method actually helps or not - too late to change it now really
         },
 
         //toggle_status
