@@ -76,6 +76,7 @@
             var failMessage = this.I18n.t('saveFailMessage');
             return '<p style="margin-top: 16px; margin-bottom: 10px; text-align: center; font-weight: bold; font-size: 20px;">' + failMessage + '</p>';
         },
+
         saveWarningMessage: function(name) {  //TODO: rework current strings to use placeholders instead of concatenation
             var warnStatus  = this.I18n.t('saveWarningMessage.status'),
                 warnMessage = this.I18n.t('saveWarningMessage.message');
