@@ -68,11 +68,11 @@
       },
       "pendingTickets": {
         "action": "Updated ",
-        "status": " Pending/On-Hold tickets with the agent status for "
+        "status": " Pending/On-Hold/Solved tickets with the agent status for "
       },
       "ticketPreview": {
-        "action": "Unassigned ",
-        "status": " Open tickets previously assigned to "
+        "action": "Updated  ",
+        "status": " tickets with the agent status for "
       }
     },
     "fail": "Unable to update status for ",
@@ -86,7 +86,7 @@
       "statusMessage": " is now <strong>",
       "tagsMessage": {
         "one": "Tickets assigned to <strong>",
-        "two": "</strong> with the status <strong>Pending/On-Hold</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>"
+        "two": "</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>"
       }
     }
   },
