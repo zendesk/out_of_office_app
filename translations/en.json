@@ -96,7 +96,7 @@
   },
   "functionalError": {
     "setStatusPending": {
-      "one": "Unable to look up pending tickets for ",
+      "one": "Unable to look up tickets for ",
       "two": ". This agent may not be an assignable agent."
     },
     "setStatus": {
