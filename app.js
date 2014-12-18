@@ -74,6 +74,7 @@
             var failMessage = this.I18n.t('saveFailMessage');
             return '<p style="margin-top: 16px; margin-bottom: 10px; text-align: center; font-weight: bold; font-size: 20px;">' + failMessage + '</p>';
         },
+
         saveWarningMessage: function(name) {  //TODO: rework current strings to use placeholders instead of concatenation
             var warnStatus  = this.I18n.t('saveWarningMessage.status'),
                 warnMessage = this.I18n.t('saveWarningMessage.message');
@@ -168,7 +169,7 @@
         functionalError: function(evt) { //functional_error events are fired throughought the app when something is interrupted or a request fails. 
             console.log(evt);            //we've made an effort to attach useful debugging information to those events - they show up in the console and may be helpful if errors to occur
             switch(evt.location) {       //this also allows us to catch *expected* errors and give a slightly more helpful message
-                case 'setStatusPending': services.notify(this.I18n.t('functionalError.setStatusPending.one') + evt.agent.name + this.I18n.t('functionalError.setStatusPending.two'), 'error', 5000);
+                case 'applyTag': services.notify(this.I18n.t('functionalError.setStatusPending.one') + evt.agent.name + this.I18n.t('functionalError.setStatusPending.two'), 'error', 5000);
                     break;
                 case 'setStatus': if(evt.errorCode == 403) {
                     services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error', 5000);
