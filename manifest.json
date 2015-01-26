@@ -6,7 +6,7 @@
     "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
-  "private": true,
+  "private": false,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
   "version": "2.5.2",
   "frameworkVersion": "1.0",
