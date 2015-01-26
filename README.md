@@ -52,10 +52,14 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 * *New* or *Existing* Tickets **can** be assigned to an Assignee on creation/update (Barring role level custom permissions) as normal
 * *Existing* tickets not currently assigned to an unavailable Agent **can not** be assigned to them while they're unavailable, unless the intended Assignee is the current user even if current user is unavailable
 
-## Known Issue
+## Known Issues & Limitations
 
 * Currently agent's are able to assign a ticket to a group with only one Agent in its membership even if the sole Agent in that group is unavailable because currently we aren't checking for this. We will fix this in a future version
 * "Error: Unable to get list of agents." will display for users in this role ![](http://i.imgur.com/059TpZW.png)
+* Tickets updated via the [Mail API](https://support.zendesk.com/hc/en-us/articles/203691006-Updating-ticket-properties-from-your-inbox) with an Assignee who is OOO will still update. The app can't prevent use of the Mail API commands
+* When a ticket assigned to an OOO agent gets updated the ticket gets assigned back to the parent group with a null Assignee value - the trigger working in the background during this action does not currently send an email notification to the agents in the group notifying them this happened
+* It is possible to assign tickets in bulk to an OOO agent because the OOO app can't bulk actions as bulk actions lie external to the apps framework
+* Intermittently when marking an agent as OOO and un-assigning all open tickets only some of the tickets will actually get unassigned
 
 ## Locations
 
