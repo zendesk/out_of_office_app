@@ -58,7 +58,7 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 * "Error: Unable to get list of agents." will display for users in this role ![](http://i.imgur.com/059TpZW.png)
 * Intermittently when marking an agent as OOO and un-assigning all open tickets only some of the tickets will actually get unassigned
 * When a ticket assigned to an OOO agent gets updated the ticket gets assigned back to the parent group with a null Assignee value - the trigger working in the background during this action does not currently send an email notification to the agents in the group notifying them this happened
-* The OOO app can't prevent updating or assigning a ticket to an OOO agent if done via the REST API, the Mail API, or via the Agent UI in a bulk assignment action
+* The app will not prevent assigning tickets unless the ticket is updated individually through the Zendesk interface. Triggers, the Mail API, and REST API, and bulk editing will all be able to bypass the assignment restrictions
 
 ## Locations
 
