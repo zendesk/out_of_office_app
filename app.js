@@ -16,7 +16,8 @@
             unassignTickets: false,
             preventAssignOOO: true,
         },
-
+        
+        debug: true,        
         lockRender: false, //this is used to prevent the UI from rendering twice due to Lotus bug #885042
         renderRetries: 0,  //in some instances we will retry a failed network request, this tracks that to limit it to a few retries      
 
@@ -25,6 +26,100 @@
             this.switchTo('loading');
             this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
             this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
+        },
+
+        runTests: function() {
+            console.log('running tests');
+            var statusMock = {
+
+                ajax: {
+                    'unTagTicket': {},
+                    'tagTicket': {},
+                    'pendingTickets': {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
+                    'ticketPreview':  {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
+                    'unassignMany': {},
+                    'url':  {
+                        "rows": [{
+                            "ticket": {
+                                "id": 15,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 13,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 12,
+                            }
+                        },
+                        {
+                            "ticket": {
+                                "id": 7,
+                            }
+                        }],
+                        "next_page": null,
+                        "previous_page": null,
+                        "count": 204
+                    },
+                    'setAgentStatus': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":true}}},
+                    'getSingleAgent': {"user":{"id":12345,"name":"John Doe", "role":"admin","user_fields":{"agent_ooo":false}}},
+                },
+
+                trigger: true
+            };
+
+            var update_status = require('test_helper')(this, statusMock)('update_status', this.options);
+            update_status(123456, true);
         },
 
         //app.activated
