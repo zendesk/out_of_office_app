@@ -1,6 +1,6 @@
 <div class="search_wrapper">
   <span class="ui-icon ui-icon-search" style="margin-top: 10px; margin-left: 8px; position: absolute;"></span>
-  <input class="search" type="search" id="filter_search" alt="Search" placeholder="Search for agents" />
+  <input class="search" type="search" id="filter_search" alt="Search" placeholder="{{t "searchBox"}}" />
 </div>
 
 <div id="maintemplate">
