@@ -129,7 +129,7 @@
             } 
             var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>'; //this message is used to confirm that the tickets are updated
             var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
-            services.notify(statusMessage + tagsMessage, 5000); //actually send the message
+            services.notify(statusMessage + tagsMessage, 'alert', 12000); //actually send the message
             this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
         },
 
@@ -143,14 +143,15 @@
                 action = this.I18n.t('notify.unassign.ticketPreview.action');
                 status = this.I18n.t('notify.unassign.ticketPreview.status');
             }
-            services.notify(action + evt.count + status + evt.name + ".");
+            services.notify(action + evt.count + status + evt.name + ".", 'alert', 12000);
+            this.trigger("render_app");
         },
 
 
         //update_warning
         warnStatus: function(evt) { //this will show a warning if a ticket is saved and the agent assigned is out of office
             if(evt.agent.user_fields[this.options.userFieldKey]) {
-                services.notify(this.saveWarningMessage(evt.agent.name), 'warning', 5000);
+                services.notify(this.saveWarningMessage(evt.agent.name), 'alert', 12000);
             }
         },
 
