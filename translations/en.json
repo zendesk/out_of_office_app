@@ -102,6 +102,10 @@
       "one": "Unable to look up tickets for ",
       "two": ". This agent may not be an assignable agent."
     },
+    "ticketUpdateLimit": {
+      "one": "Unable to update some tickets for ",
+      "two": ". Too many ticket updates within the past 10 minutes."
+    },
     "setStatus": {
       "one": "Permissions error while updating status for ",
       "two": ". Please make sure you are allowed to update their user profile."
