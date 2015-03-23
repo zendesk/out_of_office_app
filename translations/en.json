@@ -17,7 +17,8 @@
   "name": "Name",
   "email": "Email",
   "status": "Status",
-  "agent": "Agent",
+  "currentAssignee": "Current Assignee",
+  "currentUser": "This Agent",
   "searchBox": "Search for agents",
   "pleaseCheck": "Please check with an Administrator if this agent's availability needs to be changed",
   "thisTicket": "This ticket is not assigned to an agent",
@@ -100,6 +101,10 @@
     "setStatusPending": {
       "one": "Unable to look up tickets for ",
       "two": ". This agent may not be an assignable agent."
+    },
+    "ticketUpdateLimit": {
+      "one": "Unable to update some tickets for ",
+      "two": ". Too many ticket updates within the past 10 minutes."
     },
     "setStatus": {
       "one": "Permissions error while updating status for ",

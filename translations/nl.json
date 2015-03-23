@@ -17,7 +17,8 @@
   "name": "Naam",
   "email": "E-mail",
   "status": "Status",
-  "agent": "Agent",
+  "currentAssignee": "Huidige Gevolmachtigde",
+  "currentUser": "Deze Agent",
   "searchBox": "Op zoek naar agenten",
   "pleaseCheck": "Controleer a.u.b. met een Administrator of de status van deze agent gewijzigd moet worden",
   "thisTicket": "Deze melding is niet toegewezen aan een agent",
@@ -100,6 +101,10 @@
     "setStatusPending": {
       "one": "Kan geen meldingen opzoeken voor ",
       "two": ". Het kan zijn dat er aan deze agent geen meldingen toegewezen kunnen worden."
+    },
+    "ticketUpdateLimit": {
+      "one": "Kan sommige tickets te werken voor",
+      "two": ". Te veel ticket updates in de laatste 10 minuten."
     },
     "setStatus": {
       "one": "Rechten probleem tijdens updaten van status voor ",
