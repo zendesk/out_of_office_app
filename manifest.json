@@ -8,7 +8,7 @@
   "defaultLocale": "en",
   "private": false,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
-  "version": "2.5.4",
+  "version": "2.5.2",
   "frameworkVersion": "1.0",
   "parameters": [
     { 
@@ -29,12 +29,22 @@
     { 
       "name": "preventAssignOOO",
       "type": "checkbox",
-      "default": true
+      "default": false
     },
     {
       "name": "requirementsCreated",
       "type": "hidden",
       "value": false
+    },
+    {
+      "name": "tagRemovalId",
+      "type": "hidden",
+      "value": 0
+    },
+    {
+      "name": "tagAdditionId",
+      "type": "hidden",
+      "value": 0
     }
   ]
 }

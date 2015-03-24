@@ -2,6 +2,22 @@
 
 # Out of Office App
 
+
+Special Installation Requirements
+=================================
+- This version of the app supports a dynamic trigger that will effectively add tags to tickets assigned to an out-of-office agent.
+- This trigger needs to be created ahead of time so that the trigger ID can be pasted into the settings when installing the app
+- Here is the link to the JSON data that can POST to '/api/v2/triggers.json' in order to create the trigger [Link](https://gist.github.com/dpawluk/c17b5919ba7a6d6083f5).
+- If the admin installing the app is not comportable with using the api to create the trigger, I've listed the trigger parameters below to manually create the trigger
+
+Trigger Creation
+================
+1. Create a new trigger, set the title to - "Out of Office App User Trigger [System Trigger]" (without quotes)
+2. Under 'All' conditions, create a single entry - [Ticket: Status][Less Than][Solved]
+3. Under 'Any conditions, create a single entry - [Ticket: Tags][Contains at least one of the following][0421008445828ceb46f476700a5fa65e]. This is a control condition that can never be met when no agents are out of office
+4. Under Actions, create a single entry - [Ticket: Add Tags][agent_ooo]
+5. Create the trigger, then click 'edit' to view the trigger. On the right hand side is a small panel for the trigger permalink. This will look like `https://support.zendocs.info/agent/admin/triggers/edit/{{trigger_id}}`. Record the number where you see {{trigger_id}} in this example. This is the value for the setting 'assigneeTriggerId'. Enter it when prompted during installation.
+
 This app will allow Admins to manage their Agents' vacation statuses, as well as allowing individual Agents to manage their own vacation statuses, and reassigning assigned tickets to their parent group if updated during the vacation.  
 
 There is also an option to unassign all open tickets currently assigned to an Agent, when setting the Agent on vacation, to the parent group.
@@ -76,6 +92,8 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 * [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/29) Avatar usage on Agent list in Nav Bar
 * [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/10) Allow custom out of office tag on user field
 
+## Screenshots
+
 ##### Administrator experience: 
 
 ![](http://g.recordit.co/7dfkDvTIFX.gif)
@@ -84,7 +102,3 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 ##### Agent experience: 
 
 ![](http://g.recordit.co/j6GPUfHDIb.gif)
-
-##### Look for this in the Zendesk Apps Marketplace
-
-![](http://i.imgur.com/4Xzod2H.png)

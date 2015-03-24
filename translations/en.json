@@ -8,8 +8,8 @@
   },
   "trigger": {
     "title": {
-      "ticket": "Ticket: out-of-office app unassign trigger [System Trigger]",
-      "tag": "Tag: out-of-office app unassign trigger [System Trigger]"
+      "tagRemove": "Tag: out-of-office app tag removal [System Trigger]",
+      "tagAppend": "Tag: out-of-office app tag addition [System Trigger]"
     }
   },
   "unavailable": "Unavailable",
@@ -17,9 +17,6 @@
   "name": "Name",
   "email": "Email",
   "status": "Status",
-  "currentAssignee": "Current Assignee",
-  "currentUser": "This Agent",
-  "searchBox": "Search for agents",
   "pleaseCheck": "Please check with an Administrator if this agent's availability needs to be changed",
   "thisTicket": "This ticket is not assigned to an agent",
   "thisUser": "This user is not an assignable agent.",
@@ -101,10 +98,6 @@
     "setStatusPending": {
       "one": "Unable to look up tickets for ",
       "two": ". This agent may not be an assignable agent."
-    },
-    "ticketUpdateLimit": {
-      "one": "Unable to update some tickets for ",
-      "two": ". Too many ticket updates within the past 10 minutes."
     },
     "setStatus": {
       "one": "Permissions error while updating status for ",

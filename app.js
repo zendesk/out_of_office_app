@@ -40,13 +40,13 @@
                 } else if (this.currentLocation() == 'user_sidebar') {
                     ui.renderUser(); 
                 } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
-                    ui.renderTicket();
+                    this.hide();
                 } 
             } 
         },
 
         //click .status-toggle
-        verifyChange: function(evt) {              
+        verifyChange: function(evt) {                     
             var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
             var ui = this.require('ui', this.options);  //load ui.js module
             var that = this;                            //clunky - TODO: refactor
@@ -94,7 +94,7 @@
                 unavailableCancel           =   this.I18n.t('changeStatusMessage.unavailable.cancel'),
                 checkboxText                =   this.I18n.t('changeStatusMessage.checkbox');
 
-            var checkbox = '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">' + checkboxText + '</span></label></p>';
+            var checkbox;
             if (unassignTickets === true) {  // **NOTE** checkbox CHECKED = checkbox HIDDEN ; unassignTickets option TRUE = checkbox HIDDEN
                 checkbox = undefined; //if the checkbox is undefined it will not show up in the modal
             }
@@ -129,7 +129,7 @@
             } 
             var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>'; //this message is used to confirm that the tickets are updated
             var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
-            services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
+            services.notify(statusMessage + tagsMessage, 5000); //actually send the message
             this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
         },
 
@@ -143,15 +143,14 @@
                 action = this.I18n.t('notify.unassign.ticketPreview.action');
                 status = this.I18n.t('notify.unassign.ticketPreview.status');
             }
-            services.notify(action + evt.count + status + evt.name + ".", 'alert');
-            this.trigger("render_app");
+            services.notify(action + evt.count + status + evt.name + ".");
         },
 
 
         //update_warning
         warnStatus: function(evt) { //this will show a warning if a ticket is saved and the agent assigned is out of office
             if(evt.agent.user_fields[this.options.userFieldKey]) {
-                services.notify(this.saveWarningMessage(evt.agent.name), 'alert');
+                services.notify(this.saveWarningMessage(evt.agent.name), 'warning', 5000);
             }
         },
 
@@ -170,33 +169,23 @@
         functionalError: function(evt) { //functional_error events are fired throughought the app when something is interrupted or a request fails. 
             console.log(evt);            //we've made an effort to attach useful debugging information to those events - they show up in the console and may be helpful if errors to occur
             switch(evt.location) {       //this also allows us to catch *expected* errors and give a slightly more helpful message
-                case 'applyTag': if(evt.errorCode == 429) {
-                        services.notify(this.I18n.t('functionalError.ticketUpdateLimit.one') + evt.agent.name + this.I18n.t('functionalError.ticketUpdateLimit.two'), 'error');
-                    } else { 
-                        services.notify(this.I18n.t('functionalError.setStatusPending.one') + evt.agent.name + this.I18n.t('functionalError.setStatusPending.two'), 'error');
-                    } break;
+                case 'applyTag': services.notify(this.I18n.t('functionalError.setStatusPending.one') + evt.agent.name + this.I18n.t('functionalError.setStatusPending.two'), 'error', 5000);
+                    break;
                 case 'setStatus': if(evt.errorCode == 403) {
-                    services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error');
-                } else if(evt.errorCode == 422) {
-                    services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error');   
-                } break;
+                    services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error', 5000);
+                }
             }
-            console.log(evt.location);
-            console.log(evt.errorCode);
         },
 
         //network_error
         networkError: function(evt) {  //network errors (failures of ajax requests) are fired as well, with more low-level debugging information
             console.log(evt);          //between functional_error and network_error the goal is to expose parts of the app state that might be helpful for debugging
-            this.renderRetry();
         },
         
         //getAllAgents.fail
         //getSingleAgent.fail
         renderRetry: function() {       //in some limited situations, we might be able to recover from a failed network request.
-            console.log(this.renderRetries);
-            if(this.renderRetries < 1){     //this will retry the events that are typically used in .render() once in case the network error was just a transient failure
-                console.log('retry render');
+            if(this.renderRetries < 0){     //this will retry the events that are typically used in .render() once in case the network error was just a transient failure
                 this.trigger("render_app");
             }
             this.renderRetries++;

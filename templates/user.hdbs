@@ -7,7 +7,7 @@
 
 <div id='usertemplate'>
     {{#if user}}
-        <p class="p-user">{{t "currentUser"}}: <strong>{{user.name}}</strong>
+        <p class="p-user">Agent: <strong>{{user.name}}</strong>
         <div class="btn-group status">
             {{#if user.user_fields.agent_ooo}}
                 {{#if permission}}
