@@ -1,26 +1,30 @@
 <div id="ticket_dash">
   {{#if assignee}}
-      <p class="p-assignee" style="font-size: 20px;">{{t "currentAssignee"}}: <strong>{{assignee.name}}</strong>
+      <p class="p-assignee" style="font-size: 14px;"><strong>{{assignee.name}}</strong> {{t "is"}} {{#if assignee.user_fields.agent_ooo}}<span class="unavailable-text">{{t "unavailable"}}</span>{{else}}<span class="available-text">{{t "available"}}</span>{{/if}}
       <div class="btn-group status">
         {{#if assignee.user_fields.agent_ooo}}
             
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
+                <p class="muted text-center">{{t "change_status"}}</p>
                 <button class="btn btn-available status-toggle" value="{{assignee.id}}">{{t "available"}}</button>
+                <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
             {{/if}}
-            <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
+            
             {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
+                {{!-- <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p> --}}
             {{/unless}}
 
         {{else}}
-            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "available"}}</button>
+            
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
+            <p class="muted text-center">{{t "change_status"}}</p>
+            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "available"}}</button>
                 <button class="btn btn-busy status-toggle" value="{{assignee.id}}">{{t "unavailable"}}</button>
             {{/if}}
             {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
+                {{!-- <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p> --}}
             {{/unless}}
             
         {{/if}}

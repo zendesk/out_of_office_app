@@ -140,9 +140,9 @@ th.srt_header:hover {
 }
 
 .btn {
-  padding: 20px 0px;
+  padding: 2px 0px;
   font-weight: 450;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .btn-available {
@@ -204,9 +204,9 @@ th.srt_header:hover {
 
 .p-assignee, .p-user {
   margin-bottom: 10px;
-  margin-top: 14px;
+  /*margin-top: 14px;*/
   text-shadow: 2px 2px 30px white;
-  font-size: 20px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -238,4 +238,13 @@ th.srt_header:hover {
 .users-name {
   font-weight: 900;
   text-decoration: underline;
+}
+
+.available-text {
+  color: #79a21d;
+  font-weight: bolder;
+}
+.unavailable-text {
+  color: #E02F2F;
+  font-weight: bolder;
 }

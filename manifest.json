@@ -31,6 +31,10 @@
       "type": "checkbox",
       "default": true
     },
+    { 
+      "name": "excludedCustomRoles",
+      "type": "text",      
+    },
     {
       "name": "requirementsCreated",
       "type": "hidden",

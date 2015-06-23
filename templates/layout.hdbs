@@ -1,10 +1,5 @@
 {{! Meta-template, contains modal which will be filled conditionally }}
-
-<header class="borderStyle">
-  <span class="logo"/>
-  <h3>{{setting "name"}}</h3>
-</header>
-<section data-main/>
+<i class="icon-question-sign _tooltip pull-right" data-placement="left" title="{{t "ooo_explanation"}}"></i><section data-main/>
 
 <!--Modal for confirming change of status -->
  <div class="modal hide fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
