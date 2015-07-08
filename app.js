@@ -37,11 +37,11 @@
             if(!this.lockRender) {                          //check to see if rendering is prevented
                 if (this.currentLocation() == 'nav_bar') {
                     ui.renderNavBar();
-                } else if (this.currentLocation() == 'user_sidebar' && this.options.userSidebarVisibility) {
+                } else if (this.currentLocation() == 'user_sidebar') {
                     ui.renderUser();
-                } else if ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && this.options.ticketSidebarVisibility) {
+                } else if ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar')) {
                     ui.renderTicket();
-                } else {
+                } else if ((this.currentLocation() == 'nav_bar' && this.currentUser.role() != 'admin') || ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && this.options.ticketSidebarVisibility) || (this.currentLocation() == 'user_sidebar' && this.options.userSidebarVisibility)) {
                     this.hide();
                 }
             }
