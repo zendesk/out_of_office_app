@@ -3,7 +3,9 @@
     "parameters": {
       "confirmChange":  { "label": "Confirm status change?", "helpText": "Determines if a modal will be shown when changing an agent's status." },
       "unassignTickets": { "label": "Force unassign tickets?", "helpText": "Automatically unassign Open tickets when an agent is set to unavailable." },
-      "preventAssignOOO": { "label": "Prevent assignment?", "helpText": "Have the app block updates that assign a ticket to an unavailable agent." }
+      "preventAssignOOO": { "label": "Prevent assignment?", "helpText": "Have the app block updates that assign a ticket to an unavailable agent." },
+      "ticketSidebarVisibility": { "label": "Make app visible in ticket sidebar?" },
+      "userSidebarVisibility": { "label": "Make app visible in user sidebar?" }
     }
   },
   "trigger": {

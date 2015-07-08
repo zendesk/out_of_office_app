@@ -3,7 +3,9 @@
     "parameters": {
       "confirmChange":  { "label": "Status wijziging bevestigen ?", "helpText": "Dit bepaalt of er om bevestiging wordt gevraagd wanneer een agent de status wijzigt." },
       "unassignTickets": { "label": "Forceer melding aan groep toewijzen ?", "helpText": "Open meldingen worden automatisch terug aan de groep toegewezen wanneer een agent niet beschikbaar is." },
-      "preventAssignOOO": { "label": "Toewijzing voorkomen ?", "helpText": "Dit zorgt er voor dat de app het toewijzen van meldingen aan afwezige agenten blokkeert." }
+      "preventAssignOOO": { "label": "Toewijzing voorkomen ?", "helpText": "Dit zorgt er voor dat de app het toewijzen van meldingen aan afwezige agenten blokkeert." },
+      "ticketSidebarVisibility": { "label": "Maak app zichtbaar in ticket zijbalk?" },
+      "userSidebarVisibility": { "label": "Maak app zichtbaar in gebruiker zijbalk?" }
     }
   },
   "trigger": {
