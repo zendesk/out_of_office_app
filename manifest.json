@@ -11,22 +11,22 @@
   "version": "2.5.4",
   "frameworkVersion": "1.0",
   "parameters": [
-    { 
+    {
       "name": "appTitle",
       "type": "hidden",
       "value": "ooo_app"
     },
-    { 
+    {
       "name": "confirmChange",
       "type": "checkbox",
       "default": true
     },
-    { 
+    {
       "name": "unassignTickets",
       "type": "checkbox",
       "default": false
     },
-    { 
+    {
       "name": "preventAssignOOO",
       "type": "checkbox",
       "default": true
@@ -35,6 +35,21 @@
       "name": "requirementsCreated",
       "type": "hidden",
       "value": false
+    },
+    {
+      "name": "ticketSidebarVisibility",
+      "type": "checkbox",
+      "default": true
+    },
+    {
+      "name": "userSidebarVisibility",
+      "type": "checkbox",
+      "default": true
+    },
+    {
+      "name": "navbarVisibility",
+      "type": "checkbox",
+      "default": true
     }
   ]
 }
