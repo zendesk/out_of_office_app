@@ -5,7 +5,8 @@
       "unassignTickets": { "label": "Forceer melding aan groep toewijzen ?", "helpText": "Open meldingen worden automatisch terug aan de groep toegewezen wanneer een agent niet beschikbaar is." },
       "preventAssignOOO": { "label": "Toewijzing voorkomen ?", "helpText": "Dit zorgt er voor dat de app het toewijzen van meldingen aan afwezige agenten blokkeert." },
       "ticketSidebarVisibility": { "label": "Maak app zichtbaar in ticket zijbalk?" },
-      "userSidebarVisibility": { "label": "Maak app zichtbaar in gebruiker zijbalk?" }
+      "userSidebarVisibility": { "label": "Maak app zichtbaar in gebruiker zijbalk?" },
+      "navbarVisibility": { "label": "Maak app zichtbaar in navigatiebalk aan niet-admins?"}
     }
   },
   "trigger": {

@@ -45,6 +45,11 @@
       "name": "userSidebarVisibility",
       "type": "checkbox",
       "default": true
+    },
+    {
+      "name": "navbarVisibility",
+      "type": "checkbox",
+      "default": true
     }
   ]
 }

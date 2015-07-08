@@ -41,7 +41,9 @@
                     ui.renderUser();
                 } else if ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar')) {
                     ui.renderTicket();
-                } else if ((this.currentLocation() == 'nav_bar' && this.currentUser.role() != 'admin') || ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && this.options.ticketSidebarVisibility) || (this.currentLocation() == 'user_sidebar' && this.options.userSidebarVisibility)) {
+                }
+
+                if ((this.currentLocation() == 'nav_bar' && this.currentUser().role() != 'admin' && !this.options.navbarVisibility) || ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && !this.options.ticketSidebarVisibility) || (this.currentLocation() == 'user_sidebar' && !this.options.userSidebarVisibility)) {
                     this.hide();
                 }
             }
