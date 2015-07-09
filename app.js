@@ -35,15 +35,13 @@
         render: function(evt) {                         //most render paths here will update the current status from the server - this is the primary method used to update the UI when an agent's status has changed
             var ui = this.require('ui', this.options);  //load in the ui.js module which owns most of the methods which access the DOM
             if(!this.lockRender) {                          //check to see if rendering is prevented
-                if (this.currentLocation() == 'nav_bar') {
+                if (this.currentLocation() == 'nav_bar' && (this.options.navbarVisibility || this.currentUser().role() == 'admin')) {
                     ui.renderNavBar();
-                } else if (this.currentLocation() == 'user_sidebar') {
+                } else if (this.currentLocation() == 'user_sidebar' && this.options.userSidebarVisibility) {
                     ui.renderUser();
-                } else if ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar')) {
+                } else if ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && this.options.ticketSidebarVisibility) {
                     ui.renderTicket();
-                }
-
-                if ((this.currentLocation() == 'nav_bar' && this.currentUser().role() != 'admin' && !this.options.navbarVisibility) || ((this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') && !this.options.ticketSidebarVisibility) || (this.currentLocation() == 'user_sidebar' && !this.options.userSidebarVisibility)) {
+                } else {
                     this.hide();
                 }
             }
