@@ -1,16 +1,16 @@
-<div id="ticket_dash">
+<div>
   {{#if assignee}}
-      <p class="p-assignee" style="font-size: 20px;">{{t "currentAssignee"}}: <strong>{{assignee.name}}</strong>
+      <p>{{t "currentAssignee"}}: <strong>{{assignee.name}}</strong>
       <div class="btn-group status">
         {{#if assignee.user_fields.agent_ooo}}
-            
+
             {{#if permission}}
             {{! IF YOU ARE AN ADMIN }}
                 <button class="btn btn-available status-toggle" value="{{assignee.id}}">{{t "available"}}</button>
             {{/if}}
             <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
             {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
+                <p>{{t "pleaseCheck"}}</p>
             {{/unless}}
 
         {{else}}
@@ -20,9 +20,9 @@
                 <button class="btn btn-busy status-toggle" value="{{assignee.id}}">{{t "unavailable"}}</button>
             {{/if}}
             {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
+                <p>{{t "pleaseCheck"}}</p>
             {{/unless}}
-            
+
         {{/if}}
       </div>
   {{else}}
