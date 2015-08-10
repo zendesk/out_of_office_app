@@ -1,20 +1,150 @@
 /* ======== SASS VARIABLES ======== */
-$color-green: #79a21d;
+
+$color-green: #79A21D;
+$color-red: #D94646;
+
 /* ================================ */
 
-
-// Modal styles
-
+// Modal styles -------------------------------
 div.option {
-  margin-bottom: 1em;
-  text-align: left;
-
-  & input[type="checkbox"] {
-    vertical-align: baseline;
-    margin-right: 5px;
-  }
+    margin: 1rem;
+    text-align: left;
+    & input[type="checkbox"] {
+        vertical-align: baseline;
+        margin-right: 5px;
+        display: inline-block;
+    }
 }
 
 div.confirmations {
-  text-align: right;
+    text-align: right;
+}
+
+// Toggle styles -----------------------------
+
+/*
+Credit: https://proto.io/freebies/onoff/
+HTML snippet for adding a toggle:
+
+
+<div class="toggleswitch">
+    <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch" checked>
+    <label class="toggleswitch-label" for="mytoggleswitch">
+        <span class="toggleswitch-inner"></span>
+        <span class="toggleswitch-switch"></span>
+    </label>
+</div>
+
+*/
+
+
+.toggleswitch {
+    position: relative;
+    width: 128px;
+    margin-top: 0.45rem;
+    float: right;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.toggleswitch-checkbox {
+    display: none;
+}
+
+.toggleswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 0px;
+}
+
+.toggleswitch-label.disabled {
+    cursor: not-allowed;
+}
+
+.toggleswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.toggleswitch-inner:before,
+.toggleswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 20px;
+    padding: 0;
+    line-height: 20px;
+    font-size: 10px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.toggleswitch-inner:before {
+    content: '{{t "available"}}';
+    text-transform: uppercase;
+    padding-left: 6px;
+    background-color: $color-green;
+    color: #FFFFFF;
+}
+
+.toggleswitch-inner:after {
+    content: '{{t "unavailable"}}';
+    text-transform: uppercase;
+    padding-right: 6px;
+    background-color: $color-red;
+    color: #FFFFFF;
+    text-align: right;
+}
+
+.toggleswitch-switch {
+    display: block;
+    width: 20px;
+    margin: 0px;
+    background: #F8F8F8;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 106px;
+    border: 1px solid #999999;
+    border-radius: 0px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-inner {
+    margin-left: 0;
+}
+
+.toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-switch {
+    right: 0px;
+}
+
+// Ticket app styles -----------------------------
+
+.ooo-label, .permission-label {
+    font-size: 10px;
+    color: #a8a8a8;
+}
+
+.permission-label {
+    padding-top: 1rem;
+    text-align: center;
+    clear: both;
+}
+
+.ooo-assignee {
+    font-weight: bold;
+}
+
+div.col-half {
+    width: 50%;
+    float: left;
+
+    &.omega {
+        float:right;
+    }
 }

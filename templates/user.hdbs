@@ -5,32 +5,15 @@
     Display availability button group, with current status as selected and disabled button
 }}
 
-<div id='usertemplate'>
-    {{#if user}}
-        <p>{{t "currentUser"}}: <strong>{{user.name}}</strong>
-        <div class="btn-group status">
-            {{#if user.user_fields.agent_ooo}}
-                {{#if permission}}
-                {{! IF YOU ARE AN ADMIN }}
-                    <button class="btn btn-available status-toggle" value="{{user.id}}">{{t "available"}}</button>
-                {{/if}}
-                <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
-                {{#unless permission}}
-                    <p>{{t "pleaseCheck"}}</p>
-                {{/unless}}
-
-            {{else}}
-                <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "available"}}</button>
-                {{#if permission}}
-                {{! IF YOU ARE AN ADMIN }}
-                    <button class="btn btn-busy status-toggle" value="{{user.id}}">{{t "unavailable"}}</button>
-                {{/if}}
-                {{#unless permission}}
-                    <p>{{t "pleaseCheck"}}</p>
-                {{/unless}}
-            {{/if}}
-        </div>
-    {{else}}
-        <p>{{t "thisUser"}}</p>
-    {{/if}}
+<div class="col-half">
+  <span class="ooo-label">{{t "currentUser"}}:</span><br /><span class="ooo-assignee">{{user.name}}</span>
+</div>
+<div class="col-half omega">
+    <div class="toggleswitch">
+    <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch" {{#unless user.user_fields.agent_ooo}}checked{{/unless}} {{#unless permission}}disabled{{/unless}} data-assignee={{user.id}}>
+    <label class="toggleswitch-label {{#unless permission}}disabled{{/unless}}" for="mytoggleswitch">
+        <span class="toggleswitch-inner"></span>
+        <span class="toggleswitch-switch"></span>
+    </label>
+    </div>
 </div>

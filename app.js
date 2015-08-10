@@ -49,7 +49,7 @@
 
         //click .status-toggle
         verifyChange: function(evt) {
-            var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
+            var agentID = evt.currentTarget.dataset.assignee;      //this is set in the button html/template and will be the ID of the agent being modified
             var ui = this.require('ui', this.options);  //load ui.js module
             var that = this;                            //clunky - TODO: refactor
             if(this.options.confirmChange) {            //these options will be loaded in on app.created from the installation settings
@@ -96,7 +96,7 @@
                 unavailableCancel           =   this.I18n.t('changeStatusMessage.unavailable.cancel'),
                 checkboxText                =   this.I18n.t('changeStatusMessage.checkbox');
 
-            var checkbox = '<label><input type="checkbox" name="reassign_current" />' + checkboxText + '</label>';
+            var checkbox = '<label><input type="checkbox" name="reassign_current"/>' + checkboxText + '</label>';
             if (unassignTickets === true) {  // **NOTE** checkbox CHECKED = checkbox HIDDEN ; unassignTickets option TRUE = checkbox HIDDEN
                 checkbox = undefined; //if the checkbox is undefined it will not show up in the modal
             }
