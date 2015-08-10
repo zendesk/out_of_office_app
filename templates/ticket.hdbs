@@ -1,30 +1,18 @@
-<div id="ticket_dash">
+<div>
   {{#if assignee}}
-      <p class="p-assignee" style="font-size: 20px;">{{t "currentAssignee"}}: <strong>{{assignee.name}}</strong>
-      <div class="btn-group status">
-        {{#if assignee.user_fields.agent_ooo}}
-            
-            {{#if permission}}
-            {{! IF YOU ARE AN ADMIN }}
-                <button class="btn btn-available status-toggle" value="{{assignee.id}}">{{t "available"}}</button>
-            {{/if}}
-            <button id="unavailable" class="btn btn-busy btn-primary red" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "unavailable"}}</button>
-            {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
-            {{/unless}}
-
-        {{else}}
-            <button id="available" class="btn btn-available green btn-primary" {{#unless permission}} style="width: 100%; margin-bottom: 14px;"{{/unless}}>{{t "available"}}</button>
-            {{#if permission}}
-            {{! IF YOU ARE AN ADMIN }}
-                <button class="btn btn-busy status-toggle" value="{{assignee.id}}">{{t "unavailable"}}</button>
-            {{/if}}
-            {{#unless permission}}
-                <p class="p-user" style="margin-bottom: -2px; color: #5C5151; font-weight: thin; font-size: 14px; text-shadow: 1px 1px 30px #EFEEEE;">{{t "pleaseCheck"}}</p>
-            {{/unless}}
-            
-        {{/if}}
+    <div class="col-half">
+      <span class="ooo-label">{{t "currentAssignee"}}:</span><br /><span class="ooo-assignee">{{assignee.name}}</span>
+    </div>
+    <div class="col-half omega">
+      <div class="toggleswitch">
+        <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch" {{#unless assignee.user_fields.agent_ooo}}checked{{/unless}} {{#unless permission}}disabled{{/unless}} data-assignee={{assignee.id}}>
+        <label class="toggleswitch-label {{#unless permission}}disabled{{/unless}}" for="mytoggleswitch">
+            <span class="toggleswitch-inner"></span>
+            <span class="toggleswitch-switch"></span>
+        </label>
       </div>
+    </div>
+    {{#unless permission}}<div class="permission-label">{{t "pleaseCheck"}}</div>{{/unless}}
   {{else}}
       <p>{{t "thisTicket"}}</p>
   {{/if}}
