@@ -1,9 +1,9 @@
 {
   "app": {
     "parameters": {
-      "confirmChange":  { "label": "Confirm status change?", "helpText": "Determines if a modal will be shown when changing an agent's status." },
-      "unassignTickets": { "label": "Force unassign tickets?", "helpText": "Automatically unassign Open tickets when an agent is set to unavailable." },
-      "preventAssignOOO": { "label": "Prevent assignment?", "helpText": "Have the app block updates that assign a ticket to an unavailable agent." }
+      "confirmChange":  { "label": "Bekräfta statusändring?", "helpText": "Avgör ifall en dialog visas när status ändras, samt alternativet att avtilldela Öppna ärenden." },
+      "unassignTickets": { "label": "Automatiskt avtilldela alla Öppna ärenden?", "helpText": "Forcerar avtilldelning av alla Öppna ärenden som är tilldelade agenten då statusändringen sker." },
+      "preventAssignOOO": { "label": "Förhindra tilldelning?", "helpText": "Låt appen blockera tilldelning av ärenden till agenter som är Ej tillgängliga." }
     }
   },
   "trigger": {
@@ -12,106 +12,106 @@
       "tag": "Tag: out-of-office app unassign trigger [System Trigger]"
     }
   },
-  "unavailable": "Ej tillgänlig",
+  "unavailable": "Ej tillgänglig",
   "available": "Tillgänglig",
-  "name": "Name",
-  "email": "Email",
+  "name": "Namn",
+  "email": "Epost",
   "status": "Status",
   "currentAssignee": "Handläggare",
   "is": "är",
-  "ooo_explanation": "Är handläggaren tillgänlig? Om en handläggaren är sjuk, har semester, eller annars är borta från kontoret ett längre tag under normala arbetstimmar, bör handläggaren sättas som Ej tillgänlig. Ifall någon gör en uppdatering på ett ärende där handläggaren är satt som Ej tillgänlig, så att status är Öppet, och ärendet har en taggats med agent_ooo, då avtilldelas ärende tillbaka till gruppen. Status bör ändras till Tillgänlig när handläggare är tillbaka.",
+  "ooo_explanation": "Är handläggaren tillgänglig? Om en handläggaren är sjuk, har semester, eller annars är borta från kontoret ett längre tag under normala arbetstimmar, bör handläggaren sättas som Ej tillgänglig. Ifall någon gör en uppdatering på ett ärende där handläggaren är satt som Ej tillgänglig, så att status är Öppet, och ärendet har en taggats med agent_ooo, då avtilldelas ärende tillbaka till gruppen. Status bör ändras till Tillgänglig när handläggare är tillbaka.",
   "currentUser": "Användare",
   "change_status": "Ändra status",
-  "searchBox": "Search for agents",
-  "pleaseCheck": "Please check with an Administrator if this agent's availability needs to be changed",
-  "thisTicket": "This ticket is not assigned to an agent",
-  "thisUser": "This user is not an assignable agent.",
+  "searchBox": "Sök efter agenter",
+  "pleaseCheck": "Hör efter med en administratör om denna agents tillgänglighet behöver ändras",
+  "thisTicket": "Detta ärende är ej tilldelat till en agent",
+  "thisUser": "Denna användare är inte en tilldelningsbar agent.",
   "changeStatusMessage": {
     "available": {
-      "header": "Please confirm status change",
+      "header": "Bekräfta statusändring",
       "content": {
-        "first": "This action will tag ",
-        "second": " as available and allow tickets to be assigned.",
-        "secondA": " as available."
+        "first": "Detta kommer sätta ",
+        "second": " som tillgänglig för att ta emot ärenden.",
+        "secondA": " som tillgänglig."
       },
-      "confirm": "Set to Available",
-      "cancel": "Cancel"
+      "confirm": "Sätt som tillgänglig",
+      "cancel": "Avbryt"
     },
     "unavailable": {
-      "header": "Please confirm status change",
+      "header": "Bekräfta statusändring",
       "content": {
-        "first": "This action will tag ",
-        "second": " as unavailable and prevent tickets from being assigned.",
-        "secondA": " as unavailable."
+        "first": "<span class='p-highlight'>Detta kommer sätta ",
+        "second": " som ej tillgänglig. </span><br><br><strong>Effekter</strong><br> - om ett Parkerat, Väntande eller Löst ärende uppdateras, kommer handläggaren tas bort, och ärendet tilldelas tillbaka till gruppen istället<br> - om någon försöker tilldela ett ärende till handläggaren, kommer en varning om att handläggaren ej är tillgänglig visas<br><br><strong>När passar detta att använda?</strong><br> - ifall handläggare ej är på plats en normal arbetsdag och är en gruppmedlem bland andra som hanterar kundärenden med korta svarstider<br> - generellt om någon är borta en längre tid, <br> - om avdelningen är bemannad och håller SLA på helger/röda dagar, så att helgarbetarna kan ta över ärendena<br><br><strong>När ska detta EJ användas?</strong><br> - En vardagseftermiddag där handläggaren planerar arbeta efterföljande dag<br> - Inför helger, ifall handläggarens grupp ej har support över helger<br> - Ej tillgänglig påverkar alla tilldelningar i Zendesk och ska därför inte användas för agenter som arbetar utanför den egna gruppen, som man inte vet är på plats eller ej. Detta kan t.ex. vara fallet om gruppen har inlån från en annan grupp",
+        "secondA": " som ej tillgänglig."
       },
-      "confirm": "Set to Unavailable",
-      "cancel": "Cancel"
+      "confirm": "Sätt som ej tillgänglig",
+      "cancel": "Avbryt"
     },
-    "checkbox": "Unassign All Open Tickets"
+    "checkbox": "Avtilldela Öppna ärenden"
   },
-  "saveFailMessage": "TICKET NOT SAVED",
+  "saveFailMessage": "ÄRENDE EJ SPARAT",
     "saveWarningMessage": {
-        "status": "UNAVAILABLE",
-        "message": "If this request requires immediate attention please re-assign to a different agent"
+        "status": "EJ TILLGÄNGLIG",
+        "message": "Om detta ärende behöver hanteras omgående, se till att tilldela till en annan handläggare"
         },
   "user_field": {
-    "description":   "This field was created by the out-of-office app. Don't delete it, unless you want everything to break",
-    "name": "Agent Out?"
+    "description":   "Fältet anger användarens tillgänglighet.",
+    "name": "Tillgänglig?"
   },
   "notify": {
     "installed": {
-      "trigger": "Detected first run of app. Created required triggers.",
-      "user_field": "Detected first run of app. Created required user field."
+      "trigger": "Ser att det är första körningen av appen. Skapade nödvändiga triggers.",
+      "user_field": "Ser att det är första körningen av appen. Skapade nödvändiga användarfält."
     },
     "assign": {
-      "one": "Ticket assigned to ",
-      "two": " who is unavailable"
+      "one": "Ärendet tilldelat till ",
+      "two": " som inte är tillgänglig"
     },
     "unassign": {
       "default": {
-        "action": "Updated ",
-        "status": " tickets assigned to "
+        "action": "Uppdaterade ",
+        "status": " ärenden tilldelade till "
       },
       "pendingTickets": {
-        "action": "Updated ",
-        "status": " Pending/On-Hold/Solved tickets with the agent status for "
+        "action": "Uppdaterade ",
+        "status": " Väntande/Parkerade/Lösta ärenden med status "
       },
       "ticketPreview": {
-        "action": "Updated  ",
-        "status": " tickets with the agent status for "
+        "action": "Uppdaterade  ",
+        "status": " ärenden för "
       }
     },
-    "fail": "Unable to update status for ",
+    "fail": "Misslyckades uppdatera status för ",
     "status": {
-      "available": "available.</strong> ",
-      "unavailable": "unavailable.</strong> ",
+      "available": "tillgänglig.</strong> ",
+      "unavailable": "ej tillgänglig.</strong> ",
       "tags": {
-        "removed": "removed",
-        "added": "added"
+        "removed": "borttagna",
+        "added": "tillagda"
       },
-      "statusMessage": " is now <strong>",
+      "statusMessage": " är nu <strong>",
       "tagsMessage": {
-        "one": "Tickets assigned to <strong>",
-        "two": "</strong> will have the <strong>\"agent_ooo\"</strong> tag <strong>"
+        "one": "Ärenden tilldelade till <strong>",
+        "two": "</strong> får taggen <strong>\"agent_ooo\"</strong> "
       }
     }
   },
   "loading": {
-    "value": "Loading",
+    "value": "Laddar",
     "title": "loading placeholder"
   },
   "functionalError": {
     "setStatusPending": {
-      "one": "Unable to look up tickets for ",
-      "two": ". This agent may not be an assignable agent."
+      "one": "Kunde ej hämta ärenden för ",
+      "two": ". Denna agent är kanske ingen tilldelningsbar handläggare."
     },
     "ticketUpdateLimit": {
-      "one": "Unable to update some tickets for ",
-      "two": ". Too many ticket updates within the past 10 minutes."
+      "one": "Misslyckades att uppdatera några ärenden för ",
+      "two": ". För många ärendeuppdateringar de senaste 10 minuterna."
     },
     "setStatus": {
-      "one": "Permissions error while updating status for ",
-      "two": ". Please make sure you are allowed to update their user profile."
+      "one": "Otillräckliga rättigheter påträffades när status skulle uppdateras för ",
+      "two": ". Kontrollera att du har rättigheter att uppdatera användarprofiler."
     }
   }
 }

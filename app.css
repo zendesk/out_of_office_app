@@ -10,8 +10,13 @@ button.btn-canel {
   clear: both;
 }
 
+div.modal-body {
+  max-height: 600px;
+}
+
 div.modal-body p {
   font-family: proxima-nova, sans-serif;
+  font-size: 14px;  
 }
 
 header {
@@ -39,6 +44,7 @@ span.option {
 }
 
 table#agent_list.table {
+  width: 800px;
   margin-bottom: -10px;
   margin-top: -6px;
 }
@@ -50,8 +56,8 @@ td {
 }
 
 td.size {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top:4px;
+  padding-bottom: 4px;
   vertical-align: middle;
   font-size: 14px;
   letter-spacing: 0.25px;
@@ -163,6 +169,7 @@ th.srt_header:hover {
 }
 
 .btn.btn-cancel.modalCancel {
+  padding: 0px;
   color: dark;
   float: left;
   width: 242px;
@@ -191,6 +198,10 @@ th.srt_header:hover {
   margin-top: 6px;
 }
 
+.p-highlight {
+  background-color: rgb(255, 255, 137);
+}
+
 .modal p {
   font-size: 16px;
   padding-bottom: 0px;
@@ -202,12 +213,17 @@ th.srt_header:hover {
   font-weight: 600;
 }
 
+
 .p-assignee, .p-user {
   margin-bottom: 10px;
   /*margin-top: 14px;*/
   text-shadow: 2px 2px 30px white;
   font-size: 14px;
   text-align: center;
+}
+
+.p-user {
+  margin-bottom: 0px;
 }
 
 .search {

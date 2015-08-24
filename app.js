@@ -4,7 +4,13 @@
 
         events: require('events'),
 
-        requests: {},
+        requests: {
+            getDefaultGroup: function(user_id) {
+                return {
+                    url: helpers.fmt('/api/v2/users/%@/group_memberships.json', user_id)
+                };
+            }
+        },
 
         options:  {
             requirementsCreated: false,
@@ -15,6 +21,10 @@
             confirmChange: true,
             unassignTickets: false,
             preventAssignOOO: true,
+            groupBasedOOO: null,
+            assignableAgentsGroupId: null,
+            userIsOOOAdmin: null,
+            userDefaultGroup: null
         },
 
         lockRender: false, //this is used to prevent the UI from rendering twice due to Lotus bug #885042
@@ -22,9 +32,48 @@
 
         //app.created
         init: function(app) {     
-            this.switchTo('loading');
-            this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
-            this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
+            
+                var isOOOAdminGroupId;
+                var isOOOAdmin;
+                var userDefaultGroup;
+                if (this.options.groupBasedOOO === null) {
+                    this.options.groupBasedOOO = this.setting('groupBasedOOO?');                    
+                }
+                if (this.options.assignableAgentsGroupId === null) {
+                    this.options.assignableAgentsGroupId = parseInt(this.setting('assignableAgentsGroupId'),10) || false;
+                }  
+                if (this.options.userIsOOOAdmin === null) {                 
+                    isOOOAdminGroupId = parseInt(this.setting('oooAdminGroupdId'), 10) || false;
+                    if (isOOOAdminGroupId) {
+                        isOOOAdmin = _.contains(this.currentUser().groups(), function(group) {
+                            return group.id == isOOOAdminGroupId;
+                        });
+                    }     
+                    this.options.userIsOOOAdmin = isOOOAdmin ? true : false;
+                }  
+
+                var that = this;            
+                this.switchTo('loading');            
+                this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
+                this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory                    
+                // this.ajax('getDefaultGroup', that.currentUser().id()).then(function(data) {
+                //    console.log('getDefaultGroupData', data);                            
+                
+                // }).then(function() {
+                    
+                // });  
+
+                // if (that.options.userDefaultGroup === null) {                    
+                //     if (that.options.groupBasedOOO) {
+                //        that.ajax('getDefaultGroup', that.currentUser().id()).then(function(data) {
+                //             console.log('getDefaultGroupData', data);                            
+                //             done();
+                //         });  
+                //     }
+                // } else {
+                //     done();
+                // }                        
+                
         },
 
         //app.activated
@@ -33,20 +82,35 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         render: function(evt) {                         //most render paths here will update the current status from the server - this is the primary method used to update the UI when an agent's status has changed
-            var ui = this.require('ui', this.options);  //load in the ui.js module which owns most of the methods which access the DOM
-            if(!this.lockRender) {                          //check to see if rendering is prevented
-                if (this.currentLocation() == 'nav_bar') {
+            var that = this;
+            this.promise(function(done, fail) {            
+            if (this.options.userDefaultGroup === null) {                    
+                if (this.options.groupBasedOOO) {
+                   this.ajax('getDefaultGroup', this.currentUser().id()).then(function(data) {
+                        
+                        done();                                           
+                    });  
+                }
+            } else {
+                done();
+            }            
+
+            }).then(function() {
+            var ui = that.require('ui', that.options);  //load in the ui.js module which owns most of the methods which access the DOM
+            if(!that.lockRender) {                          //check to see if rendering is prevented
+                if (that.currentLocation() == 'nav_bar') {               
                     ui.renderNavBar();                  
-                } else if (this.currentLocation() == 'user_sidebar') {
+                } else if (that.currentLocation() == 'user_sidebar') {
                     ui.renderUser(); 
-                } else if (this.currentLocation() == 'ticket_sidebar' || this.currentLocation() == 'new_ticket_sidebar') {
+                } else if (that.currentLocation() == 'ticket_sidebar' || that.currentLocation() == 'new_ticket_sidebar') {
                     ui.renderTicket();
                 } 
-            } 
+            }     
+            });                                    
         },
 
         //click .status-toggle
-        verifyChange: function(evt) {              
+        verifyChange: function(evt) {          
             var agentID = evt.currentTarget.value;      //this is set in the button html/template and will be the ID of the agent being modified
             var ui = this.require('ui', this.options);  //load ui.js module
             var that = this;                            //clunky - TODO: refactor
@@ -94,7 +158,7 @@
                 unavailableCancel           =   this.I18n.t('changeStatusMessage.unavailable.cancel'),
                 checkboxText                =   this.I18n.t('changeStatusMessage.checkbox');
 
-            var checkbox = '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" /><span id="foo">' + checkboxText + '</span></label></p>';
+            var checkbox = '<p style="font-family: proxima-nova, sans-serif;"><label><input type="checkbox" name="reassign_current" checked/><span id="foo">' + checkboxText + '</span></label></p>';
             if (unassignTickets === true) {  // **NOTE** checkbox CHECKED = checkbox HIDDEN ; unassignTickets option TRUE = checkbox HIDDEN
                 checkbox = undefined; //if the checkbox is undefined it will not show up in the modal
             }
@@ -107,13 +171,13 @@
                     header:  availableHeader,
                     content: '<p>' + availableContentFirst + '<strong>' + name + '</strong>' + availableContentSecond + '</p>',
                     confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; background-color: #79a21d; border-color: #79a21d; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">' + availableConfirm + '</p>',        
-                    cancel:  availableCancel
+                    cancel:  '<p style="font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom: 8px">' + availableCancel + '</p>',
                 },
                 unavailable: {
                     header:  unavailableHeader,
                     content: '<p>' + unavailableContentFirst + '<strong>' + name + '</strong>' + unavailableContentSecond + '</p>',
                     confirm: '<p style="color: white; font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">' + unavailableConfirm + '</p>',
-                    cancel:  unavailableCancel,
+                    cancel:  '<p style="font-family: proxima-nova, sans-serif; font-size: 100%; height: 100%; line-height: 200%; border-radius: 3px; padding-top: 8px; padding-bottom:8px">' + unavailableCancel + '</p>',
                     options: checkbox
                 }
             };
@@ -127,9 +191,9 @@
                 status = this.I18n.t('notify.status.unavailable'); //this sets the message to warn that the agent is being set to unavailable
                 tags = this.I18n.t('notify.status.tags.added');
             } 
-            var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>'; //this message is used to confirm that the tickets are updated
-            var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
-            services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
+            var statusMessage = '' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + ''; //this message is used to confirm that the tickets are updated
+            //var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
+            services.notify(statusMessage, 'notice'); //actually send the message
             this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
         },
 
@@ -143,7 +207,7 @@
                 action = this.I18n.t('notify.unassign.ticketPreview.action');
                 status = this.I18n.t('notify.unassign.ticketPreview.status');
             }
-            services.notify(action + evt.count + status + evt.name + ".", 'alert');
+            services.notify(action + evt.count + status + evt.name + ".", 'notice');
             this.trigger("render_app");
         },
 

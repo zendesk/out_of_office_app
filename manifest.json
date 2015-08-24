@@ -32,8 +32,19 @@
       "default": true
     },
     { 
-      "name": "excludedCustomRoles",
-      "type": "text",      
+      "name": "assignableAgentsGroupId",
+      "type": "text", 
+      "default": "24490161"
+    },
+    { 
+      "name": "oooAdminGroupdId",
+      "type": "text", 
+      "default": "24488062"
+    },
+    { 
+      "name": "groupBasedOOO?",
+      "type": "checkbox", 
+      "default": "yes"
     },
     {
       "name": "requirementsCreated",
