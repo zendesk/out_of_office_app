@@ -19,12 +19,17 @@
 
         lockRender: false, //this is used to prevent the UI from rendering twice due to Lotus bug #885042
         renderRetries: 0,  //in some instances we will retry a failed network request, this tracks that to limit it to a few retries
+        updating: [],       //the currently updating agents and their progress
 
         //app.created
         init: function(app) {
             this.switchTo('loading');
             this.require = require('context_loader')(this);            //this is a helper for passing context between common.js modules
             this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
+        },
+
+        echoEvent: function(e) {
+            console.log(e);
         },
 
         //app.activated
@@ -131,8 +136,8 @@
             }
             var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>'; //this message is used to confirm that the tickets are updated
             var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
-            services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
-            this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
+           // services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
+            //this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
         },
 
         //tickets_tagged
@@ -145,7 +150,7 @@
                 action = this.I18n.t('notify.unassign.ticketPreview.action');
                 status = this.I18n.t('notify.unassign.ticketPreview.status');
             }
-            services.notify(action + evt.count + status + evt.name + ".", 'alert');
+           // services.notify(action + evt.count + status + evt.name + ".", 'alert');
             this.trigger("render_app");
         },
 

@@ -2,13 +2,13 @@
   "name": "Out of Office App",
   "author": {
     "name": "Zendesk Support Engineers",
-    "email": "support@zendesk.com",
+    "email": "bevans@zendesk.com",
     "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
   "private": false,
   "location": ["nav_bar","new_ticket_sidebar","ticket_sidebar","user_sidebar"],
-  "version": "2.5.4",
+  "version": "master",
   "frameworkVersion": "1.0",
   "parameters": [
     {

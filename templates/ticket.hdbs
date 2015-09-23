@@ -4,10 +4,14 @@
       <span class="ooo-label">{{t "currentAssignee"}}:</span><br /><span class="ooo-assignee">{{assignee.name}}</span>
     </div>
     <div class="col-half omega">
-      <div class="toggleswitch">
+      <div class="toggleswitch progress progress-striped active">
         <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch" {{#unless assignee.user_fields.agent_ooo}}checked{{/unless}} {{#unless permission}}disabled{{/unless}} data-assignee={{assignee.id}}>
         <label class="toggleswitch-label {{#unless permission}}disabled{{/unless}}" for="mytoggleswitch">
+            {{#if updating}}
+            <div class="toggleswitch-during"><div class="bar" style="width:{{percentage}}%">Updating</div></div>
+            {{else}}
             <span class="toggleswitch-inner"></span>
+            {{/if}}
             <span class="toggleswitch-switch"></span>
         </label>
       </div>
