@@ -38,6 +38,7 @@
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         render: function(evt) {                         //most render paths here will update the current status from the server - this is the primary method used to update the UI when an agent's status has changed
+            console.log('render');
             var ui = this.require('ui', this.options);  //load in the ui.js module which owns most of the methods which access the DOM
             if(!this.lockRender) {                          //check to see if rendering is prevented
                 if (this.currentLocation() == 'nav_bar' && (this.options.navbarVisibility || this.currentUser().role() == 'admin')) {
