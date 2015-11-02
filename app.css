@@ -94,8 +94,6 @@ HTML snippet for adding a toggle:
     color: #FFFFFF;
 }
 
-
-
 .toggleswitch-inner:after {
     content: '{{t "unavailable"}}';
     text-transform: uppercase;
@@ -120,7 +118,7 @@ HTML snippet for adding a toggle:
 }
 
 .toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-inner {
-    margin-left: 0;
+    margin-left: 0px;
 }
 .toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-switch {
     right: 0px;
@@ -129,7 +127,7 @@ HTML snippet for adding a toggle:
 // Progressbar -----------------------------
 
 .toggleswitch-during {
-    background-color: $color-green;
+    background-color: $color-red;
     text-transform: uppercase;
     color: #FFFFFF;
     height: 22px;
@@ -141,7 +139,7 @@ HTML snippet for adding a toggle:
     line-height: 20px;
     height:22px;
     text-transform: uppercase;
-    background-color: $color-red;
+    background-color: $color-green;
     padding-right: 6px;
     padding-left: 6px;
     text-align: left;
@@ -149,10 +147,14 @@ HTML snippet for adding a toggle:
     font-size: 10px;
 }
 
+.toggleswitch-checkbox:checked + .toggleswitch-label .bar {
+   background-color: $color-red;
+}
+
 .toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-during {
     margin-left: 0px;
     padding-right: 20px;
-    background-color: $color-red;
+    background-color: $color-green;
 }
 
 // Ticket app styles -----------------------------
