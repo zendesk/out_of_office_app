@@ -17,8 +17,8 @@
             {{else}}
             <span class="toggleswitch-inner"></span>
             {{/if}}
-        <span class="toggleswitch-switch"></span>
-    </label>
+            <span class="toggleswitch-switch"></span>
+        </label>
     </div>
 </div>
 
