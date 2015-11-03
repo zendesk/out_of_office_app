@@ -19,6 +19,7 @@
 
         lockRender: false, //this is used to prevent the UI from rendering twice due to Lotus bug #885042
         renderRetries: 0,  //in some instances we will retry a failed network request, this tracks that to limit it to a few retries
+        updating: [],       //the currently updating agents and their progress
 
         //app.created
         init: function(app) {
@@ -27,12 +28,17 @@
             this.require('install_app', this.options).loadSettings();  //on app creation, check to make sure requirements are present, load settings into memory
         },
 
+        echoEvent: function(e) {
+            console.log(e);
+        },
+
         //app.activated
         //pane.activated
         //render_app
         //ticket.assignee.user.id.changed
         //ticket.assignee.group.id.changed
         render: function(evt) {                         //most render paths here will update the current status from the server - this is the primary method used to update the UI when an agent's status has changed
+            console.log('render');
             var ui = this.require('ui', this.options);  //load in the ui.js module which owns most of the methods which access the DOM
             if(!this.lockRender) {                          //check to see if rendering is prevented
                 if (this.currentLocation() == 'nav_bar' && (this.options.navbarVisibility || this.currentUser().role() == 'admin')) {
@@ -131,8 +137,8 @@
             }
             var statusMessage = '<p>' + evt.agent.name + this.I18n.t('notify.status.statusMessage') + status + '</p>'; //this message is used to confirm that the tickets are updated
             var tagsMessage = '<p>' + this.I18n.t('notify.status.tagsMessage.one') + evt.agent.name + this.I18n.t('notify.status.tagsMessage.two') + tags + '</p>';
-            services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
-            this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
+           // services.notify(statusMessage + tagsMessage, 'alert'); //actually send the message
+            //this.trigger("render_app"); //since the agent's status will have changed, this calls .render() and causes the UI to be updated
         },
 
         //tickets_tagged
@@ -145,7 +151,7 @@
                 action = this.I18n.t('notify.unassign.ticketPreview.action');
                 status = this.I18n.t('notify.unassign.ticketPreview.status');
             }
-            services.notify(action + evt.count + status + evt.name + ".", 'alert');
+           // services.notify(action + evt.count + status + evt.name + ".", 'alert');
             this.trigger("render_app");
         },
 

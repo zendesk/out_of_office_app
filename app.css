@@ -37,7 +37,6 @@ HTML snippet for adding a toggle:
 
 */
 
-
 .toggleswitch {
     position: relative;
     width: 128px;
@@ -46,6 +45,9 @@ HTML snippet for adding a toggle:
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    height:22px;
+    margin-bottom: 0px;
+    border-radius: 0px;
 }
 
 .toggleswitch-checkbox {
@@ -116,11 +118,43 @@ HTML snippet for adding a toggle:
 }
 
 .toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-inner {
-    margin-left: 0;
+    margin-left: 0px;
 }
-
 .toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-switch {
     right: 0px;
+}
+
+// Progressbar -----------------------------
+
+.toggleswitch-during {
+    background-color: $color-red;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    height: 22px;
+    margin-left:20px;
+    padding-right:0px;
+}
+
+.bar {
+    line-height: 20px;
+    height:22px;
+    text-transform: uppercase;
+    background-color: $color-green;
+    padding-right: 6px;
+    padding-left: 6px;
+    text-align: left;
+    line-height: 20px;
+    font-size: 10px;
+}
+
+.toggleswitch-checkbox:checked + .toggleswitch-label .bar {
+   background-color: $color-red;
+}
+
+.toggleswitch-checkbox:checked + .toggleswitch-label .toggleswitch-during {
+    margin-left: 0px;
+    padding-right: 20px;
+    background-color: $color-green;
 }
 
 // Ticket app styles -----------------------------
