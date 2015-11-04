@@ -61,6 +61,10 @@
             if(this.options.confirmChange) {            //these options will be loaded in on app.created from the installation settings
                 ui.renderStatusModal(agentID);          //this uses the UI method to generate a modal to confirm the agent status change
             } else {
+                this.updating[agentID] = {tagging: true, percentage: 0, invert:true};
+                this.trigger('start_tagging');
+                this.trigger('tag_progress', {agent: {}, total: 1, count: 0});
+
                 this.trigger("toggle_status", {agentID: agentID, unassignTickets: that.options.unassignTickets}); //trigger a change of status
             }               //most functions in app.js are on an event hook - while the various modules could call them directly,
                             //in some instances this makes keeping things encapsulated easier
