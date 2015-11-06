@@ -21,8 +21,8 @@
             <td class="size"><a style="color: #555; font-size: 13px; letter-spacing: 0.25px;" href="#/users/{{id}}">{{email}}</a></td>
             <td class="size">
               <div class="toggleswitch progress progress-striped active" style="float:left;">
-                <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch-{{id}}" {{#unless user_fields.agent_ooo}}checked{{/unless}} {{#unless ../permission}}disabled{{/unless}} data-assignee={{id}}>
-                <label class="toggleswitch-label {{#unless ../permission}}disabled{{/unless}}" for="mytoggleswitch-{{id}}">
+                <input type="checkbox" name="toggleswitch" class="toggleswitch-checkbox" id="mytoggleswitch-{{id}}" {{#unless user_fields.agent_ooo}}checked{{/unless}} {{#unless abilities.can_edit}}disabled{{/unless}} data-assignee={{id}}>
+                <label class="toggleswitch-label {{#unless abilities.can_edit}}disabled{{/unless}}" for="mytoggleswitch-{{id}}">
                     {{#if updating}}
                     <div class="toggleswitch-during"><div class="bar" style="width:{{percentage}}%">Updating</div></div>
                     {{else}}
