@@ -6,7 +6,8 @@
       "preventAssignOOO": { "label": "Prevent assignment?", "helpText": "Have the app block updates that assign a ticket to an unavailable agent." },
       "ticketSidebarVisibility": { "label": "Make app visible in ticket sidebar?" },
       "userSidebarVisibility": { "label": "Make app visible in user sidebar?" },
-      "navbarVisibility": { "label": "Make app visible in navbar to non-admins?"}
+      "navbarVisibility": { "label": "Make app visible in navbar to non-admins?"},
+      "customRole": { "label": "Custom Role id", "helpText": "Give custom role permissions" }
     }
   },
   "trigger": {
