@@ -50,10 +50,6 @@
       "name": "navbarVisibility",
       "type": "checkbox",
       "default": true
-    },
-    {
-      "name": "customRole",
-      "type": "number"
     }
   ]
 }
