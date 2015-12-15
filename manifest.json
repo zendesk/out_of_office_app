@@ -1,8 +1,8 @@
 {
   "name": "Out of Office App",
   "author": {
-    "name": "Zendesk Support Engineers",
-    "email": "bevans@zendesk.com",
+    "name": "Zendesk Labs",
+    "email": "zendesklabs@zendesk.com",
     "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
