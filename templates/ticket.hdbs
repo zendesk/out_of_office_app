@@ -16,7 +16,7 @@
         </label>
       </div>
     </div>
-    {{#unless permission}}<div class="permission-label">{{t "pleaseCheck"}}</div>{{/unless}}
+    {{#unless permission}}{{#unless updating}}<div class="permission-label">{{t "pleaseCheck"}}</div>{{/unless}}{{/unless}}
   {{else}}
       <p>{{t "thisTicket"}}</p>
   {{/if}}

@@ -118,7 +118,8 @@
                     header:  availableHeader,
                     content: '<p>' + availableContentFirst + '<strong>' + name + '</strong>' + availableContentSecond + '</p>',
                     confirm: availableConfirm,
-                    cancel:  availableCancel
+                    cancel:  availableCancel,
+                    options: ''
                 },
                 unavailable: {
                     header:  unavailableHeader,
