@@ -29,7 +29,7 @@
         },
 
         echoEvent: function(e) {
-            console.log(e);
+            console.error(e);
         },
 
         //app.activated
