@@ -179,7 +179,7 @@
 
         //functional_error
         functionalError: function(evt) { //functional_error events are fired throughought the app when something is interrupted or a request fails.
-            console.log(evt);            //we've made an effort to attach useful debugging information to those events - they show up in the console and may be helpful if errors to occur
+            console.error(evt);            //we've made an effort to attach useful debugging information to those events - they show up in the console and may be helpful if errors to occur
             switch(evt.location) {       //this also allows us to catch *expected* errors and give a slightly more helpful message
                 case 'applyTag': if(evt.errorCode == 429) {
                         services.notify(this.I18n.t('functionalError.ticketUpdateLimit.one') + evt.agent.name + this.I18n.t('functionalError.ticketUpdateLimit.two'), 'error');
@@ -192,22 +192,18 @@
                     services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error');
                 } break;
             }
-            console.log(evt.location);
-            console.log(evt.errorCode);
         },
 
         //network_error
         networkError: function(evt) {  //network errors (failures of ajax requests) are fired as well, with more low-level debugging information
-            console.log(evt);          //between functional_error and network_error the goal is to expose parts of the app state that might be helpful for debugging
+            console.error(evt);          //between functional_error and network_error the goal is to expose parts of the app state that might be helpful for debugging
             this.renderRetry();
         },
 
         //getAllAgents.fail
         //getSingleAgent.fail
         renderRetry: function() {       //in some limited situations, we might be able to recover from a failed network request.
-            console.log(this.renderRetries);
             if(this.renderRetries < 1){     //this will retry the events that are typically used in .render() once in case the network error was just a transient failure
-                console.log('retry render');
                 this.trigger("render_app");
             }
             this.renderRetries++;
