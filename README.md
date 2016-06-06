@@ -76,6 +76,8 @@ Now every time a ticket is unassigned by this system trigger the tag "unassigned
 * [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/29) Avatar usage on Agent list in Nav Bar
 * [Check feature status](https://github.com/ZendeskES/out-of-office-app/issues/10) Allow custom out of office tag on user field
 
+## Screenshot(s):
+
 ##### Administrator experience: 
 
 ![](http://g.recordit.co/7dfkDvTIFX.gif)
