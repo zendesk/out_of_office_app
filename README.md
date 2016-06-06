@@ -2,6 +2,8 @@
 
 # Out of Office App
 
+## Description:
+
 This app will allow Admins to manage their Agents' vacation statuses, as well as allowing individual Agents to manage their own vacation statuses, and reassigning assigned tickets to their parent group if updated during the vacation.  
 
 There is also an option to unassign all open tickets currently assigned to an Agent, when setting the Agent on vacation, to the parent group.
