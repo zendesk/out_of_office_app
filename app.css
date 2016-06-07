@@ -175,9 +175,9 @@ HTML snippet for adding a toggle:
 }
 
 div.col-half {
+    margin-bottom: 6px;
     width: 50%;
     float: left;
-
     &.omega {
         float:right;
     }
