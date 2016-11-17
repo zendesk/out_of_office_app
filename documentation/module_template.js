@@ -15,17 +15,17 @@ var util = {
     }
 };
 
-//public functions for the module go in module.exports and are exposed in 
+//public functions for the module go in module.exports and are exposed in
 //module.exports.factory. functions returned from the factory will have access
 //to all other functions and objects defined in the return statement. Here
 //we add the appFramework (passed when factory is loaded by context_loader)
-//to the util object, as well as any other required modules 
+//to the util object, as well as any other required modules
 module.exports = {
-    
-    factory: function(context, settings) { 
+
+    factory: function(context, settings) {
         _.extend(context.requests, requests); //patch the requests from this module into the app framework
         _.extend(util, context.require('get_all')); //provides access to the getAll and other data fetch methods
-        util.appFramework = context; //provide the App Framwork to the functions 
+        util.appFramework = context; //provide the App Framwork to the functions
         util.settings = settings; //take in passed through settings (if required)
         return {
             internalContext: this.internalContext,
