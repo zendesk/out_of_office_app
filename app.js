@@ -78,9 +78,6 @@
             this.require('update_status', this.options).toggleStatus(agentID, unassignTickets); //here we directly call in a function from the update_status.js module - this will handle the actual server-side change as well as tagging all tickets
         },
 
-            // The following is not used in the OOO app due to other apps modal collision issues and will be saved for use in a future release
-            // saveWarningButton: warning = '<p style="margin-top: 16px; margin-bottom: 10px; margin-left: 60px; font-weight: bold; font-size: 14px;">AGENT UNAVAILABLE</p><p class="btn" style="width: 250px; font-weight: bold; font-size: 14px; margin-bottom: 16px; padding-top: 10px; padding-bottom: 10px;" onclick="$(\'button.status-toggle\').trigger(\'click\');">Update ' + agent.name + '\'s status</p>';
-
         saveFailMessage: function() {   //this is located here to format messaging that may be used in either ui.js or further down in app.js
             var failMessage = this.I18n.t('saveFailMessage');
             return '<p style="margin-top: 16px; margin-bottom: 10px; text-align: center; font-weight: bold; font-size: 20px;">' + failMessage + '</p>';
