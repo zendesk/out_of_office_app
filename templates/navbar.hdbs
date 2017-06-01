@@ -1,5 +1,6 @@
 <div class="search_wrapper">
   <input class="search" type="search" id="filter_search" alt="Search" placeholder="{{t "searchBox"}}" />
+ 	{{{grouplist}}}
 </div>
 
 <div id="maintemplate">
