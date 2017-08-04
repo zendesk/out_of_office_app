@@ -210,7 +210,7 @@
         showSupportLink: function(event){
             event.preventDefault();
             var help_link = helpers.fmt("%@/issues", this.author.email);
-            this.$('.labs_support').modal({ //   Fires a modal to display the string that will be redacted and how many times it appears on the ticket.
+            this.$('.labs_support').modal({
                     backdrop: true,
                     keyboard: false,
                     button_data: this.$("#create_git_issue").attr("href", help_link)
