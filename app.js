@@ -205,6 +205,16 @@
                 this.trigger("render_app");
             }
             this.renderRetries++;
+        },
+
+        showSupportLink: function(event){
+            event.preventDefault();
+            var help_link = helpers.fmt("%@/issues", this.author.email);
+            this.$('.labs_support').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    button_data: this.$("#create_git_issue").attr("href", help_link)
+            });
         }
     };
 }());

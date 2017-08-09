@@ -190,3 +190,12 @@ select.filter {
 div.search_wrapper {
 	margin-bottom: 20px;
 }
+
+footer {
+    clear: both;
+    margin-top: 10px;
+}
+
+footer a {
+    float: right;
+}

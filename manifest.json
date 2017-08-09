@@ -2,7 +2,7 @@
   "name": "Out of Office App",
   "author": {
     "name": "Ben Evans",
-    "email": "bevans@zendesk.com",
+    "email": "https://github.com/zendesklabs/out_of_office_app",
     "url": "http://www.zendesk.com"
   },
   "defaultLocale": "en",
