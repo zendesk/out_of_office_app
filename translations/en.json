@@ -1,12 +1,17 @@
 {
   "app": {
+    "long_description": "Out of Office app",
+    "short_description": "Out of Office app",
+    "name": "OOO App",
+    "installation_instructions": "install it",
     "parameters": {
       "confirmChange":  { "label": "Confirm status change?", "helpText": "Determines if a modal will be shown when changing an agent's status." },
       "unassignTickets": { "label": "Force unassign tickets?", "helpText": "Automatically unassign Open tickets when an agent is set to unavailable." },
       "preventAssignOOO": { "label": "Prevent assignment?", "helpText": "Have the app block updates that assign a ticket to an unavailable agent." },
       "ticketSidebarVisibility": { "label": "Make app visible in ticket sidebar?" },
       "userSidebarVisibility": { "label": "Make app visible in user sidebar?" },
-      "navbarVisibility": { "label": "Make app visible in navbar to non-admins?"}
+      "navbarVisibility": { "label": "Make app visible in navbar to non-admins?"},
+      "verifyBulkUpdates": { "label": "Surface any errors encountered when bulk updating tickets"}
     }
   },
   "trigger": {
@@ -17,7 +22,7 @@
   },
   "unavailable": "Unavailable",
   "available": "Available",
-  "name": "Name",
+  "nameHeader": "Name",
   "email": "Email",
   "status": "Status",
   "currentAssignee": "Current Assignee",
@@ -112,6 +117,11 @@
     "setStatus": {
       "one": "Permissions error while updating status for ",
       "two": ". Please make sure you are allowed to update their user profile."
+    },
+    "pollJobStatus": "Timed out while waiting for ticket bulk update to complete",
+    "checkJobStatus": {
+      "one": "Unable to bulk update tickets",
+      "two": "Please confirm that these tickets are editable, and then retry."
     }
   }
 }

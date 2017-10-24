@@ -50,6 +50,11 @@
       "name": "navbarVisibility",
       "type": "checkbox",
       "default": true
+    },
+    {
+      "name": "verifyBulkUpdates",
+      "type": "checkbox",
+      "default": false
     }
   ]
 }

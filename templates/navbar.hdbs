@@ -8,7 +8,7 @@
     <thead style="border-style: solid;">
       <tr>
         <th style="width: 0.25%;"></th>
-        <th class="srt_header" id="name_head"><span>{{t "name"}}</span></th>
+        <th class="srt_header" id="name_head"><span>{{t "nameHeader"}}</span></th>
         <th class="srt_header" id="email_head"><span>{{t "email"}}</span></th>
         <th class="srt_header" id="status_head"><span>{{t "status"}}</span></th>
         <th style="width: 0.25%;"></th>
@@ -40,6 +40,10 @@
     </tbody>
   </table>
 </div>
+
+<footer>
+<a href="" id="get_support_button">Get Support</a>
+</footer>
 
 {{! *To potentially be used in v3.0+*
 
