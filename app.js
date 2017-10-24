@@ -33,7 +33,7 @@
         },
 
         shouldPollJobs: function() {
-            return this.options.verifyBulkUpdates || this.currentUser().tags().includes("ooo_app_verify_bulk_updates");
+            return this.options.verifyBulkUpdates || this.currentUser().tags().includes('ooo_app_verify_bulk_updates');
         },
 
         //app.activated
