@@ -32,6 +32,10 @@
             console.error(e);
         },
 
+        shouldPollJobs: function() {
+            return this.options.verifyBulkUpdates || this.currentUser().tags().includes('ooo_app_verify_bulk_updates');
+        },
+
         //app.activated
         //pane.activated
         //render_app
@@ -175,6 +179,21 @@
             }
         },
 
+        unsuccessfulTickets: function(jobStatus) {
+            if (jobStatus.job_status && jobStatus.job_status.results) {
+                var ticket_ids = _.select(jobStatus.results, function(result) {
+                    return !result.success;
+                }).map(function(result) {
+                    return result.id;
+                });
+                console.error(ticket_ids);
+                console.error(jobStatus.job_status);
+                return this.I18n.t('functionalError.checkJobStatus.one') + ": [" + ticket_ids.join(", ") + "]. " + this.I18n.t('functionalError.checkJobStatus.two');
+            } else {
+                return this.I18n.t('functionalError.checkJobStatus.one') + this.I18n.t('functionalError.checkJobStatus.two');
+            }
+        },
+
         //functional_error
         functionalError: function(evt) { //functional_error events are fired throughought the app when something is interrupted or a request fails.
             console.error(evt);            //we've made an effort to attach useful debugging information to those events - they show up in the console and may be helpful if errors to occur
@@ -189,6 +208,16 @@
                 } else if(evt.errorCode == 422) {
                     services.notify(this.I18n.t('functionalError.setStatus.one') + evt.agent.name + this.I18n.t('functionalError.setStatus.two'), 'error');
                 } break;
+                case 'pollJobStatus':
+                    services.notify(this.I18n.t('functionalError.pollJobStatus'), 'error');
+                    console.error(evt);
+                    break;
+                case 'checkJobStatus':
+                    services.notify(this.unsuccessfulTickets(evt.response), 'error');
+                    console.error(evt);
+                    break;
+                default:
+                    console.error(evt);
             }
         },
 

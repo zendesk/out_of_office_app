@@ -6,10 +6,6 @@
 </header>
 <section data-main/>
 
-<footer>
-<a href="" id="get_support_button">Get Support</a>
-</footer>
-
 <!--Modal for confirming change of status -->
  <div class="modal hide fade mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-header modalHeaderPosition">
