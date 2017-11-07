@@ -1,9 +1,9 @@
 {
   "app": {
-    "long_description": "Out of Office app",
-    "short_description": "Out of Office app",
-    "name": "OOO App",
-    "installation_instructions": "install it",
+    "long_description": "This app tracks the avalability of all agents in the account. It updates all pending, on-hold, and solved tickets with a tag when an agent is unavailable. Optionally this can be extended to open tickets as well. This allows buisness rules to be created which act on ticket updates when an agent is unavailable. The app will install a default rule which unassigns tickets which have unavailable assignees when they are set to status \"open\". The app can also prevent manual assignment of tickets to an unavailable agent.",
+    "short_description": "Manage, display, and act on the availability of Zendesk Support agents.",
+    "name": "Out of Office",
+    "installation_instructions": "For advanced uses of the app [please read the documentation here.](https://support.zendesk.com/hc/en-us/articles/204076066-Using-the-Out-of-Office-app)\n\n### Warning\n\n- Modifying the system triggers which are created can break the app.\n- Disabling the \"Agent Out?\" user field will break the app completely.\n- Setting an agent's status will update all tickets assigned to that agent. This will count as a ticket update by the person who initiated the status change for purposes of reporting.\n\n### Automatic Actions on Installation\n\n- When the app is installed a user field \"Agent Out?\" is created as well as two system triggers.\n- These all work together in the background in conjunction with the Out of Office app. The user field adds/removes a tag \"agent_ooo\" to tickets in the background based on whether or not the user field is checked/unchecked.\n- The user field is checked/unchecked by toggling an agent's availability between available & unavailable.\n\n### Settings\n\n- \"Confirm status change?\"\n  - This determines if a modal will be shown when changing an agent's status.\n  - Default: true\n- \"Force unassign tickets?\"\n  - Automatically unassign Open tickets when an agent is set to unavailable.\n  - Default: false\n- \"Prevent assignment?\"\n  - Have the app block updates that assign a ticket to an unavailable agent.\n  - Default: true\n- \"Surface errors encountered when bulk updating tickets?\"\n  - If you encounter issues with tickets which are not being updated to match the status of their assignee, force all updates to be verified. This will cause status changes to be significantly slower.\n  - Default: false\n\n### Known Issues / Limitations\n\n- Agents are able to assign a ticket to a group even if the sole agent in that group is unavailable.\n- \"Error: Unable to get list of agents.\" will display for users in the role \"Cannot browse or search for users\".\n- When a ticket assigned to an OOO agent gets updated the ticket gets assigned back to the parent group with a null Assignee value - the trigger working in the background during this action does not send an email notification to the agents in the group notifying them this happened.\n- The app will not prevent assigning tickets unless the ticket is updated individually through the Zendesk interface. Triggers, the Mail API, and REST API, and bulk editing will all be able to bypass the assignment restrictions.\n- The Zendesk permissions system does not currently allow non-admin agents to update the status of other agents. Only admins are able to modify the profiles of other agents.",
     "parameters": {
       "confirmChange":  { "label": "Confirm status change?", "helpText": "Determines if a modal will be shown when changing an agent's status." },
       "unassignTickets": { "label": "Force unassign tickets?", "helpText": "Automatically unassign Open tickets when an agent is set to unavailable." },
@@ -11,7 +11,7 @@
       "ticketSidebarVisibility": { "label": "Make app visible in ticket sidebar?" },
       "userSidebarVisibility": { "label": "Make app visible in user sidebar?" },
       "navbarVisibility": { "label": "Make app visible in navbar to non-admins?"},
-      "verifyBulkUpdates": { "label": "Surface any errors encountered when bulk updating tickets"}
+      "verifyBulkUpdates": { "label": "Surface errors encountered when bulk updating tickets?", "helpText": "Validate each ticket update and warn if not successful. This will cause status changes to be significantly slower."}
     }
   },
   "trigger": {
